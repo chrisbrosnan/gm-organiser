@@ -18,14 +18,16 @@ class Scene extends Model
             'name' => 'string',
             'description' => 'string',
             'user_id' => 'integer',
-            'location_id' => 'integer',
+            'location_id' => 'integer|null',
+            'thumbnail_id' => 'integer|null',
+            'attachments' => 'array|null',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
-            'meta_data' => 'array',
-            'characters' => 'array',
-            'items' => 'array',
-            'games' => 'array',
-            'quests' => 'array',
+            'meta_data' => 'array|null',
+            'characters' => 'array|null',
+            'items' => 'array|null',
+            'games' => 'array|null',
+            'quests' => 'array|null',
         ];
     }
 }

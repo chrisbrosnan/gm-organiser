@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { Dices, LayoutDashboard, Clapperboard, Map, User, Wine, Wand, Sword, Cog, NotebookPen, Bot, Eye, PawPrint } from 'lucide-react';
+import { Dices, LayoutDashboard, Clapperboard, Map, User, Wine, Wand, Sword, Cog, NotebookPen, Bot, RectangleEllipsis, PawPrint } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -81,6 +81,11 @@ const mainNavItems: NavItem[] = [
         title: 'General Notes',
         href: general_notes(),
         icon: NotebookPen,
+    },
+    {
+        title: 'Custom Fields',
+        href: '/custom-fields',
+        icon: RectangleEllipsis,
     },
 ];
 

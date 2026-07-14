@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $name
  * @property string $description
+ * @property int $thumbnail_id
+ * @property json|null $attachments
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -29,11 +31,13 @@ class Spell extends Model
             'id' => 'integer',
             'name' => 'string',
             'description' => 'string',
+            'thumbnail_id' => 'integer|null',
+            'attachments' => 'array|null',
             'user_id' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
-            'meta_data' => 'array',
-            'characters' => 'array',
+            'meta_data' => 'array|null',
+            'characters' => 'array|null',
         ];
     }
 }

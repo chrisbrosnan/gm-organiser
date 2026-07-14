@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('portrait')->nullable();
+            $table->integer('portrait_id')->nullable();
+            $table->json('attachments')->nullable();
             $table->text('bio')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('type')->default('npc');

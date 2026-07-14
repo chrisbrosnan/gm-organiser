@@ -115,6 +115,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('general-notes/{note_id}/delete', [NotesController::class, 'delete'])->name('general_notes_delete');
     Route::post('general-notes/{note_id}/update', [NotesController::class, 'update'])->name('general_notes_update');
     Route::post('general-notes/create', [NotesController::class, 'create'])->name('general_notes_create_post');
+
+    // Custom Fields
+    Route::inertia('custom-fields', 'custom_fields')->name('custom_fields');
 });
 
 require __DIR__.'/settings.php';

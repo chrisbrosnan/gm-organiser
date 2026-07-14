@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $name
  * @property string|null $portrait
+ * @property int|null $portrait_id
  * @property array|null $attachments
  * @property string $bio
  * @property int $user_id
@@ -36,20 +37,21 @@ class Character extends Model
         return [
             'id' => 'integer',
             'name' => 'string',
-            'portrait' => 'string',
-            'attachments' => 'array',
+            'portrait' => 'string|null',
+            'portrait_id' => 'integer|null',
+            'attachments' => 'array|null',
             'bio' => 'string',
             'user_id' => 'integer',
             'type' => 'string',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
-            'meta_data' => 'array',
-            'games' => 'array',
-            'spells' => 'array',
-            'items' => 'array',
-            'quests' => 'array',
-            'locations' => 'array',
-            'scenes' => 'array',
+            'meta_data' => 'array|null',
+            'games' => 'array|null',
+            'spells' => 'array|null',
+            'items' => 'array|null',
+            'quests' => 'array|null',
+            'locations' => 'array|null',
+            'scenes' => 'array|null',
         ];
     }
 }

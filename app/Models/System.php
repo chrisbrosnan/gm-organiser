@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $name
  * @property string|null $description
- * @property int $thumbnail_id
+ * @property int|null $thumbnail_id
  * @property array|null $attachments
  * @property int $version
- * @property json|null $meta_data
+ * @property array|null $meta_data
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property json|null $games
+ * @property array|null $games
  */
 
 class System extends Model
@@ -29,11 +29,14 @@ class System extends Model
         return [
             'id' => 'integer',
             'name' => 'string',
+            'description' => 'string|null',
+            'thumbnail_id' => 'integer|null',
+            'attachments' => 'array|null',
             'version' => 'integer',
-            'meta_data' => 'array',
+            'meta_data' => 'array|null',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
-            'games' => 'array',
+            'games' => 'array|null',
         ];
     }
 }

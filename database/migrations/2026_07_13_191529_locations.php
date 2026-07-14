@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->integer('map')->nullable();
+            $table->integer('thumbnail_id')->nullable();
+            $table->integer('map_id')->nullable();
+            $table->json('attachments')->nullable();
             $table->timestamps();
             $table->json('meta_data')->nullable();
             $table->json('games')->nullable();

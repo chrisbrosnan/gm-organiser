@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string|null $thumbnail_id
  * @property array|null $attachments
+ * @property int|null $map_id
  * @property string $description
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -35,6 +36,7 @@ class Location extends Model
             'name' => 'string',
             'thumbnail_id' => 'string',
             'attachments' => 'array',
+            'map_id' => 'integer',
             'description' => 'string',
             'user_id' => 'integer',
             'created_at' => 'datetime',

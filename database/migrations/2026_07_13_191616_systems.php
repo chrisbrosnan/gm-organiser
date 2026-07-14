@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('systems', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('description')->nullable();
+            $table->foreignId('thumbnail_id')->nullable()->constrained('attachments')->cascadeOnDelete();
+            $table->json('attachments')->nullable();
             $table->integer('version')->default(1);
             $table->json('meta_data')->nullable();
             $table->timestamps();
