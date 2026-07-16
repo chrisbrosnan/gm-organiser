@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property string $name
+ * @property string|null $type
  * @property string|null $thumbnail_id
  * @property array|null $attachments
  * @property string $description
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property array|null $scenes
  */
 
-#[Fillable(['name', 'thumbnail_id', 'attachments', 'description', 'user_id', 'meta_data', 'characters', 'games', 'spells', 'quests', 'locations', 'scenes'])]
+#[Fillable(['name', 'type', 'thumbnail_id', 'attachments', 'description', 'user_id', 'meta_data', 'characters', 'games', 'spells', 'quests', 'locations', 'scenes'])]
 class Item extends Model
 {
     /**
@@ -35,6 +36,7 @@ class Item extends Model
         return [
             'id' => 'integer',
             'name' => 'string',
+            'type' => 'string',
             'thumbnail_id' => 'string',
             'attachments' => 'array',
             'description' => 'string',

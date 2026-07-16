@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string|null $thumbnail_id
  * @property array|null $attachments
+ * @property string $type
  * @property string $description
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property json|null $meta_data
  * @property array|null $player_characters
  */
-#[Fillable(['name', 'thumbnail_id', 'attachments', 'description', 'user_id', 'system_id', 'meta_data', 'player_characters'])]
+#[Fillable(['name', 'thumbnail_id', 'attachments', 'type', 'description', 'user_id', 'system_id', 'meta_data', 'player_characters'])]
 class Game extends Model
 {
     /**
@@ -32,6 +33,7 @@ class Game extends Model
             'name' => 'string',
             'thumbnail_id' => 'string',
             'attachments' => 'array',
+            'type' => 'string',
             'description' => 'string',
             'user_id' => 'integer',
             'created_at' => 'datetime',

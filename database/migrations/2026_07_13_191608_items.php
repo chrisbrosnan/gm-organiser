@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('type')->nullable();
             $table->string('thumbnail_id')->nullable();
             $table->json('attachments')->nullable();
             $table->text('description')->nullable();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->integer('user_id');
             $table->timestamps();
             $table->json('meta_data')->nullable();
             $table->json('characters')->nullable();

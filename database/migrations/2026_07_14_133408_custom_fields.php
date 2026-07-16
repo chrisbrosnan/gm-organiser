@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('field');
             $table->string('value');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->integer('user_id');
             $table->string('type');
             $table->string('object_type');
             $table->timestamps();

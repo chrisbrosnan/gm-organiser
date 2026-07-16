@@ -118,6 +118,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Custom Fields
     Route::inertia('custom-fields', 'custom_fields')->name('custom_fields');
+    Route::inertia('custom-fields/add', 'add_custom_field')->name('custom_fields_create');
+    Route::inertia('custom-fields/remove/{field_id}', 'remove_custom_field')->name('custom_fields_remove');
 });
 
 require __DIR__.'/settings.php';

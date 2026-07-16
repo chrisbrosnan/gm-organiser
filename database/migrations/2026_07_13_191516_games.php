@@ -16,10 +16,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('thumbnail_id')->nullable();
             $table->json('attachments')->nullable();
+            $table->string('type');
             $table->string('description')->nullable();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->integer('user_id');
             $table->timestamps();
-            $table->foreignId('system_id')->nullable()->constrained()->nullOnDelete();
+            $table->integer('system_id');
             $table->json('meta_data')->nullable();
             $table->json('player_characters')->nullable();
         });

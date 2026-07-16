@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->foreignId('thumbnail_id')->nullable()->constrained('attachments')->cascadeOnDelete();
+            $table->integer('thumbnail_id')->nullable();
             $table->json('attachments')->nullable();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->integer('user_id')->nullable();
             $table->json('meta_data')->nullable();
             $table->timestamps();
             $table->json('characters')->nullable();

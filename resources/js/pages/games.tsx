@@ -1,8 +1,21 @@
 import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { games } from '@/routes';
+import { useEffect, useState } from 'react';
 
 export default function Games() {
+
+    // Fetch All Games for User from API
+    const [games, setGames] = useState([]);
+
+    useEffect(() => {
+        fetch('/api/games')
+            .then(response => response.json())
+            .then(data => setGames(data));
+    }, []);
+
+    console.log(games);
+
     return (
         <>
             <Head title="Games" />

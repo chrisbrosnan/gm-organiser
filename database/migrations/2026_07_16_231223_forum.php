@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('object_attachments', function (Blueprint $table) {
+        Schema::create('forum', function (Blueprint $table) {
             $table->id();
-            $table->string('object_type');
-            $table->string('attachment_type');
-            $table->string('attachment_path');
+            $table->string('title');
+            $table->text('content');
             $table->integer('user_id');
+            $table->integer('parent_id')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('object_attachments');
+        Schema::dropIfExists('forum');
     }
 };

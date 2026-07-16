@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->text('content')->nullable();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->integer('user_id');
             $table->timestamps();
             $table->json('meta_data')->nullable();
-            $table->foreignId('game_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->integer('game_id')->nullable();
         });
     }
 
