@@ -26,6 +26,12 @@ class LocationController extends Controller
             return response()->json(['message' => 'Location not found'], 404);
         }
 
+        // Convert JSON fields back to arrays for the response
+        $location->games = json_decode($location->games, true);
+        $location->characters = json_decode($location->characters, true);
+        $location->quests = json_decode($location->quests, true);
+        $location->items = json_decode($location->items, true);
+
         Log::info('Fetched location with location_id: ' . $location_id . ' : ' . json_encode($location));
         return response()->json($location);
     }
@@ -48,9 +54,9 @@ class LocationController extends Controller
 
         // Combine 'pcs', 'npcs', and 'enemies' into a single characters array
         $characters = array_merge(
-            $request->input('pcs', []),
-            $request->input('npcs', []),
-            $request->input('enemies', [])
+            str_replace('[]', '', $request->input('pcs', [])),
+            str_replace('[]', '', $request->input('npcs', [])),
+            str_replace('[]', '', $request->input('enemies', []))
         );
         $location->characters = json_encode($characters);
 
@@ -64,7 +70,7 @@ class LocationController extends Controller
         return redirect()->route('location_single', ['location_id' => $location_id]);
     }
 
-    public function create(Request $request): \Illuminate\Http\JsonResponse
+    public function create(Request $request): \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
     {
         Log::info('Creating location with data: ' . json_encode($request->all()));
 
@@ -75,20 +81,63 @@ class LocationController extends Controller
         $location->user_id = $request->input('user_id');
 
         // Get Game ID from the request and assign it to the location
-        $location->games = json_encode([$request->input('games')]);
+        $location->games = json_encode([str_replace('[]', '', $request->input('games'))]);
 
         // Combine 'pcs', 'npcs', and 'enemies' into a single characters array
         $characters = array_merge(
-            $request->input('pcs', []),
-            $request->input('npcs', []),
-            $request->input('enemies', [])
+            str_replace('[]', '', $request->input('pcs', [])),
+            str_replace('[]', '', $request->input('npcs', [])),
+            str_replace('[]', '', $request->input('enemies', []))
         );
         $location->characters = json_encode($characters);
 
-        $location->quests = json_encode($request->input('quests', []));
-        $location->items = json_encode($request->input('items', []));
+        $location->quests = json_encode(str_replace('[]', '', $request->input('quests', [])));
+        $location->items = json_encode(str_replace('[]', '', $request->input('items', [])));
         $location->save();
 
-        return response()->json($location, 201);
+        // return response()->json($location, 201);
+        $location_id = $location->id;
+        Log::info('Created location with location_id: ' . $location_id . ' : ' . json_encode($location));
+        return redirect()->route('location_single', ['location_id' => $location_id]);
+    }
+
+    public function duplicate(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $location_id = $request->query('location_id');
+        Log::info('Duplicating location with location_id: ' . $location_id);
+
+        $location = Location::find($location_id);
+
+        if (!$location) {
+            Log::warning('Location not found with location_id: ' . $location_id);
+            return response()->json(['message' => 'Location not found'], 404);
+        }
+
+        $newLocation = $location->replicate();
+        $newLocation->name = $newLocation->name . ' (Copy)';
+        $newLocation->save();
+
+        Log::info('Duplicated location with new location_id: ' . $newLocation->id);
+
+        return response()->json($newLocation, 201);
+    }
+
+    public function delete(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $location_id = $request->query('location_id');
+        Log::info('Deleting location with location_id: ' . $location_id);
+
+        $location = Location::find($location_id);
+
+        if (!$location) {
+            Log::warning('Location not found with location_id: ' . $location_id);
+            return response()->json(['message' => 'Location not found'], 404);
+        }
+
+        $location->delete();
+
+        Log::info('Deleted location with location_id: ' . $location_id);
+
+        return response()->json(['message' => 'Location deleted successfully'], 200);
     }
 }
