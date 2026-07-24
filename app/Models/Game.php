@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\System;
 
 /**
  * @property int $id
@@ -42,5 +43,20 @@ class Game extends Model
             'meta_data' => 'array',
             'player_characters' => 'array',
         ];
+    }
+
+    static public function getGamesByUserId(int $user_id): array
+    {
+        $games = self::where('user_id', $user_id)->get();
+
+        // Get system name from systems table
+        foreach ($games as $game) {
+            $system = System::find($game->system_id);
+            if ($system) {
+                $game->system_name = $system->name;
+            }
+        }
+
+        return $games->toArray();
     }
 }

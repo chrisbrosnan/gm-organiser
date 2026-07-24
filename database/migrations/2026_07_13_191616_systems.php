@@ -15,12 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('thumbnail_id')->nullable();
-            $table->json('attachments')->nullable();
             $table->integer('version')->default(1);
             $table->json('meta_data')->nullable();
             $table->timestamps();
-            $table->json('games')->nullable();
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property int $id
@@ -17,8 +18,25 @@ use Illuminate\Database\Eloquent\Model;
  * @property array|null $games
  */
 
+#[Fillable(['name', 'description', 'attachments', 'version', 'meta_data', 'games'])]
 class System extends Model
 {
+    use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'attachments',
+        'version',
+        'meta_data',
+        'games',
+    ];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -29,11 +47,9 @@ class System extends Model
         return [
             'id' => 'integer',
             'name' => 'string',
-            'description' => 'string|null',
-            'thumbnail_id' => 'integer|null',
-            'attachments' => 'array|null',
+            'description' => 'string',
             'version' => 'integer',
-            'meta_data' => 'array|null',
+            'meta_data' => 'array',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'games' => 'array|null',

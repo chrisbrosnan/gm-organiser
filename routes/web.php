@@ -20,22 +20,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Games
     Route::inertia('games', 'games')->name('games');
-    Route::inertia('games/add', 'add_game')->name('game_create');
-    Route::inertia('games/{game_id}', 'single_game')->name('game_single');
-    Route::inertia('games/{game_id}/edit', 'edit_game')->name('game_edit');
-    Route::post('games/{game_id}/delete', [GameController::class, 'delete'])->name('game_delete');
-    Route::post('games/{game_id}/duplicate', [GameController::class, 'duplicate'])->name('game_duplicate');
-    Route::post('games/{game_id}/update', [GameController::class, 'update'])->name('game_update');
-    Route::post('games/create', [GameController::class, 'create'])->name('game_create_post');
+    Route::inertia('games/add', 'games_add')->name('game_create');
+    Route::inertia('games/edit', 'games_view')->name('game_single');
+    Route::get('games/delete', [GameController::class, 'delete'])->name('game_delete');
+    Route::get('games/duplicate', [GameController::class, 'duplicate'])->name('game_duplicate');
 
     // Locations
     Route::inertia('locations', 'locations')->name('locations');
-    Route::inertia('locations/add', 'add_location')->name('location_create');
-    Route::inertia('locations/{location_id}', 'single_location')->name('location_single');
-    Route::inertia('locations/{location_id}/edit', 'edit_location')->name('location_edit');
-    Route::post('locations/{location_id}/delete', [LocationController::class, 'delete'])->name('location_delete');
-    Route::post('locations/{location_id}/update', [LocationController::class, 'update'])->name('location_update');
-    Route::post('locations/create', [LocationController::class, 'create'])->name('location_create_post');
+    Route::inertia('locations/add', 'locations_add')->name('location_create');
+    Route::inertia('locations/edit', 'locations_view')->name('location_single');
+    Route::get('locations/delete', [LocationController::class, 'delete'])->name('location_delete');
+    Route::get('locations/duplicate', [LocationController::class, 'duplicate'])->name('location_duplicate');
+
+    // // // // //
 
     // Scenes
     Route::inertia('scenes', 'scenes')->name('scenes');
@@ -115,6 +112,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('general-notes/{note_id}/delete', [NotesController::class, 'delete'])->name('general_notes_delete');
     Route::post('general-notes/{note_id}/update', [NotesController::class, 'update'])->name('general_notes_update');
     Route::post('general-notes/create', [NotesController::class, 'create'])->name('general_notes_create_post');
+
+    // Forums
+    Route::inertia('forums', 'forums')->name('forums');
+    Route::inertia('forums/add', 'add_forum_post')->name('forum_create');
+    Route::inertia('forums/{post_id}', 'single_forum_post')->name('forum_single');
+    Route::post('forums', [ForumsController::class, 'create'])->name('forum_create_post');
+    Route::post('forums/{post_id}/update', [ForumsController::class, 'update'])->name('forum_update');
+    Route::post('forums/{post_id}/delete', [ForumsController::class, 'delete'])->name('forum_delete');
 
     // Custom Fields
     Route::inertia('custom-fields', 'custom_fields')->name('custom_fields');
