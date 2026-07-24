@@ -26,7 +26,7 @@ class LocationController extends Controller
             return response()->json(['message' => 'Location not found'], 404);
         }
 
-        // Convert JSON fields back to arrays for the response
+        // Convert JSON fields back to arrays for the response and remove [] from values
         $location->games = json_decode($location->games, true);
         $location->characters = json_decode($location->characters, true);
         $location->quests = json_decode($location->quests, true);
@@ -50,7 +50,9 @@ class LocationController extends Controller
         $location->name = $request->input('name', $location->name);
         $location->description = $request->input('description', $location->description);
         $location->user_id = $request->input('user_id', $location->user_id);
-        $location->games = json_encode($request->input('games', json_decode($location->games, true)));
+
+        // Get Game ID from the request and assign it to the location
+        $location->games = json_encode([str_replace('[]', '', $request->input('games'))]);
 
         // Combine 'pcs', 'npcs', and 'enemies' into a single characters array
         $characters = array_merge(
@@ -60,8 +62,8 @@ class LocationController extends Controller
         );
         $location->characters = json_encode($characters);
 
-        $location->quests = json_encode($request->input('quests', json_decode($location->quests, true)));
-        $location->items = json_encode($request->input('items', json_decode($location->items, true)));
+        $location->quests = json_encode(str_replace('[]', '', $request->input('quests', [])));
+        $location->items = json_encode(str_replace('[]', '', $request->input('items', [])));
         $location->save();
 
         Log::info('Updated location with location_id: ' . $location_id . ' : ' . json_encode($location));

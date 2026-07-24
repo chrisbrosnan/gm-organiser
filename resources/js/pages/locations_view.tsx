@@ -98,7 +98,7 @@ export default function Locations({ auth }: { auth: { user: { id: string | numbe
                         // Add a list of Games to select from in checkbox form, if any are fetched, otherwise display no Games available with a link to add Games
                         games.length > 0
                             ? { label: 'Games', name: 'games', type: 'checkbox', options:
-                                games.map(game => ({ label: game?.name, value: String(game?.id) + '[]' })) ?? [],
+                                games.map(game => ({ label: game?.name, value: String(game?.id) })) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Game is not listed, do not worry, you can always add them afterwards and assign them to this location.</p>'
                             }
                             : { label: 'Games', name: 'games', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Games available. But do not worry, you can always add them afterwards and assign them to this location.</p>' },
@@ -106,7 +106,7 @@ export default function Locations({ auth }: { auth: { user: { id: string | numbe
                         // Add a list of PCs to select from in checkbox form, if any are fetched, otherwise display no PCs available with a link to add PCs
                         npcs.length > 0
                             ? { label: 'Non-Player Characters', name: 'pcs', type: 'checkbox', options:
-                                npcs.map(npc => ({ label: npc?.name, value: String(npc?.id) + '[]' })) ?? [],
+                                npcs.map(npc => ({ label: npc?.name, value: String(npc?.id) })) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Non-Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
                             : { label: 'Non-Player Characters', name: 'pcs', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
@@ -114,7 +114,7 @@ export default function Locations({ auth }: { auth: { user: { id: string | numbe
                         // Add a list of Enemy characters to select from in checkbox form, if any are fetched, otherwise display no Enemy characters available with a link to add them
                         enemies.length > 0
                             ? { label: 'Enemy Characters', name: 'enemies', type: 'checkbox', options:
-                                enemies.map(enemy => ({ label: enemy?.name, value: String(enemy?.id) + '[]' })) ?? [],
+                                enemies.map(enemy => ({ label: enemy?.name, value: String(enemy?.id) })) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Enemy Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
                             : { label: 'Enemy Characters', name: 'enemies', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Enemy Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
@@ -122,7 +122,7 @@ export default function Locations({ auth }: { auth: { user: { id: string | numbe
                         // Add a list of Quests to select from in checkbox form, if any are fetched, otherwise display no Quests available with a link to add them
                         quests.length > 0
                             ? { label: 'Quests', name: 'quests', type: 'checkbox', options:
-                                quests.map(quest => ({ label: quest?.name, value: String(quest?.id) + '[]' })) ?? [],
+                                quests.map(quest => ({ label: quest?.name, value: String(quest?.id) })) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Quest is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
                             : { label: 'Quests', name: 'quests', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Quests available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
@@ -130,7 +130,7 @@ export default function Locations({ auth }: { auth: { user: { id: string | numbe
                         // Add a list of Items to select from in checkbox form, if any are fetched, otherwise display no Items available with a link to add them
                         items.length > 0
                             ? { label: 'Items', name: 'items', type: 'checkbox', options:
-                                items.map(item => ({ label: item?.name, value: String(item?.id) + '[]' })) ?? [],
+                                items.map(item => ({ label: item?.name, value: String(item?.id) })) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Item is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
                             : { label: 'Items', name: 'items', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Items available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
