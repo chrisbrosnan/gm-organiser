@@ -10,6 +10,7 @@ use App\Models\Location;
 use App\Models\Character;
 use App\Models\CustomField;
 use App\Models\Scene;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -76,12 +77,20 @@ class GameController extends Controller
         ]);
     }
 
-    public function create(Request $request): \Illuminate\Http\JsonResponse
+    public function new_game(Request $request): \Illuminate\Http\JsonResponse
     {
-        Log::info('Creating game with data: ' . json_encode($request->all()));
+        Log::info('Creating game with data: ' . json_encode($request->all()) . ' files: ' . json_encode(array_keys($request->allFiles())));
+
+        $request->validate([
+            'thumbnail' => ['nullable', 'file', 'max:10240'],
+            'attached_files' => ['nullable'],
+            'attached_files.*' => ['file', 'max:20480'],
+            'attachments' => ['nullable'],
+            'attachments.*' => ['file', 'max:20480'],
+        ]);
 
         $game = new Game();
-        $game->user_id = $request->input('user_id');
+        $game->user_id = $request->input('user_id', auth()->id());
         $game->name = $request->input('title');
         $game->system_id = $request->input('system');
         $game->description = $request->input('description');
@@ -95,6 +104,24 @@ class GameController extends Controller
             'scenes' => $request->input('scenes', []),
         ];
 
+        if ($request->hasFile('thumbnail')) {
+            $thumbnail = $this->storeAttachmentFile(
+                $request->file('thumbnail'),
+                (int) $game->user_id,
+                'game_thumbnail'
+            );
+            $game->thumbnail_id = (string) $thumbnail->id;
+        }
+
+        $uploadedAttachmentIds = $this->storeAttachmentCollection(
+            $request,
+            (int) $game->user_id,
+            'game_attachment'
+        );
+        if (!empty($uploadedAttachmentIds)) {
+            $game->attachments = $uploadedAttachmentIds;
+        }
+
         $game->save();
 
         return response()->json($game, 201);
@@ -102,7 +129,15 @@ class GameController extends Controller
 
     public function update(Request $request, $game_id): \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
     {
-        Log::info('Updating game with game_id: ' . $game_id . ' and data: ' . json_encode($request->all()));
+        Log::info('Updating game with game_id: ' . $game_id . ' and data: ' . json_encode($request->all()) . ' files: ' . json_encode(array_keys($request->allFiles())));
+
+        $request->validate([
+            'thumbnail' => ['nullable', 'file', 'max:10240'],
+            'attached_files' => ['nullable'],
+            'attached_files.*' => ['file', 'max:20480'],
+            'attachments' => ['nullable'],
+            'attachments.*' => ['file', 'max:20480'],
+        ]);
 
         $game = Game::find($game_id);
 
@@ -144,6 +179,25 @@ class GameController extends Controller
             $game->meta_data = array_merge($game->meta_data ?? [], [
                 $field['field'] => $field['value'],
             ]);
+        }
+
+        if ($request->hasFile('thumbnail')) {
+            $thumbnail = $this->storeAttachmentFile(
+                $request->file('thumbnail'),
+                (int) $game->user_id,
+                'game_thumbnail'
+            );
+            $game->thumbnail_id = (string) $thumbnail->id;
+        }
+
+        $uploadedAttachmentIds = $this->storeAttachmentCollection(
+            $request,
+            (int) $game->user_id,
+            'game_attachment'
+        );
+        if (!empty($uploadedAttachmentIds)) {
+            $existingAttachmentIds = is_array($game->attachments) ? $game->attachments : [];
+            $game->attachments = array_values(array_unique(array_merge($existingAttachmentIds, $uploadedAttachmentIds)));
         }
 
         $game->save();
@@ -191,6 +245,50 @@ class GameController extends Controller
         Log::info('Deleted game with game_id: ' . $game_id);
 
         return redirect()->route('games')->with('success', 'Game deleted successfully.');
+    }
+
+    private function storeAttachmentCollection(Request $request, int $userId, string $attachmentType): array
+    {
+        $files = [];
+
+        foreach (['attached_files', 'attachments'] as $field) {
+            if (!$request->hasFile($field)) {
+                continue;
+            }
+
+            $fieldFiles = $request->file($field);
+            if (is_array($fieldFiles)) {
+                foreach ($fieldFiles as $file) {
+                    if ($file instanceof UploadedFile) {
+                        $files[] = $file;
+                    }
+                }
+            } elseif ($fieldFiles instanceof UploadedFile) {
+                $files[] = $fieldFiles;
+            }
+        }
+
+        $attachmentIds = [];
+        foreach ($files as $file) {
+            $attachment = $this->storeAttachmentFile($file, $userId, $attachmentType);
+            $attachmentIds[] = (string) $attachment->id;
+        }
+
+        return $attachmentIds;
+    }
+
+    private function storeAttachmentFile(UploadedFile $file, int $userId, string $attachmentType): Attachment
+    {
+        $path = $file->store('uploads/games', 'public');
+
+        $attachment = new Attachment();
+        $attachment->object_type = 'game';
+        $attachment->attachment_type = $attachmentType;
+        $attachment->attachment_path = $path;
+        $attachment->user_id = $userId;
+        $attachment->save();
+
+        return $attachment;
     }
 
 

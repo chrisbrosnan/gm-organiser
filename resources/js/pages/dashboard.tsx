@@ -12,16 +12,10 @@ interface Game {
     created_at: string;
 }
 
-export default function Dashboard({ auth }: { auth: { user: { id: string | number; name?: string } } }) {
+export default function Dashboard({ auth, games }: { auth: { user: { id: string | number; name?: string } }, games: Game[] }) {
 
     // Fetch All Games for User from API
-    const [gamesData, setGamesData] = useState<Game[]>([]);
-
-    useEffect(() => {
-        fetch(`/api/games/user/${auth.user.id}`)
-            .then(response => response.json())
-            .then(data => setGamesData(data));
-    }, []);
+    const [gamesData, setGamesData] = useState<Game[]>(games);
 
     return (
         <>

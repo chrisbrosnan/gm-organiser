@@ -88,7 +88,7 @@ export default function GamesView({ game, locations, scenes, npcs, player_charac
                         ),
 
                         // Attached files
-                        { label: 'Attached Files', name: 'attached_files', type: 'file', html_content: '<p class="text-sm text-gray-500">You can attach files to this game.</p>'},
+                        { label: 'Attached Files', name: 'attachments[]', type: 'file', multiple: true, html_content: '<p class="text-sm text-gray-500">You can attach files to this game.</p>'},
 
                         // Text-area for Notes
                         { label: 'Notes', name: 'notes', type: 'textarea', value: game?.meta_data?.notes ?? '' },

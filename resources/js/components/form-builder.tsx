@@ -7,7 +7,7 @@ export default function FormBuilder({
     action?: string;
     method?: string;
     enctype?: string;
-    fields: Array<{ label: string; name: string; type: string; value?: string; options?: Array<{ label: string; value: string }>; html_content?: string; preselected_values?: any }>;
+    fields: Array<{ label: string; name: string; type: string; value?: string; options?: Array<{ label: string; value: string }>; html_content?: string; preselected_values?: any; multiple?: boolean }>;
 }) {
     function getInputName(field: { name: string; type: string }) {
         if (field.type !== 'checkbox') return field.name;
@@ -42,6 +42,7 @@ export default function FormBuilder({
                             className="border border-gray-300 rounded-md p-2 w-full text-gray-700"
                             name={field.name}
                             type={field.type}
+                            multiple={field.type === 'file' && field.name !== 'thumbnail' ? !!field.multiple : undefined}
                             defaultValue={field.value}
                         />
                     ) : field.type === 'select' ? (

@@ -24,23 +24,14 @@ Route::post('/games', [GameController::class, 'create'])
 Route::post('/games/{game_id}', [GameController::class, 'update'])
     ->name('games_update');
 
-// Route::get('/games/by_user/{user_id}', [GameController::class, 'index'])->name('games_get');
-// Route::get('/games/{game_id}', [GameController::class, 'get'])->name('games_get_by_id');
-// Route::get('/games/{user_id}/all', [GameController::class, 'index'])->name('games_get_all');
-
 Route::delete('/games/{game_id}', [GameController::class, 'delete'])
     ->name('games.delete');
 
 Route::post('/games/{game_id}/duplicate', [GameController::class, 'duplicate'])
     ->name('games.duplicate');
 
-Route::get('/games/user/{user_id}', [GameController::class, 'gamesByUserId'])
-    ->name('games_index_api');
-
-// [GameController::class, 'update'])->name('games_update');
-// Route::get('/user/{user_id}/games/{game_id}', [GameController::class, 'index'])->name('games_get');
-// Route::put('/games/{game_id}', [GameController::class, 'update']);
-// Route::delete('/games/{game_id}', [GameController::class, 'destroy']);
+// Route::get('/games/user/{user_id}', [GameController::class, 'gamesByUserId'])
+//     ->name('games_index_api');
 
 /**
  * SYSTEMS Routes

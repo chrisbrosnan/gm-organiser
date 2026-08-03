@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SceneController;
@@ -11,43 +12,49 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\SpellController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\NotesController;
+use App\Models\Game;
 
 Route::inertia('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // Main Dashboard
-    Route::inertia('dashboard', 'dashboard')
+    Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
     // Games
-    // Route::inertia('games', 'games')->name('games');
-    // Route::inertia('games/add', 'games_add')->name('game_create');
-    // Route::inertia('games/edit', 'games_view')->name('game_single');
-    // Route::get('games/delete', [GameController::class, 'delete'])->name('game_delete');
-    // Route::get('games/duplicate', [GameController::class, 'duplicate'])->name('game_duplicate');
 
     Route::get('/games', [GameController::class, 'index'])
         ->name('games');
 
-    Route::get('/games/add', [GameController::class, 'games_form_add'])
-        ->name('games.add_form');
+    Route::get('/games/add', [GameController::class, 'new_game'])
+        ->name('games.add');
 
     Route::get('/games/{game_id}', [GameController::class, 'show'])
         ->name('games_show');
 
-    Route::post('/games', [GameController::class, 'store'])
-        ->name('games.store');
+    // Route::post('/games', [GameController::class, 'store'])
+    //     ->name('games.store');
 
-    Route::put('/games/{game_id}', [GameController::class, 'update'])
-        ->name('games.update');
+    // Route::put('/games/{game_id}', [GameController::class, 'update'])
+    //     ->name('games.update');
 
     // Locations
-    Route::inertia('locations', 'locations')->name('locations');
-    Route::inertia('locations/add', 'locations_add')->name('location_create');
-    Route::inertia('locations/edit', 'locations_view')->name('location_single');
-    Route::get('locations/delete', [LocationController::class, 'delete'])->name('location_delete');
-    Route::get('locations/duplicate', [LocationController::class, 'duplicate'])->name('location_duplicate');
+
+    Route::get('/locations', [LocationController::class, 'index'])
+        ->name('locations');
+
+    // Route::get('/locations/add', [LocationController::class, 'new_location'])
+    //     ->name('locations.add');
+
+    // Route::get('/locations/{location_id}', [LocationController::class, 'show'])
+    //     ->name('locations.show');
+
+    // Route::post('/locations', [LocationController::class, 'store'])
+    //     ->name('locations.store');
+
+    // Route::put('/locations/{location_id}', [LocationController::class, 'update'])
+    //     ->name('locations.update');
 
     // // // // //
 
