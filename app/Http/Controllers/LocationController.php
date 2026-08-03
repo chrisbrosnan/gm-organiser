@@ -51,19 +51,15 @@ class LocationController extends Controller
         $location->description = $request->input('description', $location->description);
         $location->user_id = $request->input('user_id', $location->user_id);
 
-        // Get Game ID from the request and assign it to the location
-        $location->games = json_encode([str_replace('[]', '', $request->input('games'))]);
-
-        // Combine 'pcs', 'npcs', and 'enemies' into a single characters array
-        $characters = array_merge(
-            str_replace('[]', '', $request->input('pcs', [])),
-            str_replace('[]', '', $request->input('npcs', [])),
-            str_replace('[]', '', $request->input('enemies', []))
-        );
-        $location->characters = json_encode($characters);
-
-        $location->quests = json_encode(str_replace('[]', '', $request->input('quests', [])));
-        $location->items = json_encode(str_replace('[]', '', $request->input('items', [])));
+        // Allow multiple values for games, pcs, npcs, enemies, quests, and items by removing '[]' from the values
+        $location->games = json_encode($request->input('games', []));
+        $location->characters = json_encode(array_merge(
+            $request->input('pcs', []),
+            $request->input('npcs', []),
+            $request->input('enemies', [])
+        ));
+        $location->quests = json_encode($request->input('quests', []));
+        $location->items = json_encode($request->input('items', []));
         $location->save();
 
         Log::info('Updated location with location_id: ' . $location_id . ' : ' . json_encode($location));
@@ -82,19 +78,15 @@ class LocationController extends Controller
         $location->description = $request->input('description');
         $location->user_id = $request->input('user_id');
 
-        // Get Game ID from the request and assign it to the location
-        $location->games = json_encode([str_replace('[]', '', $request->input('games'))]);
-
-        // Combine 'pcs', 'npcs', and 'enemies' into a single characters array
-        $characters = array_merge(
-            str_replace('[]', '', $request->input('pcs', [])),
-            str_replace('[]', '', $request->input('npcs', [])),
-            str_replace('[]', '', $request->input('enemies', []))
-        );
-        $location->characters = json_encode($characters);
-
-        $location->quests = json_encode(str_replace('[]', '', $request->input('quests', [])));
-        $location->items = json_encode(str_replace('[]', '', $request->input('items', [])));
+        // Allow multiple values for games, pcs, npcs, enemies, quests, and items by removing '[]' from the values
+        $location->games = json_encode($request->input('games', []));
+        $location->characters = json_encode(array_merge(
+            $request->input('pcs', []),
+            $request->input('npcs', []),
+            $request->input('enemies', [])
+        ));
+        $location->quests = json_encode($request->input('quests', []));
+        $location->items = json_encode($request->input('items', []));
         $location->save();
 
         // return response()->json($location, 201);

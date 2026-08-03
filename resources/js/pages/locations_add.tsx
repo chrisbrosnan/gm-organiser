@@ -4,19 +4,18 @@ import { locations } from '@/routes';
 import { useEffect, useState } from 'react';
 import FormBuilder from '@/components/form-builder';
 
-interface Game {
-    system_name: string;
+
+interface Location {
     id: number;
     name: string;
-    system_id: number;
-    type: string;
+    description: string;
     created_at: string;
 }
 
 export default function Locations({ auth }: { auth: { user: { id: string | number } } }) {
 
     // Fetch All Games for User from API
-    const [locationsData, setLocationsData] = useState<Game[]>([]);
+    const [locationsData, setLocationsData] = useState<Location[]>([]);
     // const [pcs, setPcs] = useState<Array<{ id: string | number; name: string }>>([]);
     const [games, setGames] = useState<Array<{ id: string | number; name: string }>>([]);
     const [npcs, setNpcs] = useState<Array<{ id: string | number; name: string }>>([]);
@@ -60,19 +59,6 @@ export default function Locations({ auth }: { auth: { user: { id: string | numbe
             .then(data => setGames(data))
             .catch(() => setGames([]));
     }, []);
-
-    const deleteConfirmModal = (game_id: number) => {
-        if (confirm('Are you sure you want to delete this location? This action cannot be undone.')) {
-            // Window.href = `/locations/delete?location_id=${location_id}`
-            window.location.href = `/locations/delete?location_id=${game_id}`;
-        }
-    };
-
-    const duplicateConfirmModal = (game_id: number) => {
-        if (confirm('Are you sure you want to duplicate this location?')) {
-            window.location.href = `/locations/duplicate?location_id=${game_id}`;
-        }
-    };
 
     console.log(locationsData, 'locationsData');
 

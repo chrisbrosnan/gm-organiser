@@ -3,17 +3,77 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Attachment;
 use App\Models\Game;
+use App\Models\System;
+use App\Models\Location;
+use App\Models\Character;
+use App\Models\CustomField;
+use App\Models\Scene;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class GameController extends Controller
 {
-    public function gamesByUserId($user_id)
+    public function index()
     {
-        Log::info('Fetching games for user_id: ' . $user_id);
-        $games = Game::getGamesByUserId($user_id);
-        Log::info('Fetched games for user_id : ' . $user_id . ' : ' . json_encode($games));
-        return response()->json($games);
+        $games = Game::where('user_id', auth()->id())->get();
+
+        return inertia('games', [
+            'games' => $games,
+        ]);
+    }
+
+    public function show($game_id)
+    {
+        $game = Game::find($game_id);
+
+        Gate::authorize('view', $game);
+
+        // Get thumbnail URL if thumbnail_id is set
+        if ($game->thumbnail_id) {
+            $thumbnail = Attachment::find($game->thumbnail_id);
+            if ($thumbnail) {
+                $thumbnail_url = $thumbnail->attachment_path ? Storage::url($thumbnail->attachment_path) : null;
+                $game->thumbnail_url = $thumbnail_url;
+            }
+        }
+
+        return inertia('games_view', [
+            'game' => $game,
+            'locations' => Location::where('user_id', auth()->id())->get(),
+            'npcs' => Character::where([
+                    ['user_id', auth()->id()],
+                    ['type', 'npc']
+                ])->get(),
+            'player_characters' => Character::where([
+                    ['user_id', auth()->id()],
+                    ['type', 'pc']
+                ])->get(),
+            'systems' => System::all(),
+            'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
+            'scenes' => Scene::where('user_id', auth()->id())->get(),
+            'thumbnail_url' => $game->thumbnail_id ? Storage::url(Attachment::find($game->thumbnail_id)->attachment_path) : null,
+        ]);
+    }
+
+    public function games_form_add()
+    {
+        return inertia('games_add', [
+            'locations' => Location::where('user_id', auth()->id())->get(),
+            'npcs' => Character::where([
+                    ['user_id', auth()->id()],
+                    ['type', 'npc']
+                ])->get(),
+            'player_characters' => Character::where([
+                    ['user_id', auth()->id()],
+                    ['type', 'pc']
+                ])->get(),
+            'systems' => System::all(),
+            'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
+            'scenes' => Scene::where('user_id', auth()->id())->get(),
+        ]);
     }
 
     public function create(Request $request): \Illuminate\Http\JsonResponse
@@ -26,6 +86,15 @@ class GameController extends Controller
         $game->system_id = $request->input('system');
         $game->description = $request->input('description');
         $game->type = $request->input('type');
+
+        $game->meta_data = [
+            'locations' => $request->input('locations', []),
+            'player_characters' => $request->input('player_characters', []),
+            'npcs' => $request->input('npcs', []),
+            'notes' => $request->input('notes', ''),
+            'scenes' => $request->input('scenes', []),
+        ];
+
         $game->save();
 
         return response()->json($game, 201);
@@ -46,12 +115,43 @@ class GameController extends Controller
         $game->system_id = $request->input('system', $game->system_id);
         $game->description = $request->input('description', $game->description);
         $game->type = $request->input('type', $game->type);
+
+        // $game->meta_data['locations'] = $request->input('locations', $game->meta_data['locations'] ?? []);
+        $game->meta_data = array_merge($game->meta_data ?? [], [
+            'locations' => $request->input('locations', $game->meta_data['locations'] ?? []),
+        ]);
+        // $game->meta_data['player_characters'] = $request->input('player_characters', $game->meta_data['player_characters'] ?? []);
+        $game->meta_data = array_merge($game->meta_data ?? [], [
+            'player_characters' => $request->input('player_characters', $game->meta_data['player_characters'] ?? []),
+        ]);
+        // $game->meta_data['npcs'] = $request->input('npcs', $game->meta_data['npcs'] ?? []);
+        $game->meta_data = array_merge($game->meta_data ?? [], [
+            'npcs' => $request->input('npcs', $game->meta_data['npcs'] ?? []),
+        ]);
+        // $game->meta_data['notes'] = $request->input('notes', $game->meta_data['notes'] ?? '');
+        $game->meta_data = array_merge($game->meta_data ?? [], [
+            'notes' => $request->input('notes', $game->meta_data['notes'] ?? ''),
+        ]);
+
+        // $game->meta_data['scenes'] = $request->input('scenes', $game->meta_data['scenes'] ?? []);
+        $game->meta_data = array_merge($game->meta_data ?? [], [
+            'scenes' => $request->input('scenes', $game->meta_data['scenes'] ?? []),
+        ]);
+
+        // For each custom field, update the meta_data with the value from the request
+        $customFields = $request->input('custom_fields', []);
+        foreach ($customFields as $field) {
+            $game->meta_data = array_merge($game->meta_data ?? [], [
+                $field['field'] => $field['value'],
+            ]);
+        }
+
         $game->save();
 
         Log::info('Updated game with game_id: ' . $game_id . ' : ' . json_encode($game));
 
         // Return user to the game view page after updating
-        return redirect()->route('game_single', ['game_id' => $game_id]);
+        return redirect()->route('games_show', ['game_id' => $game_id])->with('success', 'Game updated successfully.');
     }
 
     public function duplicate(Request $request): \Illuminate\Http\JsonResponse
@@ -93,26 +193,37 @@ class GameController extends Controller
         return redirect()->route('games')->with('success', 'Game deleted successfully.');
     }
 
-    public function get($game_id)
+
+    // -----
+
+    public function gamesByUserId($user_id)
     {
-        Log::info('Fetching game with game_id: ' . $game_id);
-        $game = Game::find($game_id);
-
-        if (!$game) {
-            Log::warning('Game not found with game_id: ' . $game_id);
-            return response()->json(['message' => 'Game not found'], 404);
-        }
-
-        Log::info('Fetched game with game_id: ' . $game_id . ' : ' . json_encode($game));
-        return response()->json($game);
-    }
-
-    public function index($user_id)
-    {
-        Log::info('Fetching all games for user_id: ' . $user_id);
-        $games = Game::where('user_id', $user_id)->get();
-
-        Log::info('Fetched games for user_id: ' . $user_id . ' : ' . json_encode($games));
+        Log::info('Fetching games for user_id: ' . $user_id);
+        $games = Game::getGamesByUserId($user_id);
+        Log::info('Fetched games for user_id : ' . $user_id . ' : ' . json_encode($games));
         return response()->json($games);
     }
+
+    // public function get($game_id)
+    // {
+    //     Log::info('Fetching game with game_id: ' . $game_id);
+    //     $game = Game::find($game_id);
+
+    //     if (!$game) {
+    //         Log::warning('Game not found with game_id: ' . $game_id);
+    //         return response()->json(['message' => 'Game not found'], 404);
+    //     }
+
+    //     Log::info('Fetched game with game_id: ' . $game_id . ' : ' . json_encode($game));
+    //     return response()->json($game);
+    // }
+
+    // public function index($user_id)
+    // {
+    //     Log::info('Fetching all games for user_id: ' . $user_id);
+    //     $games = Game::where('user_id', $user_id)->get();
+
+    //     Log::info('Fetched games for user_id: ' . $user_id . ' : ' . json_encode($games));
+    //     return response()->json($games);
+    // }
 }

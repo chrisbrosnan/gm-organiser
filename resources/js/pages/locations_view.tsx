@@ -7,6 +7,10 @@ import FormBuilder from '@/components/form-builder';
 interface Location {
     id: number;
     name: string;
+    games: Array<{ id: string | number; name: string }>;
+    characters: Array<{ id: string | number; name: string }>;
+    quests: Array<{ id: string | number; name: string }>;
+    items: Array<{ id: string | number; name: string }>;
     description: string;
     created_at: string;
 }
@@ -62,19 +66,6 @@ export default function Locations({ auth }: { auth: { user: { id: string | numbe
             .catch(() => setGames([]));
     }, []);
 
-    const deleteConfirmModal = (location_id: number) => {
-        if (confirm('Are you sure you want to delete this location? This action cannot be undone.')) {
-            // Window.href = `/locations/delete?location_id=${location_id}`
-            window.location.href = `/locations/delete?location_id=${location_id}`;
-        }
-    };
-
-    const duplicateConfirmModal = (location_id: number) => {
-        if (confirm('Are you sure you want to duplicate this location?')) {
-            window.location.href = `/locations/duplicate?location_id=${location_id}`;
-        }
-    };
-
     console.log(locationsData, 'locationsData');
 
     return (
@@ -99,7 +90,8 @@ export default function Locations({ auth }: { auth: { user: { id: string | numbe
                         games.length > 0
                             ? { label: 'Games', name: 'games', type: 'checkbox', options:
                                 games.map(game => ({ label: game?.name, value: String(game?.id) })) ?? [],
-                                html_content: '<p class="text-sm text-gray-500">If your Game is not listed, do not worry, you can always add them afterwards and assign them to this location.</p>'
+                                html_content: '<p class="text-sm text-gray-500">If your Game is not listed, do not worry, you can always add them afterwards and assign them to this location.</p>',
+                                preselected_values: locationsData?.games
                             }
                             : { label: 'Games', name: 'games', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Games available. But do not worry, you can always add them afterwards and assign them to this location.</p>' },
 

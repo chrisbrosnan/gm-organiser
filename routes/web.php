@@ -15,15 +15,32 @@ use App\Http\Controllers\NotesController;
 Route::inertia('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
     // Main Dashboard
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::inertia('dashboard', 'dashboard')
+        ->name('dashboard');
 
     // Games
-    Route::inertia('games', 'games')->name('games');
-    Route::inertia('games/add', 'games_add')->name('game_create');
-    Route::inertia('games/edit', 'games_view')->name('game_single');
-    Route::get('games/delete', [GameController::class, 'delete'])->name('game_delete');
-    Route::get('games/duplicate', [GameController::class, 'duplicate'])->name('game_duplicate');
+    // Route::inertia('games', 'games')->name('games');
+    // Route::inertia('games/add', 'games_add')->name('game_create');
+    // Route::inertia('games/edit', 'games_view')->name('game_single');
+    // Route::get('games/delete', [GameController::class, 'delete'])->name('game_delete');
+    // Route::get('games/duplicate', [GameController::class, 'duplicate'])->name('game_duplicate');
+
+    Route::get('/games', [GameController::class, 'index'])
+        ->name('games');
+
+    Route::get('/games/add', [GameController::class, 'games_form_add'])
+        ->name('games.add_form');
+
+    Route::get('/games/{game_id}', [GameController::class, 'show'])
+        ->name('games_show');
+
+    Route::post('/games', [GameController::class, 'store'])
+        ->name('games.store');
+
+    Route::put('/games/{game_id}', [GameController::class, 'update'])
+        ->name('games.update');
 
     // Locations
     Route::inertia('locations', 'locations')->name('locations');
@@ -96,22 +113,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('spells/create', [SpellController::class, 'create'])->name('spell_create_post');
 
     // Systems
-    Route::inertia('systems', 'systems')->name('systems');
-    Route::inertia('systems/add', 'add_system')->name('system_create');
-    Route::inertia('systems/{system_id}', 'single_system')->name('system_single');
-    Route::inertia('systems/{system_id}/edit', 'edit_system')->name('system_edit');
-    Route::post('systems/{system_id}/delete', [SystemController::class, 'delete'])->name('system_delete');
-    Route::post('systems/{system_id}/update', [SystemController::class, 'update'])->name('system_update');
-    Route::post('systems/create', [SystemController::class, 'create'])->name('system_create_post');
+    // Route::inertia('systems', 'systems')->name('systems');
+    // Route::inertia('systems/add', 'add_system')->name('system_create');
+    // Route::inertia('systems/{system_id}', 'single_system')->name('system_single');
+    // Route::inertia('systems/{system_id}/edit', 'edit_system')->name('system_edit');
+    // Route::post('systems/{system_id}/delete', [SystemController::class, 'delete'])->name('system_delete');
+    // Route::post('systems/{system_id}/update', [SystemController::class, 'update'])->name('system_update');
+    // Route::post('systems/create', [SystemController::class, 'create'])->name('system_create_post');
 
     // Notes
     Route::inertia('general-notes', 'general_notes')->name('general_notes');
-    Route::inertia('general-notes/add', 'add_general_note')->name('general_notes_create');
-    Route::inertia('general-notes/{note_id}', 'single_general_note')->name('general_notes_single');
-    Route::inertia('general-notes/{note_id}/edit', 'edit_general_note')->name('general_notes_edit');
-    Route::post('general-notes/{note_id}/delete', [NotesController::class, 'delete'])->name('general_notes_delete');
-    Route::post('general-notes/{note_id}/update', [NotesController::class, 'update'])->name('general_notes_update');
-    Route::post('general-notes/create', [NotesController::class, 'create'])->name('general_notes_create_post');
+    Route::inertia('general-notes/add', 'general_notes_add')->name('general_notes_create');
+    Route::inertia('general-notes/edit', 'general_notes_view')->name('general_notes_single');
+    // Route::inertia('general-notes/{note_id}/edit', 'edit_general_note')->name('general_notes_edit');
+    // Route::post('general-notes/{note_id}/delete', [NotesController::class, 'delete'])->name('general_notes_delete');
+    // Route::post('general-notes/{note_id}/update', [NotesController::class, 'update'])->name('general_notes_update');
+    // Route::post('general-notes/create', [NotesController::class, 'create'])->name('general_notes_create_post');
 
     // Forums
     Route::inertia('forums', 'forums')->name('forums');

@@ -27,7 +27,7 @@ export default function Dashboard({ auth }: { auth: { user: { id: string | numbe
         <>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+                <div className="grid auto-rows-min gap-4 md:grid-cols-2">
                     <div className="p-4 relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                         <h3 className="mb-2">Hello, {auth.user.name ? auth.user.name.substring(0, auth.user.name.indexOf(' ')) + "!" : 'User'}</h3>
                         <p>This is your dashboard. From here you can manage your games, locations, quests, items, characters and other content for your tabletop RPG games.</p>
@@ -45,14 +45,11 @@ export default function Dashboard({ auth }: { auth: { user: { id: string | numbe
                                     <div key={game.id} className="border border-gray-300 rounded-md p-4">
                                         <h2 className="text-xl font-bold">{game.name}</h2>
                                         <p>System: {game.system_name}</p>
-                                        <button className="mt-2 rounded-md bg-blue-500 py-1 px-2 text-white hover:bg-blue-600" onClick={() => window.location.href = `/games/edit?game_id=${game.id}`}>Edit</button>
+                                        <button className="mt-2 rounded-md bg-blue-500 py-1 px-2 text-white hover:bg-blue-600" onClick={() => window.location.href = `/games/${game.id}`}>Edit</button>
                                     </div>
                                 ))}
                             </div>
                         )}
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                     </div>
                 </div>
                 <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">

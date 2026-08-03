@@ -7,8 +7,15 @@ export default function FormBuilder({
     action?: string;
     method?: string;
     enctype?: string;
-    fields: Array<{ label: string; name: string; type: string; value?: string; options?: Array<{ label: string; value: string }>; html_content?: string }>;
+    fields: Array<{ label: string; name: string; type: string; value?: string; options?: Array<{ label: string; value: string }>; html_content?: string; preselected_values?: any }>;
 }) {
+    function getInputName(field: { name: string; type: string }) {
+        if (field.type !== 'checkbox') return field.name;
+        return field.name.endsWith('[]') ? field.name : `${field.name}[]`;
+    }
+
+    // Handle <select>
+
     return (
         <form
             action={action}
@@ -16,7 +23,7 @@ export default function FormBuilder({
             encType={enctype}
             className="flex flex-col gap-4">
             {fields.map((field) => (
-                console.log('field_name' + field?.name + ' / field value: ' + field?.value),
+                // console.log('field_name' + field?.name + ' / field value: ' + field?.value),
                 <div key={field.name} className={field.type === 'hidden' && field.name !== 'custom_fields' ? 'hidden' : ''}>
                     {field.value && field.type === 'hidden' ? (
                         <input
@@ -28,7 +35,8 @@ export default function FormBuilder({
                     {field.label !== '' ? (
                         <label htmlFor={field.name}>{field.label}</label>
                     ) : null}
-                    {field.type !== 'select' && field.type !== 'checkbox' ? (
+                    {field.type !== 'select' && field.type !== 'checkbox' && field.type !== 'hidden' ? (
+                        console.log('field_name' + field?.name + ' / field value: ' + field?.value),
                         <input
                             id={field.name}
                             className="border border-gray-300 rounded-md p-2 w-full text-gray-700"
@@ -37,40 +45,37 @@ export default function FormBuilder({
                             defaultValue={field.value}
                         />
                     ) : field.type === 'select' ? (
+                        console.log('field_name' + field?.name + ' / field value: ' + field?.value),
                         <select
                             id={field.name}
                             className="border border-gray-300 rounded-md p-2 w-full text-gray-700"
                             name={field.name}
+                            defaultValue={field.value}
                         >
                             { field.options?.map(option => (
-                                field.value && option.value === field.value ? (
-                                    <option key={option.value} selected value={option.value}>
-                                        {option.label}
-                                    </option>
-                                ) : (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
-                                    </option>
-                                )
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
                             )) }
                         </select>
-                    ) : field.type === 'checkbox' && !field.value ? (
+                    ) : field.type === 'checkbox' ? (
                         <div>
                             { field.options?.map(option => (
+                                console.log('preselected_values: ' + field.preselected_values),
                                 <label key={option.value} className="block">
-                                    {field.value && option.value === field.value ? (
+                                    {field.preselected_values && field.preselected_values.includes(option.value) ? (
                                         <input
                                             type="checkbox"
-                                            name={field.name}
-                                            defaultValue={option.value}
+                                            name={getInputName(field)}
+                                            value={option.value}
                                             className="mr-2"
-                                            defaultChecked
+                                            checked={true}
                                         />
                                     ) : (
                                         <input
                                             type="checkbox"
-                                            name={field.name}
-                                            defaultValue={option.value}
+                                            name={getInputName(field)}
+                                            value={option.value}
                                             className="mr-2"
                                         />
                                     )}

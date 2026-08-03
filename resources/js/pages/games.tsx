@@ -13,31 +13,60 @@ interface Game {
     created_at: string;
 }
 
-export default function Games({ auth }: { auth: { user: { id: string | number } } }) {
+export default function Games({ auth, games }: { auth: { user: { id: string | number } }, games: Game[] }) {
 
     // Fetch All Games for User from API
-    const [gamesData, setGamesData] = useState<Game[]>([]);
-
-    useEffect(() => {
-        fetch(`/api/games/by_user/${auth.user.id}`)
-            .then(response => response.json())
-            .then(data => setGamesData(data));
-    }, []);
+    const gamesData = games;
 
     const deleteConfirmModal = (game_id: number) => {
         if (confirm('Are you sure you want to delete this game? This action cannot be undone.')) {
-            // Window.href = `/games/delete?game_id=${game_id}`
-            window.location.href = `/games/delete?game_id=${game_id}`;
+            // DELETE request to /api/games/{game_id}
+            fetch(`/api/games/${game_id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '',
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // If the delete was successful, reload the page to reflect the changes
+                        window.location.reload();
+                    } else {
+                        alert('Failed to delete the game. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting game:', error);
+                    alert('An error occurred while trying to delete the game. Please try again.');
+                });
         }
     };
 
     const duplicateConfirmModal = (game_id: number) => {
         if (confirm('Are you sure you want to duplicate this game?')) {
-            window.location.href = `/games/duplicate?game_id=${game_id}`;
+            // POST request to /api/games/{game_id}/duplicate
+            fetch(`/api/games/${game_id}/duplicate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '',
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // If the duplication was successful, reload the page to reflect the changes
+                        window.location.reload();
+                    } else {
+                        alert('Failed to duplicate the game. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error duplicating game:', error);
+                    alert('An error occurred while trying to duplicate the game. Please try again.');
+                });
         }
     };
-
-    // console.log(gamesData, 'gamesData');
 
     return (
         <>
@@ -68,7 +97,7 @@ export default function Games({ auth }: { auth: { user: { id: string | number } 
                                 <div className="flex gap-2 mt-2">
                                     <button
                                         className="rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
-                                        onClick={() => window.location.href = `/games/edit?game_id=${game.id}`}
+                                        onClick={() => window.location.href = `/games/${game.id}`}
                                     >
                                         Edit
                                     </button>
