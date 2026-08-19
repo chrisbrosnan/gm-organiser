@@ -1,28 +1,32 @@
-import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { ResourceIndexPage } from '@/components/resource-pages';
 import { items } from '@/routes';
 
-export default function Items() {
+interface Item {
+    id: number;
+    name: string;
+    type?: string | null;
+    description?: string | null;
+    created_at: string;
+}
+
+export default function Items({ items: itemList }: { items: Item[] }) {
     return (
-        <>
-            <Head title="Items" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
-            </div>
-        </>
+        <ResourceIndexPage
+            title="Items"
+            addLabel="Add Item"
+            addPath="/items/add"
+            emptyMessage="No items found. Create a new item to get started."
+            cards={itemList.map((item) => ({
+                id: item.id,
+                title: item.name,
+                description: item.description ?? null,
+                meta: [
+                    item.type ? `Type: ${item.type}` : 'No type set.',
+                    `Created At: ${new Date(item.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}`,
+                ],
+                editPath: `/items/${item.id}`,
+            }))}
+        />
     );
 }
 
@@ -31,6 +35,6 @@ Items.layout = {
         {
             title: 'Items',
             href: items(),
-        }
+        },
     ],
 };

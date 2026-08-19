@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -11,8 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $thumbnail_id
  * @property json|null $attachments
  * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property json|null $meta_data
  * @property json|null $characters
  */
@@ -31,13 +32,13 @@ class Spell extends Model
             'id' => 'integer',
             'name' => 'string',
             'description' => 'string',
-            'thumbnail_id' => 'integer|null',
-            'attachments' => 'array|null',
+            'thumbnail_id' => 'integer',
+            'attachments' => 'array',
             'user_id' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
-            'meta_data' => 'array|null',
-            'characters' => 'array|null',
+            'meta_data' => 'array',
+            'characters' => 'array',
         ];
     }
 }

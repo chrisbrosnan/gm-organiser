@@ -2,21 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Attachment;
-use App\Models\Game;
-use App\Models\System;
-use App\Models\Location;
 use App\Models\Character;
 use App\Models\CustomField;
+use App\Models\Game;
+use App\Models\Location;
 use App\Models\Scene;
+use App\Models\System;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class GameController extends Controller
 {
+    public function new()
+    {
+        return $this->games_form_add();
+    }
+
+    public function create(Request $request): JsonResponse
+    {
+        return $this->new_game($request);
+    }
+
     public function index()
     {
         $games = Game::where('user_id', auth()->id())->get();
@@ -45,13 +57,13 @@ class GameController extends Controller
             'game' => $game,
             'locations' => Location::where('user_id', auth()->id())->get(),
             'npcs' => Character::where([
-                    ['user_id', auth()->id()],
-                    ['type', 'npc']
-                ])->get(),
+                ['user_id', auth()->id()],
+                ['type', 'npc'],
+            ])->get(),
             'player_characters' => Character::where([
-                    ['user_id', auth()->id()],
-                    ['type', 'pc']
-                ])->get(),
+                ['user_id', auth()->id()],
+                ['type', 'pc'],
+            ])->get(),
             'systems' => System::all(),
             'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
             'scenes' => Scene::where('user_id', auth()->id())->get(),
@@ -64,22 +76,22 @@ class GameController extends Controller
         return inertia('games_add', [
             'locations' => Location::where('user_id', auth()->id())->get(),
             'npcs' => Character::where([
-                    ['user_id', auth()->id()],
-                    ['type', 'npc']
-                ])->get(),
+                ['user_id', auth()->id()],
+                ['type', 'npc'],
+            ])->get(),
             'player_characters' => Character::where([
-                    ['user_id', auth()->id()],
-                    ['type', 'pc']
-                ])->get(),
+                ['user_id', auth()->id()],
+                ['type', 'pc'],
+            ])->get(),
             'systems' => System::all(),
             'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
             'scenes' => Scene::where('user_id', auth()->id())->get(),
         ]);
     }
 
-    public function new_game(Request $request): \Illuminate\Http\JsonResponse
+    public function new_game(Request $request): JsonResponse
     {
-        Log::info('Creating game with data: ' . json_encode($request->all()) . ' files: ' . json_encode(array_keys($request->allFiles())));
+        Log::info('Creating game with data: '.json_encode($request->all()).' files: '.json_encode(array_keys($request->allFiles())));
 
         $request->validate([
             'thumbnail' => ['nullable', 'file', 'max:10240'],
@@ -89,7 +101,7 @@ class GameController extends Controller
             'attachments.*' => ['file', 'max:20480'],
         ]);
 
-        $game = new Game();
+        $game = new Game;
         $game->user_id = $request->input('user_id', auth()->id());
         $game->name = $request->input('title');
         $game->system_id = $request->input('system');
@@ -118,7 +130,7 @@ class GameController extends Controller
             (int) $game->user_id,
             'game_attachment'
         );
-        if (!empty($uploadedAttachmentIds)) {
+        if (! empty($uploadedAttachmentIds)) {
             $game->attachments = $uploadedAttachmentIds;
         }
 
@@ -127,9 +139,9 @@ class GameController extends Controller
         return response()->json($game, 201);
     }
 
-    public function update(Request $request, $game_id): \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+    public function update(Request $request, $game_id): RedirectResponse|JsonResponse
     {
-        Log::info('Updating game with game_id: ' . $game_id . ' and data: ' . json_encode($request->all()) . ' files: ' . json_encode(array_keys($request->allFiles())));
+        Log::info('Updating game with game_id: '.$game_id.' and data: '.json_encode($request->all()).' files: '.json_encode(array_keys($request->allFiles())));
 
         $request->validate([
             'thumbnail' => ['nullable', 'file', 'max:10240'],
@@ -141,8 +153,9 @@ class GameController extends Controller
 
         $game = Game::find($game_id);
 
-        if (!$game) {
-            Log::warning('Game not found with game_id: ' . $game_id);
+        if (! $game) {
+            Log::warning('Game not found with game_id: '.$game_id);
+
             return response()->json(['message' => 'Game not found'], 404);
         }
 
@@ -195,54 +208,56 @@ class GameController extends Controller
             (int) $game->user_id,
             'game_attachment'
         );
-        if (!empty($uploadedAttachmentIds)) {
+        if (! empty($uploadedAttachmentIds)) {
             $existingAttachmentIds = is_array($game->attachments) ? $game->attachments : [];
             $game->attachments = array_values(array_unique(array_merge($existingAttachmentIds, $uploadedAttachmentIds)));
         }
 
         $game->save();
 
-        Log::info('Updated game with game_id: ' . $game_id . ' : ' . json_encode($game));
+        Log::info('Updated game with game_id: '.$game_id.' : '.json_encode($game));
 
         // Return user to the game view page after updating
-        return redirect()->route('games_show', ['game_id' => $game_id])->with('success', 'Game updated successfully.');
+        return redirect()->route('games.show', ['game_id' => $game_id])->with('success', 'Game updated successfully.');
     }
 
-    public function duplicate(Request $request): \Illuminate\Http\JsonResponse
+    public function duplicate(Request $request): JsonResponse
     {
         $game_id = $request->query('game_id');
-        Log::info('Duplicating game with game_id: ' . $game_id);
+        Log::info('Duplicating game with game_id: '.$game_id);
 
         $game = Game::find($game_id);
 
-        if (!$game) {
-            Log::warning('Game not found with game_id: ' . $game_id);
+        if (! $game) {
+            Log::warning('Game not found with game_id: '.$game_id);
+
             return response()->json(['message' => 'Game not found'], 404);
         }
 
         $newGame = $game->replicate();
-        $newGame->name = $newGame->name . ' (Copy)';
+        $newGame->name = $newGame->name.' (Copy)';
         $newGame->save();
 
-        Log::info('Duplicated game with new game_id: ' . $newGame->id);
+        Log::info('Duplicated game with new game_id: '.$newGame->id);
 
         return response()->json($newGame, 201);
     }
 
-    public function delete(Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+    public function delete(Request $request): RedirectResponse|JsonResponse
     {
         $game_id = $request->query('game_id');
-        Log::info('Deleting game with game_id: ' . $game_id);
+        Log::info('Deleting game with game_id: '.$game_id);
 
         $game = Game::find($game_id);
 
-        if (!$game) {
-            Log::warning('Game not found with game_id: ' . $game_id);
+        if (! $game) {
+            Log::warning('Game not found with game_id: '.$game_id);
+
             return response()->json(['message' => 'Game not found'], 404);
         }
 
         $game->delete();
-        Log::info('Deleted game with game_id: ' . $game_id);
+        Log::info('Deleted game with game_id: '.$game_id);
 
         return redirect()->route('games')->with('success', 'Game deleted successfully.');
     }
@@ -252,7 +267,7 @@ class GameController extends Controller
         $files = [];
 
         foreach (['attached_files', 'attachments'] as $field) {
-            if (!$request->hasFile($field)) {
+            if (! $request->hasFile($field)) {
                 continue;
             }
 
@@ -281,7 +296,7 @@ class GameController extends Controller
     {
         $path = $file->store('uploads/games', 'public');
 
-        $attachment = new Attachment();
+        $attachment = new Attachment;
         $attachment->object_type = 'game';
         $attachment->attachment_type = $attachmentType;
         $attachment->attachment_path = $path;
@@ -291,14 +306,14 @@ class GameController extends Controller
         return $attachment;
     }
 
-
     // -----
 
     public function gamesByUserId($user_id)
     {
-        Log::info('Fetching games for user_id: ' . $user_id);
+        Log::info('Fetching games for user_id: '.$user_id);
         $games = Game::getGamesByUserId($user_id);
-        Log::info('Fetched games for user_id : ' . $user_id . ' : ' . json_encode($games));
+        Log::info('Fetched games for user_id : '.$user_id.' : '.json_encode($games));
+
         return response()->json($games);
     }
 

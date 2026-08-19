@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -13,11 +14,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property array|null $attachments
  * @property int $version
  * @property array|null $meta_data
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property array|null $games
  */
-
 #[Fillable(['name', 'description', 'attachments', 'version', 'meta_data', 'games'])]
 class System extends Model
 {
@@ -52,7 +52,7 @@ class System extends Model
             'meta_data' => 'array',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
-            'games' => 'array|null',
+            'games' => 'array',
         ];
     }
 }

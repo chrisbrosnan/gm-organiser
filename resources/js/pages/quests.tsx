@@ -1,28 +1,32 @@
-import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { ResourceIndexPage } from '@/components/resource-pages';
 import { quests } from '@/routes';
 
-export default function Quests() {
+interface Quest {
+    id: number;
+    name: string;
+    type?: string | null;
+    description?: string | null;
+    created_at: string;
+}
+
+export default function Quests({ quests: questList }: { quests: Quest[] }) {
     return (
-        <>
-            <Head title="Quests" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
-            </div>
-        </>
+        <ResourceIndexPage
+            title="Quests"
+            addLabel="Add Quest"
+            addPath="/quests/add"
+            emptyMessage="No quests found. Create a new quest to get started."
+            cards={questList.map((quest) => ({
+                id: quest.id,
+                title: quest.name,
+                description: quest.description ?? null,
+                meta: [
+                    quest.type ? `Type: ${quest.type}` : 'No type set.',
+                    `Created At: ${new Date(quest.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}`,
+                ],
+                editPath: `/quests/${quest.id}`,
+            }))}
+        />
     );
 }
 
@@ -31,6 +35,6 @@ Quests.layout = {
         {
             title: 'Quests',
             href: quests(),
-        }
+        },
     ],
 };

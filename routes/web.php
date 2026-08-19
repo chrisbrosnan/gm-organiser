@@ -1,20 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\GameController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\SceneController;
 use App\Http\Controllers\CharacterController;
-use App\Http\Controllers\ForumController;
 use App\Http\Controllers\CustomFieldController;
-use App\Http\Controllers\MonsterController;
-use App\Http\Controllers\QuestController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ForumController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\NoteController;
+use App\Http\Controllers\QuestController;
+use App\Http\Controllers\SceneController;
 use App\Http\Controllers\SpellController;
 use App\Http\Controllers\SystemController;
-use App\Http\Controllers\NotesController;
-use App\Models\Game;
+use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
@@ -56,12 +54,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/scenes/add', [SceneController::class, 'new'])
         ->name('scenes.add');
 
+    Route::post('/scenes', [SceneController::class, 'create'])
+        ->name('scenes.create');
+
     Route::get('/scenes/{scene_id}', [SceneController::class, 'show'])
         ->name('scenes.show');
 
+    Route::post('/scenes/{scene_id}', [SceneController::class, 'update'])
+        ->name('scenes.update');
+
     // Characters
+    Route::get('/characters', [CharacterController::class, 'index'])
+        ->name('characters');
+
+    Route::get('/characters/add', [CharacterController::class, 'new'])
+        ->name('characters.add');
+
+    Route::post('/characters', [CharacterController::class, 'create'])
+        ->name('characters.create');
+
     Route::prefix('characters')->group(function () {
-        Route::inertia('/', 'characters')->name('characters');
         Route::inertia('npcs', 'npcs')->name('npcs');
         Route::inertia('npcs/add', 'add_npc')->name('npc_create');
         Route::inertia('npcs/{npc_id}', 'single_npc')->name('npc_single');
@@ -84,6 +96,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('enemies/create', [CharacterController::class, 'create'])->name('enemy_create_post');
     });
 
+    Route::get('/characters/{character_id}', [CharacterController::class, 'show'])
+        ->name('characters.show');
+
+    Route::post('/characters/{character_id}', [CharacterController::class, 'update'])
+        ->name('characters.update');
+
     // // // // //
 
     // Quests
@@ -91,51 +109,79 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('quests');
     Route::get('quests/add', [QuestController::class, 'new'])
         ->name('quests.add');
+    Route::post('quests', [QuestController::class, 'create'])
+        ->name('quests.create');
     Route::get('quests/{quest_id}', [QuestController::class, 'show'])
         ->name('quests.show');
+    Route::post('quests/{quest_id}', [QuestController::class, 'update'])
+        ->name('quests.update');
 
     // Items
     Route::get('items', [ItemController::class, 'index'])
         ->name('items');
     Route::get('items/add', [ItemController::class, 'new'])
         ->name('items.add');
+    Route::post('items', [ItemController::class, 'create'])
+        ->name('items.create');
     Route::get('items/{item_id}', [ItemController::class, 'show'])
         ->name('items.show');
+    Route::post('items/{item_id}', [ItemController::class, 'update'])
+        ->name('items.update');
 
     // Spells
     Route::get('spells', [SpellController::class, 'index'])
         ->name('spells');
     Route::get('spells/add', [SpellController::class, 'new'])
         ->name('spells.add');
+    Route::post('spells', [SpellController::class, 'create'])
+        ->name('spells.create');
     Route::get('spells/{spell_id}', [SpellController::class, 'show'])
         ->name('spells.show');
+    Route::post('spells/{spell_id}', [SpellController::class, 'update'])
+        ->name('spells.update');
 
     // Systems
-    // Route::inertia('systems', 'systems')->name('systems');
+    Route::get('systems', [SystemController::class, 'page'])->name('systems');
     // Route::inertia('systems/add', 'add_system')->name('system_create');
     // Route::inertia('systems/{system_id}', 'single_system')->name('system_single');
 
     // Notes
-    Route::get('general-notes', [NotesController::class, 'index'])
+    Route::get('general-notes', [NoteController::class, 'index'])
         ->name('general_notes');
-    Route::get('general-notes/add', [NotesController::class, 'new'])
+    Route::get('general-notes/add', [NoteController::class, 'new'])
         ->name('general_notes.add');
-    Route::get('general-notes/edit', [NotesController::class, 'edit'])
+    Route::post('general-notes', [NoteController::class, 'create'])
+        ->name('general_notes.create');
+    Route::get('general-notes/edit', [NoteController::class, 'edit'])
         ->name('general_notes.edit');
+    Route::get('general-notes/{note_id}', [NoteController::class, 'show'])
+        ->name('general_notes.show');
+    Route::post('general-notes/{note_id}', [NoteController::class, 'update'])
+        ->name('general_notes.update');
 
     // Forums
     Route::get('forums', [ForumController::class, 'index'])
         ->name('forums');
     Route::get('forums/add', [ForumController::class, 'new'])
-        ->name('forum_create');
-    Route::get('forums/{post_id}', [ForumController::class, 'show'])
-        ->name('forum_single');
+        ->name('forums.add');
+    Route::post('forums', [ForumController::class, 'create'])
+        ->name('forums.create');
+    Route::get('forums/{forum_id}', [ForumController::class, 'show'])
+        ->name('forums.show');
+    Route::post('forums/{forum_id}', [ForumController::class, 'update'])
+        ->name('forums.update');
 
     // Custom Fields
     Route::get('custom-fields', [CustomFieldController::class, 'index'])
         ->name('custom_fields');
     Route::get('custom-fields/add', [CustomFieldController::class, 'new'])
+        ->name('custom_fields.add');
+    Route::post('custom-fields', [CustomFieldController::class, 'create'])
         ->name('custom_fields.create');
+    Route::get('custom-fields/{field_id}', [CustomFieldController::class, 'show'])
+        ->name('custom_fields.show');
+    Route::post('custom-fields/{field_id}', [CustomFieldController::class, 'update'])
+        ->name('custom_fields.update');
     Route::get('custom-fields/remove/{field_id}', [CustomFieldController::class, 'remove'])
         ->name('custom_fields.remove');
 });

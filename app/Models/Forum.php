@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -10,12 +11,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $content
  * @property int $user_id
  * @property int|null $parent_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 #[Fillable(['title', 'content', 'user_id', 'parent_id'])]
 class Forum extends Model
 {
+    protected $table = 'forum';
+
     /**
      * Get the attributes that should be cast.
      *

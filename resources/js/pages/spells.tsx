@@ -1,28 +1,30 @@
-import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { ResourceIndexPage } from '@/components/resource-pages';
 import { spells } from '@/routes';
 
-export default function Spells() {
+interface Spell {
+    id: number;
+    name: string;
+    description?: string | null;
+    created_at: string;
+}
+
+export default function Spells({ spells: spellList }: { spells: Spell[] }) {
     return (
-        <>
-            <Head title="Spells" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
-            </div>
-        </>
+        <ResourceIndexPage
+            title="Spells"
+            addLabel="Add Spell"
+            addPath="/spells/add"
+            emptyMessage="No spells found. Create a new spell to get started."
+            cards={spellList.map((spell) => ({
+                id: spell.id,
+                title: spell.name,
+                description: spell.description ?? null,
+                meta: [
+                    `Created At: ${new Date(spell.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}`,
+                ],
+                editPath: `/spells/${spell.id}`,
+            }))}
+        />
     );
 }
 
@@ -31,6 +33,6 @@ Spells.layout = {
         {
             title: 'Spells',
             href: spells(),
-        }
+        },
     ],
 };

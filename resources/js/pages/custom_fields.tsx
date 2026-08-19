@@ -1,28 +1,38 @@
-import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { ResourceIndexPage } from '@/components/resource-pages';
 import { custom_fields } from '@/routes';
 
-export default function CustomFields() {
+interface CustomField {
+    id: number;
+    field: string;
+    value: string;
+    type: string;
+    object_type: string;
+    created_at: string;
+}
+
+export default function CustomFields({
+    custom_fields: customFieldList,
+}: {
+    custom_fields: CustomField[];
+}) {
     return (
-        <>
-            <Head title="Custom Fields" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
-            </div>
-        </>
+        <ResourceIndexPage
+            title="Custom Fields"
+            addLabel="Add Custom Field"
+            addPath="/custom-fields/add"
+            emptyMessage="No custom fields found. Create a new custom field to get started."
+            cards={customFieldList.map((customField) => ({
+                id: customField.id,
+                title: customField.field,
+                description: `Default value: ${customField.value}`,
+                meta: [
+                    `Type: ${customField.type}`,
+                    `Object Type: ${customField.object_type}`,
+                    `Created At: ${new Date(customField.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}`,
+                ],
+                editPath: `/custom-fields/${customField.id}`,
+            }))}
+        />
     );
 }
 
@@ -31,6 +41,6 @@ CustomFields.layout = {
         {
             title: 'Custom Fields',
             href: custom_fields(),
-        }
+        },
     ],
 };

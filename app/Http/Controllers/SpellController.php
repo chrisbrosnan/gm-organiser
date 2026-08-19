@@ -2,9 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Spell;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Response;
 
 class SpellController extends Controller
 {
-    //
+    public function index(): Response
+    {
+        return inertia('spells', [
+            'spells' => Spell::where('user_id', auth()->id())->latest()->get(),
+        ]);
+    }
+
+    public function new(): Response
+    {
+        return inertia('spells_add');
+    }
+
+    public function show(int $spell_id): Response
+    {
+        return inertia('spells_view', [
+            'spell' => Spell::where('user_id', auth()->id())->findOrFail($spell_id),
+        ]);
+    }
+
+    public function create(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        $spell = new Spell;
+        $spell->name = $validated['name'];
+        $spell->description = $validated['description'] ?? null;
+        $spell->user_id = (int) auth()->id();
+        $spell->save();
+
+        return redirect()->route('spells.show', ['spell_id' => $spell->id]);
+    }
+
+    public function update(Request $request, int $spell_id): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        $spell = Spell::where('user_id', auth()->id())->findOrFail($spell_id);
+        $spell->name = $validated['name'];
+        $spell->description = $validated['description'] ?? null;
+        $spell->save();
+
+        return redirect()->route('spells.show', ['spell_id' => $spell->id]);
+    }
 }

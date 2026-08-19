@@ -1,28 +1,34 @@
-import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { ResourceIndexPage } from '@/components/resource-pages';
 import { scenes } from '@/routes';
 
-export default function Scenes() {
+interface Scene {
+    id: number;
+    name: string;
+    description?: string | null;
+    location_id?: number | null;
+    created_at: string;
+}
+
+export default function Scenes({ scenes: sceneList }: { scenes: Scene[] }) {
     return (
-        <>
-            <Head title="Scenes" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
-            </div>
-        </>
+        <ResourceIndexPage
+            title="Scenes"
+            addLabel="Add Scene"
+            addPath="/scenes/add"
+            emptyMessage="No scenes found. Create a new scene to get started."
+            cards={sceneList.map((scene) => ({
+                id: scene.id,
+                title: scene.name,
+                description: scene.description ?? null,
+                meta: [
+                    scene.location_id
+                        ? `Location ID: ${scene.location_id}`
+                        : 'No location linked yet.',
+                    `Created At: ${new Date(scene.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}`,
+                ],
+                editPath: `/scenes/${scene.id}`,
+            }))}
+        />
     );
 }
 

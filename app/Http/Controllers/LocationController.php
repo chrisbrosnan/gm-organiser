@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Request;
 use App\Models\Location;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class LocationController extends Controller
 {
+    public function new()
+    {
+        return inertia('locations_add');
+    }
+
     public function index()
     {
         $locations = Location::where('user_id', auth()->id())->get();
@@ -20,19 +27,21 @@ class LocationController extends Controller
 
     public function locationsByUserId($user_id)
     {
-        Log::info('Fetching locations for user_id: ' . $user_id);
+        Log::info('Fetching locations for user_id: '.$user_id);
         $locations = Location::where('user_id', $user_id)->get();
-        Log::info('Fetched locations for user_id : ' . $user_id . ' : ' . json_encode($locations));
+        Log::info('Fetched locations for user_id : '.$user_id.' : '.json_encode($locations));
+
         return response()->json($locations);
     }
 
     public function get($location_id)
     {
-        Log::info('Fetching location with location_id: ' . $location_id);
+        Log::info('Fetching location with location_id: '.$location_id);
         $location = Location::find($location_id);
 
-        if (!$location) {
-            Log::warning('Location not found with location_id: ' . $location_id);
+        if (! $location) {
+            Log::warning('Location not found with location_id: '.$location_id);
+
             return response()->json(['message' => 'Location not found'], 404);
         }
 
@@ -42,18 +51,20 @@ class LocationController extends Controller
         $location->quests = json_decode($location->quests, true);
         $location->items = json_decode($location->items, true);
 
-        Log::info('Fetched location with location_id: ' . $location_id . ' : ' . json_encode($location));
+        Log::info('Fetched location with location_id: '.$location_id.' : '.json_encode($location));
+
         return response()->json($location);
     }
 
-    public function update(Request $request, $location_id): \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+    public function update(Request $request, $location_id): RedirectResponse|JsonResponse
     {
-        Log::info('Updating location with location_id: ' . $location_id . ' and data: ' . json_encode($request->all()));
+        Log::info('Updating location with location_id: '.$location_id.' and data: '.json_encode($request->all()));
 
         $location = Location::find($location_id);
 
-        if (!$location) {
-            Log::warning('Location not found with location_id: ' . $location_id);
+        if (! $location) {
+            Log::warning('Location not found with location_id: '.$location_id);
+
             return response()->json(['message' => 'Location not found'], 404);
         }
 
@@ -72,7 +83,7 @@ class LocationController extends Controller
         $location->items = json_encode($request->input('items', []));
         $location->save();
 
-        Log::info('Updated location with location_id: ' . $location_id . ' : ' . json_encode($location));
+        Log::info('Updated location with location_id: '.$location_id.' : '.json_encode($location));
 
         // Return user to the location view page after updating
         return redirect()->route('locations.show', ['location_id' => $location_id]);
@@ -89,11 +100,11 @@ class LocationController extends Controller
         ]);
     }
 
-    public function create(Request $request): \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+    public function create(Request $request): JsonResponse|RedirectResponse
     {
-        Log::info('Creating location with data: ' . json_encode($request->all()));
+        Log::info('Creating location with data: '.json_encode($request->all()));
 
-        $location = new Location();
+        $location = new Location;
 
         $location->name = $request->input('name');
         $location->description = $request->input('description');
@@ -112,46 +123,49 @@ class LocationController extends Controller
 
         // return response()->json($location, 201);
         $location_id = $location->id;
-        Log::info('Created location with location_id: ' . $location_id . ' : ' . json_encode($location));
+        Log::info('Created location with location_id: '.$location_id.' : '.json_encode($location));
+
         return redirect()->route('locations.show', ['location_id' => $location_id]);
     }
 
-    public function duplicate(Request $request): \Illuminate\Http\JsonResponse
+    public function duplicate(Request $request): JsonResponse
     {
         $location_id = $request->query('location_id');
-        Log::info('Duplicating location with location_id: ' . $location_id);
+        Log::info('Duplicating location with location_id: '.$location_id);
 
         $location = Location::find($location_id);
 
-        if (!$location) {
-            Log::warning('Location not found with location_id: ' . $location_id);
+        if (! $location) {
+            Log::warning('Location not found with location_id: '.$location_id);
+
             return response()->json(['message' => 'Location not found'], 404);
         }
 
         $newLocation = $location->replicate();
-        $newLocation->name = $newLocation->name . ' (Copy)';
+        $newLocation->name = $newLocation->name.' (Copy)';
         $newLocation->save();
 
-        Log::info('Duplicated location with new location_id: ' . $newLocation->id);
+        Log::info('Duplicated location with new location_id: '.$newLocation->id);
 
         return response()->json($newLocation, 201);
     }
 
-    public function delete(Request $request): \Illuminate\Http\JsonResponse
+    public function delete(Request $request): JsonResponse
     {
         $location_id = $request->query('location_id');
-        Log::info('Deleting location with location_id: ' . $location_id);
+        Log::info('Deleting location with location_id: '.$location_id);
 
         $location = Location::find($location_id);
 
-        if (!$location) {
-            Log::warning('Location not found with location_id: ' . $location_id);
+        if (! $location) {
+            Log::warning('Location not found with location_id: '.$location_id);
+
             return response()->json(['message' => 'Location not found'], 404);
         }
 
         $location->delete();
 
-        Log::info('Deleted location with location_id: ' . $location_id);
+        Log::info('Deleted location with location_id: '.$location_id);
 
         return response()->json(['message' => 'Location deleted successfully'], 200);
     }
