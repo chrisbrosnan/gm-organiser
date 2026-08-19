@@ -11,16 +11,10 @@ interface Location {
     created_at: string;
 }
 
-export default function Locations({ auth }: { auth: { user: { id: string | number } } }) {
+export default function Locations({ auth, locations }: { auth: { user: { id: string | number } }, locations: Location[] }) {
 
     // Fetch All Games for User from API
-    const [locationsData, setLocationsData] = useState<Location[]>([]);
-
-    useEffect(() => {
-        fetch(`/api/locations/user/${auth.user.id}`)
-            .then(response => response.json())
-            .then(data => setLocationsData(data));
-    }, []);
+    const [locationsData, setLocationsData] = useState<Location[]>(locations);
 
     const deleteConfirmModal = (location_id: number) => {
         if (confirm('Are you sure you want to delete this location? This action cannot be undone.')) {
@@ -65,7 +59,7 @@ export default function Locations({ auth }: { auth: { user: { id: string | numbe
                                 <div className="flex gap-2 mt-2">
                                     <button
                                         className="rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
-                                        onClick={() => window.location.href = `/locations/edit?location_id=${location.id}`}
+                                        onClick={() => window.location.href = `/locations/${location.id}`}
                                     >
                                         Edit
                                     </button>

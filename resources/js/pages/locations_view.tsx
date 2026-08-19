@@ -15,10 +15,10 @@ interface Location {
     created_at: string;
 }
 
-export default function Locations({ auth }: { auth: { user: { id: string | number } } }) {
+export default function Locations({ auth, location }: { auth: { user: { id: string | number } }, location: Location }) {
 
     // Fetch All Games for User from API
-    const [locationsData, setLocationsData] = useState<Location | null>(null);
+    const [locationsData, setLocationsData] = useState<Location | null>(location);
     // const [pcs, setPcs] = useState<Array<{ id: string | number; name: string }>>([]);
     const [games, setGames] = useState<Array<{ id: string | number; name: string }>>([]);
     const [npcs, setNpcs] = useState<Array<{ id: string | number; name: string }>>([]);
@@ -28,12 +28,12 @@ export default function Locations({ auth }: { auth: { user: { id: string | numbe
     const [items, setItems] = useState<Array<{ id: string | number; name: string }>>([]);
 
     const params = new URLSearchParams(window.location.search);
-    const location_id = params.get('location_id');
+    // const location_id = params.get('location_id');
 
     useEffect(() => {
-        fetch(`/api/locations/${location_id}`)
-            .then(response => response.json())
-            .then(data => setLocationsData(data));
+        // fetch(`/api/locations/${location_id}`)
+        //     .then(response => response.json())
+        //     .then(data => setLocationsData(data));
 
         fetch(`/api/characters/npcs/${auth.user.id}`)
             .then(response => response.json())

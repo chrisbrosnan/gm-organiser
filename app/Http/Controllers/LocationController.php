@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Location;
+use Illuminate\Support\Facades\Gate;
 
 class LocationController extends Controller
 {
+    public function index()
+    {
+        $locations = Location::where('user_id', auth()->id())->get();
+
+        return inertia('locations', [
+            'locations' => $locations,
+        ]);
+    }
+
     public function locationsByUserId($user_id)
     {
         Log::info('Fetching locations for user_id: ' . $user_id);
@@ -65,7 +75,18 @@ class LocationController extends Controller
         Log::info('Updated location with location_id: ' . $location_id . ' : ' . json_encode($location));
 
         // Return user to the location view page after updating
-        return redirect()->route('location_single', ['location_id' => $location_id]);
+        return redirect()->route('locations.show', ['location_id' => $location_id]);
+    }
+
+    public function show($location_id)
+    {
+        $location = Location::find($location_id);
+
+        // Gate::authorize('view', $location);
+
+        return inertia('locations_view', [
+            'location' => $location,
+        ]);
     }
 
     public function create(Request $request): \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
@@ -92,7 +113,7 @@ class LocationController extends Controller
         // return response()->json($location, 201);
         $location_id = $location->id;
         Log::info('Created location with location_id: ' . $location_id . ' : ' . json_encode($location));
-        return redirect()->route('location_single', ['location_id' => $location_id]);
+        return redirect()->route('locations.show', ['location_id' => $location_id]);
     }
 
     public function duplicate(Request $request): \Illuminate\Http\JsonResponse
