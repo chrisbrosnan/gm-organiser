@@ -24,7 +24,7 @@ class GameController extends Controller
         return $this->games_form_add();
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(Request $request): RedirectResponse|JsonResponse
     {
         return $this->new_game($request);
     }
@@ -79,7 +79,7 @@ class GameController extends Controller
         ]);
     }
 
-    public function new_game(Request $request): JsonResponse
+    public function new_game(Request $request): RedirectResponse|JsonResponse
     {
         Log::info('Creating game with data: '.json_encode($request->all()).' files: '.json_encode(array_keys($request->allFiles())));
 
