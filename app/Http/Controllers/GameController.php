@@ -100,6 +100,17 @@ class GameController extends Controller
             'scenes' => $request->input('scenes', []),
         ];
 
+        $locations = Location::whereIn('id', $request->input('locations', []))->get();
+        foreach ($locations as $location) {
+            $location->update(['games' => array_merge($location->games ?? [], [$game->id])]);
+        }
+        $playerCharacters = Character::whereIn('id', $request->input('player_characters', []))->get();
+        $npcCharacters = Character::whereIn('id', $request->input('npcs', []))->get();
+        $mergeCharacters = $playerCharacters->merge($npcCharacters);
+        foreach ($mergeCharacters as $character) {
+            $character->update(['games' => array_merge($character->games ?? [], [$game->id])]);
+        }
+
         $this->storeObjectAttachments($request, $game, 'game');
         $game->save();
 
