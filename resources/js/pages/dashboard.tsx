@@ -26,15 +26,15 @@ export default function Dashboard({ auth, games }: { auth: { user: { id: string 
                         <h3 className="mb-2">Hello, {auth.user.name ? auth.user.name.substring(0, auth.user.name.indexOf(' ')) + "!" : 'User'}</h3>
                         <p>This is your dashboard. From here you can manage your games, locations, quests, items, characters and other content for your tabletop RPG games.</p>
                     </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <h2 className="mb-2">Games</h2>
+                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-4">
+                        <h1 className="mb-2 text-lg">Games</h1>
                         {gamesData.length === 0 ? (
                             <div className="flex flex-col items-center justify-center gap-4">
                                 <PlaceholderPattern className="w-full h-64" />
                                 <p className="text-gray-500">No games found. Create a new game to get started.</p>
                             </div>
                         ) : (
-                            <div className="grid md:grid-cols-1 gap-4 text-xs">
+                            <div className="grid md:grid-cols-2 gap-4 text-xs">
                                 {gamesData.map((game) => (
                                     <div key={game.id} className="border border-gray-300 rounded-md p-4">
                                         <h2 className="text-xl font-bold">{game.name}</h2>

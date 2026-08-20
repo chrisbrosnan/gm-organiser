@@ -8,7 +8,16 @@ export default function ItemsAdd() {
             action="/items"
             fields={[
                 { label: 'Name', name: 'name', type: 'text' },
-                { label: 'Type', name: 'type', type: 'text' },
+                { label: 'Type', name: 'type', type: 'select', options: [
+                    { label: 'Weapon', value: 'weapon' },
+                    { label: 'Armor', value: 'armor' },
+                    { label: 'Consumable', value: 'consumable' },
+                    { label: 'Magic Item', value: 'magic' },
+                    { label: 'Evidence', value: 'evidence' },
+                    { label: 'Tool', value: 'tool' },
+                    { label: 'Book', value: 'book' },
+                    { label: 'Miscellaneous', value: 'misc' },
+                ] },
                 { label: 'Description', name: 'description', type: 'textarea' },
             ]}
         />

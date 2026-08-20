@@ -8,7 +8,7 @@ interface Scene {
     location_id?: number | null;
 }
 
-export default function ScenesView({ scene }: { scene: Scene }) {
+export default function ScenesView({ scene, locations }: { scene: Scene, locations: { id: number; name: string }[] }) {
     return (
         <ResourceFormPage
             title={`Edit Scene: ${scene.name}`}
@@ -27,9 +27,10 @@ export default function ScenesView({ scene }: { scene: Scene }) {
                     value: scene.description ?? '',
                 },
                 {
-                    label: 'Location ID',
+                    label: 'Location',
                     name: 'location_id',
-                    type: 'number',
+                    type: 'select',
+                    options: locations.map(location => ({ label: location.name, value: String(location.id) })),
                     value: scene.location_id ? String(scene.location_id) : '',
                 },
             ]}

@@ -1,7 +1,7 @@
 import { ResourceFormPage } from '@/components/resource-pages';
 import { scenes } from '@/routes';
 
-export default function ScenesAdd() {
+export default function ScenesAdd({ locations }: { locations: { id: number; name: string }[] }) {
     return (
         <ResourceFormPage
             title="Add Scene"
@@ -9,7 +9,7 @@ export default function ScenesAdd() {
             fields={[
                 { label: 'Name', name: 'name', type: 'text' },
                 { label: 'Description', name: 'description', type: 'textarea' },
-                { label: 'Location ID', name: 'location_id', type: 'number' },
+                { label: 'Location', name: 'location_id', type: 'select', options: locations.map(location => ({ label: location.name, value: String(location.id) })) },
             ]}
         />
     );

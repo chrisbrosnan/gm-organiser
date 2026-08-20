@@ -23,7 +23,12 @@ export default function QuestsView({ quest }: { quest: Quest }) {
                 {
                     label: 'Type',
                     name: 'type',
-                    type: 'text',
+                    type: 'select',
+                    options: [
+                        { label: 'Main Quest', value: 'main' },
+                        { label: 'Side Quest', value: 'side' },
+                        { label: 'Miscellaneous', value: 'misc' },
+                    ],
                     value: quest.type ?? '',
                 },
                 {

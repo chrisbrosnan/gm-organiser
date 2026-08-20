@@ -26,21 +26,30 @@ export default function CustomFieldsView({
                     value: custom_field.field,
                 },
                 {
-                    label: 'Default Value',
-                    name: 'value',
-                    type: 'text',
-                    value: custom_field.value,
-                },
-                {
                     label: 'Type',
                     name: 'type',
-                    type: 'text',
+                    type: 'select',
+                    options: [
+                        { label: 'Text', value: 'text' },
+                        { label: 'Number', value: 'number' },
+                        { label: 'Date', value: 'date' },
+                        { label: 'True/False', value: 'boolean' },
+                    ],
                     value: custom_field.type,
                 },
                 {
                     label: 'Object Type',
                     name: 'object_type',
-                    type: 'text',
+                    type: 'select',
+                    options: [
+                        { label: 'Game', value: 'game' },
+                        { label: 'Location', value: 'location' },
+                        { label: 'Scene', value: 'scene' },
+                        { label: 'Character', value: 'character' },
+                        { label: 'Item', value: 'item' },
+                        { label: 'Spells', value: 'spell' },
+                        { label: 'Quest', value: 'quest' },
+                    ],
                     value: custom_field.object_type,
                 },
             ]}

@@ -8,7 +8,11 @@ export default function QuestsAdd() {
             action="/quests"
             fields={[
                 { label: 'Name', name: 'name', type: 'text' },
-                { label: 'Type', name: 'type', type: 'text' },
+                { label: 'Type', name: 'type', type: 'select', options: [
+                    { label: 'Main Quest', value: 'main' },
+                    { label: 'Side Quest', value: 'side' },
+                    { label: 'Miscellaneous', value: 'misc' },
+                ] },
                 { label: 'Description', name: 'description', type: 'textarea' },
             ]}
         />

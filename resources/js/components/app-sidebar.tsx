@@ -87,11 +87,11 @@ const mainNavItems: NavItem[] = [
         href: '/custom-fields',
         icon: RectangleEllipsis,
     },
-    // {
-    //     title: 'Forums []',
-    //     href: '/forums',
-    //     icon: Landmark,
-    // },
+    {
+        title: 'Forums []',
+        href: '/forums',
+        icon: Landmark,
+    },
 ];
 
 const footerNavItems: NavItem[] = [];

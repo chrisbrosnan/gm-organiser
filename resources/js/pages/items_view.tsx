@@ -18,7 +18,17 @@ export default function ItemsView({ item }: { item: Item }) {
                 {
                     label: 'Type',
                     name: 'type',
-                    type: 'text',
+                    type: 'select',
+                    options: [
+                        { label: 'Weapon', value: 'weapon' },
+                        { label: 'Armor', value: 'armor' },
+                        { label: 'Consumable', value: 'consumable' },
+                        { label: 'Magic Item', value: 'magic' },
+                        { label: 'Evidence', value: 'evidence' },
+                        { label: 'Tool', value: 'tool' },
+                        { label: 'Book', value: 'book' },
+                        { label: 'Miscellaneous', value: 'misc' },
+                    ],
                     value: item.type ?? '',
                 },
                 {
