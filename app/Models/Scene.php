@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Concerns\HasThumbnail;
 use Illuminate\Database\Eloquent\Model;
 
 class Scene extends Model
 {
+    use HasThumbnail;
+
     /**
      * Get the attributes that should be cast.
      *

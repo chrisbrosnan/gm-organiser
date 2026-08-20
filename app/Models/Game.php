@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
+use App\Concerns\HasThumbnail;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\System;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -13,8 +14,8 @@ use App\Models\System;
  * @property string $type
  * @property string $description
  * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int $system_id
  * @property json|null $meta_data
  * @property array|null $player_characters
@@ -22,6 +23,8 @@ use App\Models\System;
 #[Fillable(['name', 'thumbnail_id', 'attachments', 'type', 'description', 'user_id', 'system_id', 'meta_data', 'player_characters'])]
 class Game extends Model
 {
+    use HasThumbnail;
+
     /**
      * Get the attributes that should be cast.
      *
@@ -45,7 +48,7 @@ class Game extends Model
         ];
     }
 
-    static public function getGamesByUserId(int $user_id): array
+    public static function getGamesByUserId(int $user_id): array
     {
         $games = self::where('user_id', $user_id)->get();
 

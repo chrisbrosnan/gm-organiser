@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Concerns\HasThumbnail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -12,18 +14,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $map_id
  * @property string $description
  * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property json|null $meta_data
  * @property array|null $games
  * @property array|null $characters
  * @property array|null $quests
  * @property array|null $items
  */
-
 #[Fillable(['name', 'description', 'user_id', 'meta_data', 'games', 'characters', 'quests', 'items'])]
 class Location extends Model
 {
+    use HasThumbnail;
+
     /**
      * Get the attributes that should be cast.
      *

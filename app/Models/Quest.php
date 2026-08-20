@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\HasThumbnail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -22,6 +23,8 @@ use Illuminate\Support\Carbon;
 
 class Quest extends Model
 {
+    use HasThumbnail;
+
     /**
      * Get the attributes that should be cast.
      *

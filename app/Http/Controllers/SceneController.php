@@ -34,7 +34,7 @@ class SceneController extends Controller
         $locations = Location::where('user_id', auth()->id())->get(['id', 'name']);
 
         return inertia('scenes_view', [
-            'scene' => Scene::where('user_id', auth()->id())->findOrFail($scene_id),
+            'scene' => Scene::with('thumbnail')->where('user_id', auth()->id())->findOrFail($scene_id),
             'locations' => $locations,
         ]);
     }

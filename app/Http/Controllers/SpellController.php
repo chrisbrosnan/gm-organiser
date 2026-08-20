@@ -27,7 +27,7 @@ class SpellController extends Controller
     public function show(int $spell_id): Response
     {
         return inertia('spells_view', [
-            'spell' => Spell::where('user_id', auth()->id())->findOrFail($spell_id),
+            'spell' => Spell::with('thumbnail')->where('user_id', auth()->id())->findOrFail($spell_id),
         ]);
     }
 

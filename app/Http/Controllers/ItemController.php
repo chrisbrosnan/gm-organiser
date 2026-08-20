@@ -27,7 +27,7 @@ class ItemController extends Controller
     public function show(int $item_id): Response
     {
         return inertia('items_view', [
-            'item' => Item::where('user_id', auth()->id())->findOrFail($item_id),
+            'item' => Item::with('thumbnail')->where('user_id', auth()->id())->findOrFail($item_id),
         ]);
     }
 

@@ -6,6 +6,7 @@ interface Item {
     name: string;
     type?: string | null;
     description?: string | null;
+    thumbnail?: { attachment_path?: string } | null;
 }
 
 export default function ItemsView({ item }: { item: Item }) {
@@ -13,6 +14,7 @@ export default function ItemsView({ item }: { item: Item }) {
         <ResourceFormPage
             title={`Edit Item: ${item.name}`}
             action={`/items/${item.id}`}
+            thumbnailPath={item.thumbnail?.attachment_path}
             fields={[
                 { label: 'Name', name: 'name', type: 'text', value: item.name },
                 {
@@ -38,7 +40,12 @@ export default function ItemsView({ item }: { item: Item }) {
                     value: item.description ?? '',
                 },
                 { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
-                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
+                {
+                    label: 'Attachments',
+                    name: 'attachments[]',
+                    type: 'file',
+                    multiple: true,
+                },
             ]}
         />
     );

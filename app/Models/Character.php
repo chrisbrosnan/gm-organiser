@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\HasThumbnail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -27,6 +28,8 @@ use Illuminate\Support\Carbon;
 #[Fillable(['name', 'portrait', 'thumbnail_id', 'attachments', 'bio', 'user_id', 'type', 'meta_data', 'games', 'spells', 'items', 'quests', 'locations', 'scenes'])]
 class Character extends Model
 {
+    use HasThumbnail;
+
     /**
      * Get the attributes that should be cast.
      *

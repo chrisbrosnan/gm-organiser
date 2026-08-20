@@ -6,13 +6,21 @@ interface Scene {
     name: string;
     description?: string | null;
     location_id?: number | null;
+    thumbnail?: { attachment_path?: string } | null;
 }
 
-export default function ScenesView({ scene, locations }: { scene: Scene, locations: { id: number; name: string }[] }) {
+export default function ScenesView({
+    scene,
+    locations,
+}: {
+    scene: Scene;
+    locations: { id: number; name: string }[];
+}) {
     return (
         <ResourceFormPage
             title={`Edit Scene: ${scene.name}`}
             action={`/scenes/${scene.id}`}
+            thumbnailPath={scene.thumbnail?.attachment_path}
             fields={[
                 {
                     label: 'Name',
@@ -30,11 +38,19 @@ export default function ScenesView({ scene, locations }: { scene: Scene, locatio
                     label: 'Location',
                     name: 'location_id',
                     type: 'select',
-                    options: locations.map(location => ({ label: location.name, value: String(location.id) })),
+                    options: locations.map((location) => ({
+                        label: location.name,
+                        value: String(location.id),
+                    })),
                     value: scene.location_id ? String(scene.location_id) : '',
                 },
                 { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
-                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
+                {
+                    label: 'Attachments',
+                    name: 'attachments[]',
+                    type: 'file',
+                    multiple: true,
+                },
             ]}
         />
     );

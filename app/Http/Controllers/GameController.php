@@ -9,7 +9,6 @@ use App\Models\Game;
 use App\Models\Location;
 use App\Models\Scene;
 use App\Models\System;
-use App\Models\Attachment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -41,13 +40,9 @@ class GameController extends Controller
 
     public function show($game_id)
     {
-        $game = Game::find($game_id);
+        $game = Game::with('thumbnail')->find($game_id);
 
         Gate::authorize('view', $game);
-
-        $thumbnail = Attachment::where('id', $game->thumbnail_id)->where('user_id', auth()->id())->first() ?? null;
-
-        $game->thumbnail = $thumbnail;
 
         return inertia('games_view', [
             'game' => $game,
@@ -108,9 +103,7 @@ class GameController extends Controller
         $this->storeObjectAttachments($request, $game, 'game');
         $game->save();
 
-        $thumbnail = Attachment::where('id', $game->thumbnail_id)->where('user_id', auth()->id())->first() ?? null;
-
-        return redirect()->route('games.show', ['game_id' => $game->id, 'thumbnail' => $thumbnail])->with('success', 'Game created successfully.');
+        return redirect()->route('games.show', ['game_id' => $game->id])->with('success', 'Game created successfully.');
     }
 
     public function update(Request $request, $game_id): RedirectResponse|JsonResponse

@@ -5,6 +5,7 @@ interface Spell {
     id: number;
     name: string;
     description?: string | null;
+    thumbnail?: { attachment_path?: string } | null;
 }
 
 export default function SpellsView({ spell }: { spell: Spell }) {
@@ -12,6 +13,7 @@ export default function SpellsView({ spell }: { spell: Spell }) {
         <ResourceFormPage
             title={`Edit Spell: ${spell.name}`}
             action={`/spells/${spell.id}`}
+            thumbnailPath={spell.thumbnail?.attachment_path}
             fields={[
                 {
                     label: 'Name',
@@ -26,7 +28,12 @@ export default function SpellsView({ spell }: { spell: Spell }) {
                     value: spell.description ?? '',
                 },
                 { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
-                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
+                {
+                    label: 'Attachments',
+                    name: 'attachments[]',
+                    type: 'file',
+                    multiple: true,
+                },
             ]}
         />
     );

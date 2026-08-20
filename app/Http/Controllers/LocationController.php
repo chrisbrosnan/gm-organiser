@@ -99,7 +99,9 @@ class LocationController extends Controller
 
     public function show($location_id)
     {
-        $location = Location::where('user_id', auth()->id())->findOrFail($location_id);
+        $location = Location::with('thumbnail')
+            ->where('user_id', auth()->id())
+            ->findOrFail($location_id);
 
         return inertia('locations_view', [
             'location' => $location,

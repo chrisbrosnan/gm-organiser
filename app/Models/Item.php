@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Concerns\HasThumbnail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -12,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property array|null $attachments
  * @property string $description
  * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property array|null $meta_data
  * @property array|null $characters
  * @property array|null $games
@@ -22,10 +24,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property array|null $locations
  * @property array|null $scenes
  */
-
 #[Fillable(['name', 'type', 'thumbnail_id', 'attachments', 'description', 'user_id', 'meta_data', 'characters', 'games', 'spells', 'quests', 'locations', 'scenes'])]
 class Item extends Model
 {
+    use HasThumbnail;
+
     /**
      * Get the attributes that should be cast.
      *

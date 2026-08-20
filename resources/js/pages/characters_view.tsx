@@ -6,6 +6,7 @@ interface Character {
     name: string;
     type: string;
     bio?: string | null;
+    thumbnail?: { attachment_path?: string } | null;
 }
 
 export default function CharactersView({
@@ -17,6 +18,7 @@ export default function CharactersView({
         <ResourceFormPage
             title={`Edit Character: ${character.name}`}
             action={`/characters/${character.id}`}
+            thumbnailPath={character.thumbnail?.attachment_path}
             fields={[
                 {
                     label: 'Name',
@@ -42,7 +44,12 @@ export default function CharactersView({
                     value: character.bio ?? '',
                 },
                 { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
-                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
+                {
+                    label: 'Attachments',
+                    name: 'attachments[]',
+                    type: 'file',
+                    multiple: true,
+                },
             ]}
         />
     );

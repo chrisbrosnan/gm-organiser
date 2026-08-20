@@ -27,7 +27,7 @@ class QuestController extends Controller
     public function show(int $quest_id): Response
     {
         return inertia('quests_view', [
-            'quest' => Quest::where('user_id', auth()->id())->findOrFail($quest_id),
+            'quest' => Quest::with('thumbnail')->where('user_id', auth()->id())->findOrFail($quest_id),
         ]);
     }
 

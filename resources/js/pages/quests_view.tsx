@@ -6,6 +6,7 @@ interface Quest {
     name: string;
     type?: string | null;
     description?: string | null;
+    thumbnail?: { attachment_path?: string } | null;
 }
 
 export default function QuestsView({ quest }: { quest: Quest }) {
@@ -13,6 +14,7 @@ export default function QuestsView({ quest }: { quest: Quest }) {
         <ResourceFormPage
             title={`Edit Quest: ${quest.name}`}
             action={`/quests/${quest.id}`}
+            thumbnailPath={quest.thumbnail?.attachment_path}
             fields={[
                 {
                     label: 'Name',
@@ -38,7 +40,12 @@ export default function QuestsView({ quest }: { quest: Quest }) {
                     value: quest.description ?? '',
                 },
                 { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
-                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
+                {
+                    label: 'Attachments',
+                    name: 'attachments[]',
+                    type: 'file',
+                    multiple: true,
+                },
             ]}
         />
     );

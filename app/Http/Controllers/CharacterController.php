@@ -27,7 +27,7 @@ class CharacterController extends Controller
     public function show(int $character_id): Response
     {
         return inertia('characters_view', [
-            'character' => Character::where('user_id', auth()->id())->findOrFail($character_id),
+            'character' => Character::with('thumbnail')->where('user_id', auth()->id())->findOrFail($character_id),
         ]);
     }
 

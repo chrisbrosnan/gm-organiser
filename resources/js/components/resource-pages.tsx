@@ -97,10 +97,12 @@ export function ResourceFormPage({
     title,
     action,
     fields,
+    thumbnailPath,
 }: {
     title: string;
     action: string;
     fields: ResourceField[];
+    thumbnailPath?: string | null;
 }) {
     const csrfToken =
         document
@@ -112,6 +114,15 @@ export function ResourceFormPage({
             <Head title={title} />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <h1 className="text-2xl font-bold">{title}</h1>
+                <img
+                    src={
+                        thumbnailPath
+                            ? `/storage/${thumbnailPath}`
+                            : '/images/default-thumbnail.png'
+                    }
+                    alt={`${title} thumbnail`}
+                    className="h-64 w-64 rounded-lg object-cover"
+                />
                 <FormBuilder
                     action={action}
                     method="POST"

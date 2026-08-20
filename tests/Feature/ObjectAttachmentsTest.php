@@ -11,12 +11,14 @@ use App\Models\Spell;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Testing\AssertableInertia as Assert;
 
 test('resource editors store thumbnails and attachments', function (
     string $route,
     string $modelClass,
     array $attributes,
     string $objectType,
+    string $property,
 ) {
     Storage::fake('public');
     $user = User::factory()->create();
@@ -55,14 +57,24 @@ test('resource editors store thumbnails and attachments', function (
             ->and($attachment->attachment_type)->toBe('attachment');
         Storage::disk('public')->assertExists($attachment->attachment_path);
     });
+
+    $this->actingAs($user)
+        ->get("{$route}/{$resource->id}")
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page->where(
+                "{$property}.thumbnail.attachment_path",
+                $thumbnailAttachment->attachment_path,
+            ),
+        );
 })->with([
-    ['/games', Game::class, ['title' => 'New Game', 'system' => 1, 'type' => 'campaign'], 'game'],
-    ['/locations', Location::class, ['name' => 'Harbor'], 'location'],
-    ['/scenes', Scene::class, ['name' => 'Opening Scene'], 'scene'],
-    ['/characters', Character::class, ['name' => 'Aria', 'type' => 'npc'], 'character'],
-    ['/quests', Quest::class, ['name' => 'Lost Relic'], 'quest'],
-    ['/items', Item::class, ['name' => 'Silver Key'], 'item'],
-    ['/spells', Spell::class, ['name' => 'Fire Bolt'], 'spell'],
+    ['/games', Game::class, ['title' => 'New Game', 'system' => 1, 'type' => 'campaign'], 'game', 'game'],
+    ['/locations', Location::class, ['name' => 'Harbor'], 'location', 'location'],
+    ['/scenes', Scene::class, ['name' => 'Opening Scene'], 'scene', 'scene'],
+    ['/characters', Character::class, ['name' => 'Aria', 'type' => 'npc'], 'character', 'character'],
+    ['/quests', Quest::class, ['name' => 'Lost Relic'], 'quest', 'quest'],
+    ['/items', Item::class, ['name' => 'Silver Key'], 'item', 'item'],
+    ['/spells', Spell::class, ['name' => 'Fire Bolt'], 'spell', 'spell'],
 ]);
 
 test('updating a resource preserves existing attachment IDs', function () {
