@@ -3,7 +3,7 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import FormBuilder from '@/components/form-builder';
 import { useEffect, useState } from 'react';
 
-export default function GamesView({ game, locations, scenes, npcs, player_characters, systems, custom_fields, auth }: { game: { id: string | number; name: string; description?: string; type?: string; system_id?: string | number; meta_data?: { locations?: Array<string | number>; notes?: string; scenes?: Array<string | number> } } | null, locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npcs: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, auth: { user: { id: string | number } } }) {
+export default function GamesView({ game, locations, scenes, npcs, player_characters, systems, custom_fields, auth }: { game: { id: string | number; name: string; description?: string; type?: string; system_id?: string | number; thumbnail?: { url?: string }; meta_data?: { locations?: Array<string | number>; notes?: string; scenes?: Array<string | number> } } | null, locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npcs: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, auth: { user: { id: string | number } } }) {
 
     // console.log('Fetching game with game_id:', game_id);
     console.log('Authenticated user_id:', auth.user.id);
@@ -20,6 +20,7 @@ export default function GamesView({ game, locations, scenes, npcs, player_charac
             <Head title={`View Game: ${game?.name ?? ''}`} />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <h1 className="text-2xl font-bold">Game: {game?.name ?? ''}</h1>
+                <img src={game?.thumbnail?.url ?? '/images/default-thumbnail.png'} alt="Game Thumbnail" className="w-64 h-64 object-cover rounded-lg mb-4" />
                 <FormBuilder
                     action={`/games/${game_id}`}
                     method="POST"
@@ -28,7 +29,7 @@ export default function GamesView({ game, locations, scenes, npcs, player_charac
                         { label: '', name: 'user_id', type: 'hidden', value: String(user_id) },
                         { label: 'Title', name: 'title', type: 'text', value: game?.name ?? '' },
                         { label: 'Description', name: 'description', type: 'text', value: game?.description ?? '' },
-                        { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                        // { label: 'Thumbnail', name: 'thumbnail', type: 'file', value: game?.thumbnail?.id ?? '' },
 
                         // If Systems are fetched, display a select field for them, otherwise display a text input
                         { label: 'System', name: 'system', type: 'select', options:
