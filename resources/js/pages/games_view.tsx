@@ -84,6 +84,11 @@ export default function GamesView({
                             value: game?.name ?? '',
                         },
                         {
+                            label: 'Thumbnail',
+                            name: 'thumbnail',
+                            type: 'file'
+                        },
+                        {
                             label: 'Description',
                             name: 'description',
                             type: 'text',
