@@ -48,7 +48,7 @@ export default function Welcome() {
                 </div>
                 <div className="hidden h-14.5 lg:block"></div>
                 <footer className="flex items-center justify-center w-full bg-olive-500 dark:bg-gray-900 py-6">
-                    <p className="text-white py-6 text-xs">&copy; {new Date().getFullYear()} Brosnan Technology Consulting Ltd. Christopher Brosnan.</p>
+                    <p className="text-white py-6 text-xs">Tabletop Brewery is a Trading Name of Brosnan Technology Consulting Ltd. &copy; {new Date().getFullYear()} Brosnan Technology Consulting Ltd. Christopher Brosnan.</p>
                 </footer>
             </div>
         </>
