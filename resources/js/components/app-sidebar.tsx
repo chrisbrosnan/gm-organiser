@@ -18,57 +18,57 @@ import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard []',
+        title: 'Dashboard',
         href: dashboard(),
         icon: LayoutDashboard,
     },
     {
-        title: 'Games [x]',
+        title: 'Games',
         href: games(),
         icon: Dices,
     },
     {
-        title: 'Locations [x]',
+        title: 'Locations',
         href: locations(),
         icon: Map,
     },
     {
-        title: 'Scenes []',
+        title: 'Scenes',
         href: scenes(),
         icon: Clapperboard,
     },
     {
-        title: 'All Characters []',
+        title: 'All Characters',
         href: characters(),
         icon: User,
     },
     {
-        title: '- NPCs []',
+        title: '- NPCs',
         href: npcs(),
         icon: Bot,
     },
     {
-        title: '- PCs []',
+        title: '- PCs',
         href: pcs(),
         icon: User,
     },
     {
-        title: '- Enemies []',
+        title: '- Enemies',
         href: enemies(),
         icon: PawPrint,
     },
     {
-        title: 'Quests []',
+        title: 'Quests',
         href: quests(),
         icon: Wine,
     },
     {
-        title: 'Items []',
+        title: 'Items',
         href: items(),
         icon: Sword,
     },
     {
-        title: 'Spells []',
+        title: 'Spells',
         href: spells(),
         icon: Wand,
     },
@@ -78,17 +78,17 @@ const mainNavItems: NavItem[] = [
     //     icon: Cog,
     // },
     {
-        title: 'General Notes [x]',
+        title: 'General Notes',
         href: general_notes(),
         icon: NotebookPen,
     },
     {
-        title: 'Custom Fields []',
+        title: 'Custom Fields',
         href: '/custom-fields',
         icon: RectangleEllipsis,
     },
     {
-        title: 'Forums []',
+        title: 'Forums',
         href: '/forums',
         icon: Landmark,
     },
