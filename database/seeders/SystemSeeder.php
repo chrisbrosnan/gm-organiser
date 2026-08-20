@@ -123,6 +123,23 @@ class SystemSeeder extends Seeder
                 ],
             ],
             [
+                'name' => 'Daggerheart',
+                'description' => 'Daggerheart is a fantasy tabletop role-playing game (RPG) published by Daggerheart Games. It is a rules-light game that emphasizes storytelling and player creativity.',
+                'version' => 1,
+                'meta_data' => [
+                    'publisher' => 'Daggerheart Games',
+                    'release_date' => '2021-01-01',
+                    'genre' => 'Fantasy',
+                    'setting' => 'Daggerheart Universe',
+                    'mechanics' => [
+                        'Rules-light system',
+                        'Classless character progression',
+                        'Hit points and armor class',
+                        'Combat and initiative'
+                    ],
+                ],
+            ],
+            [
                 'name' => 'GURPS 4e',
                 'description' => 'GURPS 4th Edition is a generic tabletop role-playing game (RPG) published by Steve Jackson Games. It is the fourth edition of the GURPS game, and was released in 2004.',
                 'version' => 1,
