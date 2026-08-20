@@ -41,6 +41,8 @@ export default function CharactersView({
                     type: 'textarea',
                     value: character.bio ?? '',
                 },
+                { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
             ]}
         />
     );

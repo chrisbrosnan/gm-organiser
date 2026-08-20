@@ -9,6 +9,8 @@ export default function SpellsAdd() {
             fields={[
                 { label: 'Name', name: 'name', type: 'text' },
                 { label: 'Description', name: 'description', type: 'textarea' },
+                { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
             ]}
         />
     );

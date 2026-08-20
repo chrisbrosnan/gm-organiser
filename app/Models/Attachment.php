@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attachment extends Model
 {
-    // Use object_attachments table
     protected $table = 'object_attachments';
+
+    protected function casts(): array
+    {
+        return [
+            'id' => 'integer',
+            'object_type' => 'string',
+            'attachment_type' => 'string',
+            'attachment_path' => 'string',
+            'user_id' => 'integer',
+        ];
+    }
 }

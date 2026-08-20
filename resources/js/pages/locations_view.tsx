@@ -74,15 +74,15 @@ export default function Locations({ auth, location }: { auth: { user: { id: stri
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <h1 className="text-2xl font-bold">Edit Location: {locationsData?.name ?? ''}</h1>
                 <FormBuilder
-                    action={`/api/locations/${locationsData?.id ?? ''}`}
+                    action={`/locations/${locationsData?.id ?? ''}`}
                     method="POST"
                     fields={[
-                        { label: '', name: 'csrf_token', type: 'hidden', value: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '' },
-                        { label: '', name: 'user_id', type: 'hidden', value: String(auth.user.id) },
+                        { label: '', name: '_token', type: 'hidden', value: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '' },
                         { label: 'Name', name: 'name', type: 'text', value: locationsData?.name ?? '' },
-                        // { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                        { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
                         { label: 'Description', name: 'description', type: 'text', value: locationsData?.description ?? '' },
                         // { label: 'Map', name: 'map', type: 'file' },
+                        { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
 
 
 

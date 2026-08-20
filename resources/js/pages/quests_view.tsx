@@ -37,6 +37,8 @@ export default function QuestsView({ quest }: { quest: Quest }) {
                     type: 'textarea',
                     value: quest.description ?? '',
                 },
+                { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
             ]}
         />
     );

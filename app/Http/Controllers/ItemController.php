@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HandlesObjectAttachments;
 use App\Models\Item;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Inertia\Response;
 
 class ItemController extends Controller
 {
+    use HandlesObjectAttachments;
+
     public function index(): Response
     {
         return inertia('items', [
@@ -34,6 +37,7 @@ class ItemController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'type' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            ...$this->attachmentValidationRules(),
         ]);
 
         $item = new Item;
@@ -41,6 +45,7 @@ class ItemController extends Controller
         $item->type = $validated['type'] ?? null;
         $item->description = $validated['description'] ?? null;
         $item->user_id = (int) auth()->id();
+        $this->storeObjectAttachments($request, $item, 'item');
         $item->save();
 
         return redirect()->route('items.show', ['item_id' => $item->id]);
@@ -52,12 +57,14 @@ class ItemController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'type' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            ...$this->attachmentValidationRules(),
         ]);
 
         $item = Item::where('user_id', auth()->id())->findOrFail($item_id);
         $item->name = $validated['name'];
         $item->type = $validated['type'] ?? null;
         $item->description = $validated['description'] ?? null;
+        $this->storeObjectAttachments($request, $item, 'item');
         $item->save();
 
         return redirect()->route('items.show', ['item_id' => $item->id]);

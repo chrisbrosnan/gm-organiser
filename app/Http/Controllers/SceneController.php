@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Scene;
+use App\Concerns\HandlesObjectAttachments;
 use App\Models\Location;
+use App\Models\Scene;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 
 class SceneController extends Controller
 {
+    use HandlesObjectAttachments;
+
     public function index(): Response
     {
         return inertia('scenes', [
@@ -20,6 +23,7 @@ class SceneController extends Controller
     public function new(): Response
     {
         $locations = Location::where('user_id', auth()->id())->get(['id', 'name']);
+
         return inertia('scenes_add', [
             'locations' => $locations,
         ]);
@@ -28,6 +32,7 @@ class SceneController extends Controller
     public function show(int $scene_id): Response
     {
         $locations = Location::where('user_id', auth()->id())->get(['id', 'name']);
+
         return inertia('scenes_view', [
             'scene' => Scene::where('user_id', auth()->id())->findOrFail($scene_id),
             'locations' => $locations,
@@ -40,6 +45,7 @@ class SceneController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'location_id' => ['nullable', 'integer'],
+            ...$this->attachmentValidationRules(),
         ]);
 
         $scene = new Scene;
@@ -47,6 +53,7 @@ class SceneController extends Controller
         $scene->description = $validated['description'] ?? null;
         $scene->location_id = $validated['location_id'] ?? null;
         $scene->user_id = (int) auth()->id();
+        $this->storeObjectAttachments($request, $scene, 'scene');
         $scene->save();
 
         return redirect()->route('scenes.show', ['scene_id' => $scene->id]);
@@ -58,12 +65,14 @@ class SceneController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'location_id' => ['nullable', 'integer'],
+            ...$this->attachmentValidationRules(),
         ]);
 
         $scene = Scene::where('user_id', auth()->id())->findOrFail($scene_id);
         $scene->name = $validated['name'];
         $scene->description = $validated['description'] ?? null;
         $scene->location_id = $validated['location_id'] ?? null;
+        $this->storeObjectAttachments($request, $scene, 'scene');
         $scene->save();
 
         return redirect()->route('scenes.show', ['scene_id' => $scene->id]);

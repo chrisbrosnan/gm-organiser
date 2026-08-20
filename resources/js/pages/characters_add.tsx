@@ -20,6 +20,8 @@ export default function CharactersAdd() {
                     ],
                 },
                 { label: 'Bio', name: 'bio', type: 'textarea' },
+                { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
             ]}
         />
     );

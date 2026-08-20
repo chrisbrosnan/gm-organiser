@@ -19,13 +19,13 @@ export default function GamesAdd({ locations, scenes, npcs, player_characters, s
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <h1 className="text-2xl font-bold">Add Game</h1>
                 <FormBuilder
-                    action="/api/games"
+                    action="/games"
                     method="POST"
                     fields={[
                         { label: '', name: 'csrf_token', type: 'hidden', value: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '' },
                         { label: '', name: 'user_id', type: 'hidden', value: String(user_id) },
                         { label: 'Title', name: 'title', type: 'text' },
-                        // { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                        { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
                         { label: 'Description', name: 'description', type: 'text' },
                         // If Systems are fetched, display a select field for them, otherwise display a text input
                         { label: 'System', name: 'system', type: 'select', options:

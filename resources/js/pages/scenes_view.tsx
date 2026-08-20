@@ -33,6 +33,8 @@ export default function ScenesView({ scene, locations }: { scene: Scene, locatio
                     options: locations.map(location => ({ label: location.name, value: String(location.id) })),
                     value: scene.location_id ? String(scene.location_id) : '',
                 },
+                { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
             ]}
         />
     );

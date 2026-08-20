@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $name
  * @property string|null $portrait
- * @property int|null $portrait_id
+ * @property int|null $thumbnail_id
  * @property array|null $attachments
  * @property string $bio
  * @property int $user_id
@@ -24,7 +24,7 @@ use Illuminate\Support\Carbon;
  * @property array|null $locations
  * @property array|null $scenes
  */
-#[Fillable(['name', 'portrait', 'attachments', 'bio', 'user_id', 'type', 'meta_data', 'games', 'spells', 'items', 'quests', 'locations', 'scenes'])]
+#[Fillable(['name', 'portrait', 'thumbnail_id', 'attachments', 'bio', 'user_id', 'type', 'meta_data', 'games', 'spells', 'items', 'quests', 'locations', 'scenes'])]
 class Character extends Model
 {
     /**
@@ -38,7 +38,7 @@ class Character extends Model
             'id' => 'integer',
             'name' => 'string',
             'portrait' => 'string',
-            'portrait_id' => 'integer',
+            'thumbnail_id' => 'integer',
             'attachments' => 'array',
             'bio' => 'string',
             'user_id' => 'integer',

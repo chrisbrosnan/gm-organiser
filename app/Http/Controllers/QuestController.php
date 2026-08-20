@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HandlesObjectAttachments;
 use App\Models\Quest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Inertia\Response;
 
 class QuestController extends Controller
 {
+    use HandlesObjectAttachments;
+
     public function index(): Response
     {
         return inertia('quests', [
@@ -34,6 +37,7 @@ class QuestController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'type' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            ...$this->attachmentValidationRules(),
         ]);
 
         $quest = new Quest;
@@ -41,6 +45,7 @@ class QuestController extends Controller
         $quest->type = $validated['type'] ?? null;
         $quest->description = $validated['description'] ?? null;
         $quest->user_id = (int) auth()->id();
+        $this->storeObjectAttachments($request, $quest, 'quest');
         $quest->save();
 
         return redirect()->route('quests.show', ['quest_id' => $quest->id]);
@@ -52,12 +57,14 @@ class QuestController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'type' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            ...$this->attachmentValidationRules(),
         ]);
 
         $quest = Quest::where('user_id', auth()->id())->findOrFail($quest_id);
         $quest->name = $validated['name'];
         $quest->type = $validated['type'] ?? null;
         $quest->description = $validated['description'] ?? null;
+        $this->storeObjectAttachments($request, $quest, 'quest');
         $quest->save();
 
         return redirect()->route('quests.show', ['quest_id' => $quest->id]);

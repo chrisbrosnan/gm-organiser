@@ -30,8 +30,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/games/add', [GameController::class, 'new'])
         ->name('games.add');
 
+    Route::post('/games', [GameController::class, 'create'])
+        ->name('games.create');
+
     Route::get('/games/{game_id}', [GameController::class, 'show'])
         ->name('games.show');
+
+    Route::post('/games/{game_id}', [GameController::class, 'update'])
+        ->name('games.update');
 
     // Locations
 
@@ -41,8 +47,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/locations/add', [LocationController::class, 'new'])
         ->name('locations.add');
 
+    Route::post('/locations', [LocationController::class, 'create'])
+        ->name('locations.create');
+
     Route::get('/locations/{location_id}', [LocationController::class, 'show'])
         ->name('locations.show');
+
+    Route::post('/locations/{location_id}', [LocationController::class, 'update'])
+        ->name('locations.update');
 
     // // // // //
 

@@ -14,6 +14,8 @@ export default function QuestsAdd() {
                     { label: 'Miscellaneous', value: 'misc' },
                 ] },
                 { label: 'Description', name: 'description', type: 'textarea' },
+                { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
             ]}
         />
     );

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HandlesObjectAttachments;
 use App\Models\Character;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Inertia\Response;
 
 class CharacterController extends Controller
 {
+    use HandlesObjectAttachments;
+
     public function index(): Response
     {
         return inertia('characters', [
@@ -34,6 +37,7 @@ class CharacterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', 'in:npc,pc,enemy'],
             'bio' => ['nullable', 'string'],
+            ...$this->attachmentValidationRules(),
         ]);
 
         $character = new Character;
@@ -41,6 +45,7 @@ class CharacterController extends Controller
         $character->type = $validated['type'];
         $character->bio = $validated['bio'] ?? null;
         $character->user_id = (int) auth()->id();
+        $this->storeObjectAttachments($request, $character, 'character');
         $character->save();
 
         return redirect()->route('characters.show', ['character_id' => $character->id]);
@@ -52,12 +57,14 @@ class CharacterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', 'in:npc,pc,enemy'],
             'bio' => ['nullable', 'string'],
+            ...$this->attachmentValidationRules(),
         ]);
 
         $character = Character::where('user_id', auth()->id())->findOrFail($character_id);
         $character->name = $validated['name'];
         $character->type = $validated['type'];
         $character->bio = $validated['bio'] ?? null;
+        $this->storeObjectAttachments($request, $character, 'character');
         $character->save();
 
         return redirect()->route('characters.show', ['character_id' => $character->id]);

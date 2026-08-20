@@ -37,6 +37,8 @@ export default function ItemsView({ item }: { item: Item }) {
                     type: 'textarea',
                     value: item.description ?? '',
                 },
+                { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
             ]}
         />
     );

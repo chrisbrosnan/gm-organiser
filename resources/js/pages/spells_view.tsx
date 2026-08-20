@@ -25,6 +25,8 @@ export default function SpellsView({ spell }: { spell: Spell }) {
                     type: 'textarea',
                     value: spell.description ?? '',
                 },
+                { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
             ]}
         />
     );

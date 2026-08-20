@@ -21,7 +21,7 @@ export default function GamesView({ game, locations, scenes, npcs, player_charac
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <h1 className="text-2xl font-bold">Game: {game?.name ?? ''}</h1>
                 <FormBuilder
-                    action={`/api/games/${game_id}`}
+                    action={`/games/${game_id}`}
                     method="POST"
                     fields={[
                         { label: '', name: 'csrf_token', type: 'hidden', value: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '' },

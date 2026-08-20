@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attachment;
+use App\Concerns\HandlesObjectAttachments;
 use App\Models\Character;
 use App\Models\CustomField;
 use App\Models\Game;
@@ -12,13 +12,13 @@ use App\Models\System;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class GameController extends Controller
 {
+    use HandlesObjectAttachments;
+
     public function new()
     {
         return $this->games_form_add();
@@ -44,15 +44,6 @@ class GameController extends Controller
 
         Gate::authorize('view', $game);
 
-        // Get thumbnail URL if thumbnail_id is set
-        if ($game->thumbnail_id) {
-            $thumbnail = Attachment::find($game->thumbnail_id);
-            if ($thumbnail) {
-                $thumbnail_url = $thumbnail->attachment_path ? Storage::url($thumbnail->attachment_path) : null;
-                $game->thumbnail_url = $thumbnail_url;
-            }
-        }
-
         return inertia('games_view', [
             'game' => $game,
             'locations' => Location::where('user_id', auth()->id())->get(),
@@ -67,7 +58,6 @@ class GameController extends Controller
             'systems' => System::all(),
             'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
             'scenes' => Scene::where('user_id', auth()->id())->get(),
-            'thumbnail_url' => $game->thumbnail_id ? Storage::url(Attachment::find($game->thumbnail_id)->attachment_path) : null,
         ]);
     }
 
@@ -93,16 +83,10 @@ class GameController extends Controller
     {
         Log::info('Creating game with data: '.json_encode($request->all()).' files: '.json_encode(array_keys($request->allFiles())));
 
-        $request->validate([
-            'thumbnail' => ['nullable', 'file', 'max:10240'],
-            'attached_files' => ['nullable'],
-            'attached_files.*' => ['file', 'max:20480'],
-            'attachments' => ['nullable'],
-            'attachments.*' => ['file', 'max:20480'],
-        ]);
+        $request->validate($this->attachmentValidationRules());
 
         $game = new Game;
-        $game->user_id = $request->input('user_id', auth()->id());
+        $game->user_id = (int) auth()->id();
         $game->name = $request->input('title');
         $game->system_id = $request->input('system');
         $game->description = $request->input('description');
@@ -116,24 +100,7 @@ class GameController extends Controller
             'scenes' => $request->input('scenes', []),
         ];
 
-        if ($request->hasFile('thumbnail')) {
-            $thumbnail = $this->storeAttachmentFile(
-                $request->file('thumbnail'),
-                (int) $game->user_id,
-                'game_thumbnail'
-            );
-            $game->thumbnail_id = (string) $thumbnail->id;
-        }
-
-        $uploadedAttachmentIds = $this->storeAttachmentCollection(
-            $request,
-            (int) $game->user_id,
-            'game_attachment'
-        );
-        if (! empty($uploadedAttachmentIds)) {
-            $game->attachments = $uploadedAttachmentIds;
-        }
-
+        $this->storeObjectAttachments($request, $game, 'game');
         $game->save();
 
         return response()->json($game, 201);
@@ -143,15 +110,9 @@ class GameController extends Controller
     {
         Log::info('Updating game with game_id: '.$game_id.' and data: '.json_encode($request->all()).' files: '.json_encode(array_keys($request->allFiles())));
 
-        $request->validate([
-            'thumbnail' => ['nullable', 'file', 'max:10240'],
-            'attached_files' => ['nullable'],
-            'attached_files.*' => ['file', 'max:20480'],
-            'attachments' => ['nullable'],
-            'attachments.*' => ['file', 'max:20480'],
-        ]);
+        $request->validate($this->attachmentValidationRules());
 
-        $game = Game::find($game_id);
+        $game = Game::where('user_id', auth()->id())->find($game_id);
 
         if (! $game) {
             Log::warning('Game not found with game_id: '.$game_id);
@@ -194,25 +155,7 @@ class GameController extends Controller
             ]);
         }
 
-        if ($request->hasFile('thumbnail')) {
-            $thumbnail = $this->storeAttachmentFile(
-                $request->file('thumbnail'),
-                (int) $game->user_id,
-                'game_thumbnail'
-            );
-            $game->thumbnail_id = (string) $thumbnail->id;
-        }
-
-        $uploadedAttachmentIds = $this->storeAttachmentCollection(
-            $request,
-            (int) $game->user_id,
-            'game_attachment'
-        );
-        if (! empty($uploadedAttachmentIds)) {
-            $existingAttachmentIds = is_array($game->attachments) ? $game->attachments : [];
-            $game->attachments = array_values(array_unique(array_merge($existingAttachmentIds, $uploadedAttachmentIds)));
-        }
-
+        $this->storeObjectAttachments($request, $game, 'game');
         $game->save();
 
         Log::info('Updated game with game_id: '.$game_id.' : '.json_encode($game));
@@ -260,50 +203,6 @@ class GameController extends Controller
         Log::info('Deleted game with game_id: '.$game_id);
 
         return redirect()->route('games')->with('success', 'Game deleted successfully.');
-    }
-
-    private function storeAttachmentCollection(Request $request, int $userId, string $attachmentType): array
-    {
-        $files = [];
-
-        foreach (['attached_files', 'attachments'] as $field) {
-            if (! $request->hasFile($field)) {
-                continue;
-            }
-
-            $fieldFiles = $request->file($field);
-            if (is_array($fieldFiles)) {
-                foreach ($fieldFiles as $file) {
-                    if ($file instanceof UploadedFile) {
-                        $files[] = $file;
-                    }
-                }
-            } elseif ($fieldFiles instanceof UploadedFile) {
-                $files[] = $fieldFiles;
-            }
-        }
-
-        $attachmentIds = [];
-        foreach ($files as $file) {
-            $attachment = $this->storeAttachmentFile($file, $userId, $attachmentType);
-            $attachmentIds[] = (string) $attachment->id;
-        }
-
-        return $attachmentIds;
-    }
-
-    private function storeAttachmentFile(UploadedFile $file, int $userId, string $attachmentType): Attachment
-    {
-        $path = $file->store('uploads/games', 'public');
-
-        $attachment = new Attachment;
-        $attachment->object_type = 'game';
-        $attachment->attachment_type = $attachmentType;
-        $attachment->attachment_path = $path;
-        $attachment->user_id = $userId;
-        $attachment->save();
-
-        return $attachment;
     }
 
     // -----

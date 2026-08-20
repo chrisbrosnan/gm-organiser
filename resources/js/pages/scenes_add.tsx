@@ -10,6 +10,8 @@ export default function ScenesAdd({ locations }: { locations: { id: number; name
                 { label: 'Name', name: 'name', type: 'text' },
                 { label: 'Description', name: 'description', type: 'textarea' },
                 { label: 'Location', name: 'location_id', type: 'select', options: locations.map(location => ({ label: location.name, value: String(location.id) })) },
+                { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
+                { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
             ]}
         />
     );
