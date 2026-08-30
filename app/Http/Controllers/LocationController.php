@@ -15,12 +15,7 @@ class LocationController extends Controller
 
     public function new()
     {
-        return $this->locations_form_add();
-    }
-
-    public function create(Request $request): RedirectResponse|JsonResponse
-    {
-        return $this->new_location($request);
+        return inertia('locations_add');
     }
 
     public function index()
@@ -31,33 +26,6 @@ class LocationController extends Controller
             'locations' => $locations,
         ]);
     }
-
-    public function show($location_id)
-    {
-        $location = Location::with('thumbnail')->find($location_id);
-
-        Gate::authorize('view', $location);
-
-        return inertia('locations_view', [
-            'location' => $location,
-            'games' => Game::where('user_id', auth()->id())->get(),
-            'npcs' => Character::where([
-                ['user_id', auth()->id()],
-                ['type', 'npc'],
-            ])->get(),
-            'enemies' => Character::where([
-                ['user_id', auth()->id()],
-                ['type', 'enemy'],
-            ])->get(),
-            'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
-            'scenes' => Scene::where('user_id', auth()->id())->get(),
-        ]);
-    }
-
-
-
-
-
 
     public function locationsByUserId($user_id)
     {
