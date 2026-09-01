@@ -36,7 +36,7 @@ class GameController extends Controller
 
     public function index()
     {
-        $games = Game::where('user_id', auth()->id())->get();
+        $games = Game::getGamesByUserId(auth()->id());
 
         return inertia('games', [
             'games' => $games,
