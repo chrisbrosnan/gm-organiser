@@ -112,8 +112,9 @@ class GameController extends Controller
 
         $game->meta_data = [
             'locations' => $this->gameAssociations->normalizeIds($request->input('locations', [])),
-            'player_characters' => $this->gameAssociations->normalizeIds($request->input('pcs', [])),
-            'npcs' => $this->gameAssociations->normalizeIds($request->input('npcs', [])),
+            'player_characters' => $this->gameAssociations->normalizeIds($request->input('player_characters', [])),
+            'npc_characters' => $this->gameAssociations->normalizeIds($request->input('npc_characters', [])),
+            'enemy_characters' => $this->gameAssociations->normalizeIds($request->input('enemy_characters', [])),
             'notes' => $request->input('notes', ''),
             'scenes' => $this->gameAssociations->normalizeIds($request->input('scenes', [])),
         ];
@@ -156,11 +157,15 @@ class GameController extends Controller
             'locations' => $this->gameAssociations->normalizeIds($request->input('locations', [])),
         ]);
         $game->meta_data = array_merge($game->meta_data ?? [], [
-            'player_characters' => $this->gameAssociations->normalizeIds($request->input('pcs', [])),
+            'player_characters' => $this->gameAssociations->normalizeIds($request->input('player_characters', [])),
         ]);
         $game->meta_data = array_merge($game->meta_data ?? [], [
-            'npcs' => $this->gameAssociations->normalizeIds($request->input('npcs', [])),
+            'npc_characters' => $this->gameAssociations->normalizeIds($request->input('npc_characters', [])),
         ]);
+        $game->meta_data = array_merge($game->meta_data ?? [], [
+            'enemy_characters' => $this->gameAssociations->normalizeIds($request->input('enemy_characters', [])),
+        ]);
+
         $game->meta_data = array_merge($game->meta_data ?? [], [
             'notes' => $request->input('notes', $game->meta_data['notes'] ?? ''),
         ]);
