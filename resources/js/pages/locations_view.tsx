@@ -25,7 +25,7 @@ export default function Locations({
     quests,
     items,
     scenes,
-    custom_fields
+    custom_fields,
 }: {
     auth: { user: { id: string | number } };
     location: Location;
@@ -37,7 +37,6 @@ export default function Locations({
     scenes: Array<{ id: string | number; name: string }>;
     custom_fields: Array<{ field: string; type: string }>;
 }) {
-
     const params = new URLSearchParams(window.location.search);
     // const location_id = params.get('location_id');
 
@@ -54,7 +53,7 @@ export default function Locations({
                     src={
                         location?.thumbnail?.attachment_path
                             ? `/storage/${location.thumbnail.attachment_path}`
-                            : '/images/default-thumbnail.png'
+                            : '/images/default-thumbnail.svg'
                     }
                     alt="Location thumbnail"
                     className="h-64 w-64 rounded-lg object-cover"

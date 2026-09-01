@@ -55,7 +55,7 @@ export default function GamesView({
                     src={
                         game?.thumbnail?.attachment_path
                             ? `/storage/${game.thumbnail.attachment_path}`
-                            : '/images/default-thumbnail.png'
+                            : '/images/default-thumbnail.svg'
                     }
                     alt="Game Thumbnail"
                     className="mb-4 h-64 w-64 rounded-lg object-cover"
@@ -88,7 +88,7 @@ export default function GamesView({
                         {
                             label: 'Thumbnail',
                             name: 'thumbnail',
-                            type: 'file'
+                            type: 'file',
                         },
                         {
                             label: 'Description',

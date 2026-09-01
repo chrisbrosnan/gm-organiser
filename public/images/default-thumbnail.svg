@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title description">
+  <title id="title">No thumbnail available</title>
+  <desc id="description">A neutral placeholder image with a mountain and sun</desc>
+  <rect width="256" height="256" fill="#e2e8f0"/>
+  <circle cx="186" cy="76" r="24" fill="#fbbf24"/>
+  <path d="M0 208l68-74 42 42 34-34 112 66v48H0z" fill="#94a3b8"/>
+  <path d="M0 224l82-62 42 36 30-24 102 50v32H0z" fill="#64748b"/>
+</svg>
