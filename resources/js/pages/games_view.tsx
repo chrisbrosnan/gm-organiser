@@ -7,6 +7,7 @@ export default function GamesView({
     locations,
     scenes,
     npcs,
+    enemies,
     player_characters,
     systems,
     custom_fields,
@@ -25,11 +26,13 @@ export default function GamesView({
             scenes?: Array<string | number>;
             player_characters?: Array<string | number>;
             npcs?: Array<string | number>;
+            enemies?: Array<string | number>;
         };
     } | null;
     locations: Array<{ id: string | number; name: string }>;
     scenes: Array<{ id: string | number; name: string }>;
     npcs: Array<{ id: string | number; name: string }>;
+    enemies: Array<{ id: string | number; name: string }>;
     player_characters: Array<{ id: string | number; name: string }>;
     systems: Array<{ id: string | number; name: string }>;
     custom_fields: Array<{ field: string; type: string }>;
@@ -220,6 +223,31 @@ export default function GamesView({
                                   options: [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>',
+                              },
+
+                        // Add a list of Enemy characters to select from in checkbox form, if any are fetched, otherwise display no Enemy characters available with a link to add them
+                        enemies.length > 0
+                            ? {
+                                  label: 'Enemy Characters',
+                                  name: 'enemies',
+                                  type: 'checkbox',
+                                  options:
+                                      enemies.map((enemy) => ({
+                                          label: enemy?.name,
+                                          value: String(enemy?.id),
+                                      })) ?? [],
+                                  preselected_values:
+                                      game?.meta_data?.enemies ?? [],
+                                  html_content:
+                                      '<p class="text-sm text-gray-500">If your Enemy Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>',
+                              }
+                            : {
+                                  label: 'Enemy Characters',
+                                  name: 'enemies',
+                                  type: 'checkbox',
+                                  options: [],
+                                  html_content:
+                                      '<p class="text-sm text-gray-500">No Enemy Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>',
                               },
 
                         // For each custom field found, generate a matching input field with the name of the custom field as the label and name, and type text

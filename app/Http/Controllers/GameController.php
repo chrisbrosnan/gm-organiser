@@ -54,6 +54,10 @@ class GameController extends Controller
                 ['user_id', auth()->id()],
                 ['type', 'npc'],
             ])->get(),
+            'enemies' => Character::where([
+                ['user_id', auth()->id()],
+                ['type', 'enemy'],
+            ])->get(),
             'player_characters' => Character::where([
                 ['user_id', auth()->id()],
                 ['type', 'pc'],

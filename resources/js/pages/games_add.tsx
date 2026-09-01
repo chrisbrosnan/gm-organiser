@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import FormBuilder from '@/components/form-builder';
 import { games } from '@/routes';
 
-export default function GamesAdd({ locations, scenes, npcs, player_characters, systems, custom_fields, auth }: { locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npcs: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, auth: { user: { id: string | number } } }) {
+export default function GamesAdd({ locations, scenes, npcs, enemies, player_characters, systems, custom_fields, auth }: { locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npcs: Array<{ id: string | number; name: string }>, enemies: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, auth: { user: { id: string | number } } }) {
 
     // console.log('Fetching game with game_id:', game_id);
     console.log('Authenticated user_id:', auth.user.id);
@@ -65,6 +65,13 @@ export default function GamesAdd({ locations, scenes, npcs, player_characters, s
                                 html_content: '<p class="text-sm text-gray-500">If your Non-Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
                             : { label: 'Non-Player Characters', name: 'npcs', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
+
+                        enemies.length > 0
+                            ? { label: 'Enemy Characters', name: 'enemies', type: 'checkbox', options:
+                                enemies.map(enemy => ({ label: enemy?.name, value: String(enemy?.id) })) ?? [],
+                                html_content: '<p class="text-sm text-gray-500">If your Enemy Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
+                            }
+                            : { label: 'Enemy Characters', name: 'enemies', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Enemy Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
                         // For each custom field found, generate a matching input field with the name of the custom field as the label and name, and type text
                         ...(custom_fields.length > 0
