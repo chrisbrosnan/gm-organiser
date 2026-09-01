@@ -152,21 +152,21 @@ export default function FormBuilder({
                                             >
                                                 <em> Edit item</em>
                                             </a>
-                                        ) : getInputName(field) === 'npcs[]' ? (
+                                        ) : getInputName(field) === 'npc_characters[]' ? (
                                             <a
                                                 href={`/characters/${option.value}`}
                                                 className="text-blue-500 underline"
                                             >
                                                 <em> Edit NPC</em>
                                             </a>
-                                        ) : getInputName(field) === 'enemies[]' ? (
+                                        ) : getInputName(field) === 'enemy_characters[]' ? (
                                             <a
                                                 href={`/characters/${option.value}`}
                                                 className="text-blue-500 underline"
                                             >
                                                 <em> Edit enemy</em>
                                             </a>
-                                        ) : getInputName(field) === 'pcs[]' ? (
+                                        ) : getInputName(field) === 'player_characters[]' ? (
                                             <a
                                                 href={`/characters/${option.value}`}
                                                 className="text-blue-500 underline"
