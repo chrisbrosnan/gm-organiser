@@ -111,7 +111,8 @@ class LocationController extends Controller
         return inertia('locations_view', [
             'location' => $location,
             'games' => Game::where('user_id', auth()->id())->get(),
-            'characters' => Character::where('user_id', auth()->id())->get(),
+            'npcs' => Character::where('user_id', auth()->id())->where('type', 'npc')->get(),
+            'enemies' => Character::where('user_id', auth()->id())->where('type', 'enemy')->get(),
             'quests' => Quest::where('user_id', auth()->id())->get(),
             'items' => Item::where('user_id', auth()->id())->get(),
             'custom_fields' => CustomField::where('user_id', auth()->id())->get(),

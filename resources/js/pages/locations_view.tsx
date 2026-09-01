@@ -19,93 +19,46 @@ interface Location {
 export default function Locations({
     auth,
     location,
+    games,
+    npcs,
+    enemies,
+    quests,
+    items,
+    custom_fields
 }: {
     auth: { user: { id: string | number } };
     location: Location;
+    games: Array<{ id: string | number; name: string }>;
+    npcs: Array<{ id: string | number; name: string }>;
+    enemies: Array<{ id: string | number; name: string }>;
+    quests: Array<{ id: string | number; name: string }>;
+    items: Array<{ id: string | number; name: string }>;
+    custom_fields: Array<{ field: string; type: string }>;
 }) {
-    // Fetch All Games for User from API
-    const [locationsData, setLocationsData] = useState<Location | null>(
-        location,
-    );
-    // const [pcs, setPcs] = useState<Array<{ id: string | number; name: string }>>([]);
-    const [games, setGames] = useState<
-        Array<{ id: string | number; name: string }>
-    >([]);
-    const [npcs, setNpcs] = useState<
-        Array<{ id: string | number; name: string }>
-    >([]);
-    const [enemies, setEnemies] = useState<
-        Array<{ id: string | number; name: string }>
-    >([]);
-    const [customFields, setCustomFields] = useState<
-        Array<{ field: string; type: string }>
-    >([]);
-    const [quests, setQuests] = useState<
-        Array<{ id: string | number; name: string }>
-    >([]);
-    const [items, setItems] = useState<
-        Array<{ id: string | number; name: string }>
-    >([]);
 
     const params = new URLSearchParams(window.location.search);
     // const location_id = params.get('location_id');
 
-    useEffect(() => {
-        // fetch(`/api/locations/${location_id}`)
-        //     .then(response => response.json())
-        //     .then(data => setLocationsData(data));
-
-        fetch(`/api/characters/npcs/${auth.user.id}`)
-            .then((response) => response.json())
-            .then((data) => setNpcs(data))
-            .catch(() => setNpcs([]));
-
-        fetch(`/api/characters/enemies/${auth.user.id}`)
-            .then((response) => response.json())
-            .then((data) => setEnemies(data))
-            .catch(() => setEnemies([]));
-
-        fetch(`/api/custom_fields/locations/${auth.user.id}`)
-            .then((response) => response.json())
-            .then((data) => setCustomFields(data))
-            .catch(() => setCustomFields([]));
-
-        fetch(`/api/quests/${auth.user.id}`)
-            .then((response) => response.json())
-            .then((data) => setQuests(data))
-            .catch(() => setQuests([]));
-
-        fetch(`/api/items/${auth.user.id}`)
-            .then((response) => response.json())
-            .then((data) => setItems(data))
-            .catch(() => setItems([]));
-
-        fetch(`/api/games/by_user/${auth.user.id}`)
-            .then((response) => response.json())
-            .then((data) => setGames(data))
-            .catch(() => setGames([]));
-    }, []);
-
-    console.log(locationsData, 'locationsData');
+    console.log(location, 'locationsData');
 
     return (
         <>
             <Head title="Locations" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <h1 className="text-2xl font-bold">
-                    Edit Location: {locationsData?.name ?? ''}
+                    Edit Location: {location?.name ?? ''}
                 </h1>
                 <img
                     src={
-                        locationsData?.thumbnail?.attachment_path
-                            ? `/storage/${locationsData.thumbnail.attachment_path}`
+                        location?.thumbnail?.attachment_path
+                            ? `/storage/${location.thumbnail.attachment_path}`
                             : '/images/default-thumbnail.png'
                     }
                     alt="Location thumbnail"
                     className="h-64 w-64 rounded-lg object-cover"
                 />
                 <FormBuilder
-                    action={`/locations/${locationsData?.id ?? ''}`}
+                    action={`/locations/${location?.id ?? ''}`}
                     method="POST"
                     fields={[
                         {
@@ -121,14 +74,14 @@ export default function Locations({
                             label: 'Name',
                             name: 'name',
                             type: 'text',
-                            value: locationsData?.name ?? '',
+                            value: location?.name ?? '',
                         },
                         { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
                         {
                             label: 'Description',
                             name: 'description',
                             type: 'text',
-                            value: locationsData?.description ?? '',
+                            value: location?.description ?? '',
                         },
                         // { label: 'Map', name: 'map', type: 'file' },
                         {
@@ -151,7 +104,7 @@ export default function Locations({
                                       })) ?? [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">If your Game is not listed, do not worry, you can always add them afterwards and assign them to this location.</p>',
-                                  preselected_values: locationsData?.games,
+                                  preselected_values: location?.games,
                               }
                             : {
                                   label: 'Games',
@@ -166,7 +119,7 @@ export default function Locations({
                         npcs.length > 0
                             ? {
                                   label: 'Non-Player Characters',
-                                  name: 'pcs',
+                                  name: 'npcs',
                                   type: 'checkbox',
                                   options:
                                       npcs.map((npc) => ({
@@ -178,7 +131,7 @@ export default function Locations({
                               }
                             : {
                                   label: 'Non-Player Characters',
-                                  name: 'pcs',
+                                  name: 'npcs',
                                   type: 'checkbox',
                                   options: [],
                                   html_content:
@@ -255,7 +208,7 @@ export default function Locations({
                               },
 
                         // For each custom field found, generate a matching input field with the name of the custom field as the label and name, and type text
-                        ...(customFields.length > 0
+                        ...(custom_fields.length > 0
                             ? [
                                   {
                                       label: 'Custom Fields',
@@ -264,7 +217,7 @@ export default function Locations({
                                       html_content:
                                           '<p class="text-sm text-gray-500">The following custom fields for Games are added. Please fill them out as needed.</p>',
                                   },
-                                  ...customFields.map((customField) => ({
+                                  ...custom_fields.map((customField) => ({
                                       label: customField?.field,
                                       name: customField?.field,
                                       type: customField?.type,
