@@ -120,65 +120,65 @@ export default function FormBuilder({
                                         {getInputName(field) === 'games[]' ? (
                                             <a
                                                 href={`/games/${option.value}`}
-                                                className="text-blue-500 underline pl-5"
+                                                className="text-blue-500 underline pl-3"
                                             >
-                                                <em>Edit game</em>
+                                                <span className="text-xs"><em>Edit game</em></span>
                                             </a>
                                         ) : getInputName(field) === 'locations[]' ? (
                                             <a
                                                 href={`/locations/${option.value}`}
-                                                className="text-blue-500 underline pl-5"
+                                                className="text-blue-500 underline pl-3"
                                             >
-                                                <em>Edit location</em>
+                                                <span className="text-xs"><em>Edit location</em></span>
                                             </a>
                                         ) : getInputName(field) === 'scenes[]' ? (
                                             <a
                                                 href={`/scenes/${option.value}`}
-                                                className="text-blue-500 underline pl-5"
+                                                className="text-blue-500 underline pl-3"
                                             >
-                                                <em>Edit scene</em>
+                                                <span className="text-xs"><em>Edit scene</em></span>
                                             </a>
                                         ) : getInputName(field) === 'quests[]' ? (
                                             <a
                                                 href={`/quests/${option.value}`}
-                                                className="text-blue-500 underline pl-5"
+                                                className="text-blue-500 underline pl-3"
                                             >
-                                                <em>Edit quest</em>
+                                                <span className="text-xs"><em>Edit quest</em></span>
                                             </a>
                                         ) : getInputName(field) === 'items[]' ? (
                                             <a
                                                 href={`/items/${option.value}`}
-                                                className="text-blue-500 underline pl-5"
+                                                className="text-blue-500 underline pl-3"
                                             >
-                                                <em>Edit item</em>
+                                                <span className="text-xs"><em>Edit item</em></span>
                                             </a>
                                         ) : getInputName(field) === 'npc_characters[]' ? (
                                             <a
                                                 href={`/characters/${option.value}`}
-                                                className="text-blue-500 underline pl-5"
+                                                className="text-blue-500 underline pl-3"
                                             >
-                                                <em>Edit NPC</em>
+                                                <span className="text-xs"><em>Edit NPC</em></span>
                                             </a>
                                         ) : getInputName(field) === 'enemy_characters[]' ? (
                                             <a
                                                 href={`/characters/${option.value}`}
-                                                className="text-blue-500 underline pl-5"
+                                                className="text-blue-500 underline pl-3"
                                             >
-                                                <em>Edit enemy</em>
+                                                <span className="text-xs"><em>Edit enemy</em></span>
                                             </a>
                                         ) : getInputName(field) === 'player_characters[]' ? (
                                             <a
                                                 href={`/characters/${option.value}`}
-                                                className="text-blue-500 underline pl-5"
+                                                className="text-blue-500 underline pl-3"
                                             >
-                                                <em>Edit PC</em>
+                                                <span className="text-xs"><em>Edit PC</em></span>
                                             </a>
                                         ) : getInputName(field) === 'spells[]' ? (
                                             <a
                                                 href={`/spells/${option.value}`}
-                                                className="text-blue-500 underline pl-5"
+                                                className="text-blue-500 underline pl-3"
                                             >
-                                                <em>Edit spell</em>
+                                                <span className="text-xs"><em>Edit spell</em></span>
                                             </a>
                                         ) : null}
                                     </span>
