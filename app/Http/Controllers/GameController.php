@@ -153,26 +153,21 @@ class GameController extends Controller
         $game->description = $request->input('description', $game->description);
         $game->type = $request->input('type', $game->type);
 
-        // $game->meta_data['locations'] = $request->input('locations', $game->meta_data['locations'] ?? []);
         $game->meta_data = array_merge($game->meta_data ?? [], [
-            'locations' => $request->input('locations', $game->meta_data['locations'] ?? []),
+            'locations' => $request->input('locations', []),
         ]);
-        // $game->meta_data['player_characters'] = $request->input('player_characters', $game->meta_data['player_characters'] ?? []);
         $game->meta_data = array_merge($game->meta_data ?? [], [
-            'player_characters' => $request->input('player_characters', $game->meta_data['player_characters'] ?? []),
+            'player_characters' => $request->input('player_characters', []),
         ]);
-        // $game->meta_data['npcs'] = $request->input('npcs', $game->meta_data['npcs'] ?? []);
         $game->meta_data = array_merge($game->meta_data ?? [], [
-            'npcs' => $request->input('npcs', $game->meta_data['npcs'] ?? []),
+            'npcs' => $request->input('npcs', []),
         ]);
-        // $game->meta_data['notes'] = $request->input('notes', $game->meta_data['notes'] ?? '');
         $game->meta_data = array_merge($game->meta_data ?? [], [
             'notes' => $request->input('notes', $game->meta_data['notes'] ?? ''),
         ]);
 
-        // $game->meta_data['scenes'] = $request->input('scenes', $game->meta_data['scenes'] ?? []);
         $game->meta_data = array_merge($game->meta_data ?? [], [
-            'scenes' => $request->input('scenes', $game->meta_data['scenes'] ?? []),
+            'scenes' => $request->input('scenes', []),
         ]);
 
         // For each custom field, update the meta_data with the value from the request
