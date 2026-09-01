@@ -39,7 +39,7 @@ export default function Dashboard({ auth, games }: { auth: { user: { id: string 
                                     <div key={game.id} className="border border-gray-300 rounded-md p-4">
                                         <h2 className="text-xl font-bold">{game.name}</h2>
                                         <p>System: {game.system_name}</p>
-                                        <button className="mt-2 rounded-md bg-blue-500 py-1 px-2 text-white hover:bg-blue-600" onClick={() => window.location.href = `/games/${game.id}`}>Edit</button>
+                                        <button className="mt-2 rounded-md bg-yellow-600 py-1 px-2 text-white hover:bg-yellow-700" onClick={() => window.location.href = `/games/${game.id}`}>Edit</button>
                                     </div>
                                 ))}
                             </div>
