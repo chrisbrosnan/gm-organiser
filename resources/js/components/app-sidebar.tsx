@@ -113,7 +113,7 @@ export function AppSidebar() {
         <Sidebar collapsible="icon" variant="inset" className="bg-yellow-900">
             <SidebarHeader className="bg-yellow-900">
                 <SidebarMenu>
-                    <SidebarMenuItem>
+                    <SidebarMenuItem className="bg-yellow-900 hover:bg-yellow-800 focus:bg-yellow-800 active:bg-yellow-800 text-white">
                         <SidebarMenuButton size="lg" asChild>
                             <Link href={dashboard()} prefetch>
                                 <AppLogo />
