@@ -6,8 +6,8 @@ export default function GamesView({
     game,
     locations,
     scenes,
-    npcs,
-    enemies,
+    npc_characters,
+    enemy_characters,
     player_characters,
     systems,
     custom_fields,
@@ -25,14 +25,14 @@ export default function GamesView({
             notes?: string;
             scenes?: Array<string | number>;
             player_characters?: Array<string | number>;
-            npcs?: Array<string | number>;
-            enemies?: Array<string | number>;
+            npc_characters?: Array<string | number>;
+            enemy_characters?: Array<string | number>;
         };
     } | null;
     locations: Array<{ id: string | number; name: string }>;
     scenes: Array<{ id: string | number; name: string }>;
-    npcs: Array<{ id: string | number; name: string }>;
-    enemies: Array<{ id: string | number; name: string }>;
+    npc_characters: Array<{ id: string | number; name: string }>;
+    enemy_characters: Array<{ id: string | number; name: string }>;
     player_characters: Array<{ id: string | number; name: string }>;
     systems: Array<{ id: string | number; name: string }>;
     custom_fields: Array<{ field: string; type: string }>;
@@ -201,18 +201,18 @@ export default function GamesView({
                                       '<p class="text-sm text-gray-500">No Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>',
                               },
 
-                        npcs.length > 0
+                        npc_characters.length > 0
                             ? {
                                   label: 'Non-Player Characters',
                                   name: 'npcs',
                                   type: 'checkbox',
                                   options:
-                                      npcs.map((npc) => ({
+                                      npc_characters.map((npc) => ({
                                           label: npc?.name,
                                           value: String(npc?.id),
                                       })) ?? [],
                                   preselected_values:
-                                      game?.meta_data?.npcs ?? [],
+                                      game?.meta_data?.npc_characters ?? [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">If your Non-Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>',
                               }
@@ -226,18 +226,18 @@ export default function GamesView({
                               },
 
                         // Add a list of Enemy characters to select from in checkbox form, if any are fetched, otherwise display no Enemy characters available with a link to add them
-                        enemies.length > 0
+                        enemy_characters.length > 0
                             ? {
                                   label: 'Enemy Characters',
                                   name: 'enemies',
                                   type: 'checkbox',
                                   options:
-                                      enemies.map((enemy) => ({
+                                      enemy_characters.map((enemy) => ({
                                           label: enemy?.name,
                                           value: String(enemy?.id),
                                       })) ?? [],
                                   preselected_values:
-                                      game?.meta_data?.enemies ?? [],
+                                      game?.meta_data?.enemy_characters ?? [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">If your Enemy Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>',
                               }
