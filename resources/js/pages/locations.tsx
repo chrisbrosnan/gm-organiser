@@ -38,7 +38,7 @@ export default function Locations({ auth, locations }: { auth: { user: { id: str
                 <div>
                     <h1 className="text-2xl font-bold float-left">Locations</h1>
                     <button
-                        className="mt-0 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 float-right"
+                        className="mt-0 rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 float-right"
                         onClick={() => window.location.href = '/locations/add'}
                     >
                         Add Location
