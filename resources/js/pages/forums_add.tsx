@@ -11,6 +11,7 @@ export default function ForumsAdd() {
                 { label: 'Content', name: 'content', type: 'textarea' },
                 { label: 'Parent ID', name: 'parent_id', type: 'number' },
             ]}
+            thumbnailPath={null}
         />
     );
 }
