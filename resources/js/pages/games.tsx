@@ -17,6 +17,7 @@ export default function Games({ auth, games }: { auth: { user: { id: string | nu
 
     // Fetch All Games for User from API
     const gamesData = games;
+    console.log(gamesData);
 
     const deleteConfirmModal = (game_id: number) => {
         if (confirm('Are you sure you want to delete this game? This action cannot be undone.')) {
