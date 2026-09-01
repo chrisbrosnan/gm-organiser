@@ -10,6 +10,8 @@ use App\Models\Game;
 use App\Models\Location;
 use App\Models\Scene;
 use App\Models\System;
+use App\Models\Quest;
+use App\Models\Item;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -62,10 +64,11 @@ class GameController extends Controller
                 ['user_id', auth()->id()],
                 ['type', 'pc'],
             ])->get(),
-
+            'quests' => Quest::where('user_id', auth()->id())->get(),
             'systems' => System::all(),
             'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
             'scenes' => Scene::where('user_id', auth()->id())->get(),
+            'items' => Item::where('user_id', auth()->id())->get(),
         ]);
     }
 
@@ -73,17 +76,24 @@ class GameController extends Controller
     {
         return inertia('games_add', [
             'locations' => Location::where('user_id', auth()->id())->get(),
-            'npcs' => Character::where([
+            'locations' => Location::where('user_id', auth()->id())->get(),
+            'npc_characters' => Character::where([
                 ['user_id', auth()->id()],
                 ['type', 'npc'],
+            ])->get(),
+            'enemy_characters' => Character::where([
+                ['user_id', auth()->id()],
+                ['type', 'enemy'],
             ])->get(),
             'player_characters' => Character::where([
                 ['user_id', auth()->id()],
                 ['type', 'pc'],
             ])->get(),
+            'quests' => Quest::where('user_id', auth()->id())->get(),
             'systems' => System::all(),
             'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
             'scenes' => Scene::where('user_id', auth()->id())->get(),
+            'items' => Item::where('user_id', auth()->id())->get(),
         ]);
     }
 
