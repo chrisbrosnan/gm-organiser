@@ -10,6 +10,7 @@ use App\Models\Game;
 use App\Models\Item;
 use App\Models\Location;
 use App\Models\Quest;
+use App\Models\Scene;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -110,6 +111,7 @@ class LocationController extends Controller
         return inertia('locations_view', [
             'location' => $location,
             'games' => Game::where('user_id', auth()->id())->get(),
+            'scenes' => Scene::where('user_id', auth()->id())->get(),
             'npcs' => Character::where('user_id', auth()->id())->where('type', 'npc')->get(),
             'enemies' => Character::where('user_id', auth()->id())->where('type', 'enemy')->get(),
             'quests' => Quest::where('user_id', auth()->id())->get(),
