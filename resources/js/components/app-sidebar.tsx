@@ -123,7 +123,7 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarContent className="bg-yellow-900">
+            <SidebarContent className="bg-yellow-900 text-white">
                 <NavMain items={mainNavItems} />
             </SidebarContent>
 
