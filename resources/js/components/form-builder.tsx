@@ -122,42 +122,42 @@ export default function FormBuilder({
                                                 href={`/games/${option.value}`}
                                                 className="text-blue-500 underline"
                                             >
-                                                <em>Edit game</em>
+                                                <em> Edit game</em>
                                             </a>
                                         ) : getInputName(field) === 'locations[]' ? (
                                             <a
                                                 href={`/locations/${option.value}`}
                                                 className="text-blue-500 underline"
                                             >
-                                                <em>Edit location</em>
+                                                <em> Edit location</em>
                                             </a>
                                         ) : getInputName(field) === 'scenes[]' ? (
                                             <a
                                                 href={`/scenes/${option.value}`}
                                                 className="text-blue-500 underline"
                                             >
-                                                <em>Edit scene</em>
+                                                <em> Edit scene</em>
                                             </a>
                                         ) : getInputName(field) === 'quests[]' ? (
                                             <a
                                                 href={`/quests/${option.value}`}
                                                 className="text-blue-500 underline"
                                             >
-                                                <em>Edit quest</em>
+                                                <em> Edit quest</em>
                                             </a>
                                         ) : getInputName(field) === 'items[]' ? (
                                             <a
                                                 href={`/items/${option.value}`}
                                                 className="text-blue-500 underline"
                                             >
-                                                <em>Edit item</em>
+                                                <em> Edit item</em>
                                             </a>
                                         ) : getInputName(field) === 'spells[]' ? (
                                             <a
                                                 href={`/spells/${option.value}`}
                                                 className="text-blue-500 underline"
                                             >
-                                                <em>Edit spell</em>
+                                                <em> Edit spell</em>
                                             </a>
                                         ) : null}
                                     </span>
