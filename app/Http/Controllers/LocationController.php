@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Concerns\HandlesObjectAttachments;
 use App\Models\Location;
+use App\Models\Game;
+use App\Models\Character;
+use App\Models\Quest;
+use App\Models\Item;
+use App\Models\CustomField;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -105,6 +110,11 @@ class LocationController extends Controller
 
         return inertia('locations_view', [
             'location' => $location,
+            'games' => Game::where('user_id', auth()->id())->get(),
+            'characters' => Character::where('user_id', auth()->id())->get(),
+            'quests' => Quest::where('user_id', auth()->id())->get(),
+            'items' => Item::where('user_id', auth()->id())->get(),
+            'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
         ]);
     }
 

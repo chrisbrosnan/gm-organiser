@@ -100,15 +100,32 @@ class GameController extends Controller
             'scenes' => $request->input('scenes', []),
         ];
 
+        // Location Updates
         $locations = Location::whereIn('id', $request->input('locations', []))->get();
         foreach ($locations as $location) {
             $location->update(['games' => array_merge($location->games ?? [], [$game->id])]);
         }
+
+        // Character Updates
         $playerCharacters = Character::whereIn('id', $request->input('player_characters', []))->get();
         $npcCharacters = Character::whereIn('id', $request->input('npcs', []))->get();
         $mergeCharacters = $playerCharacters->merge($npcCharacters);
         foreach ($mergeCharacters as $character) {
             $character->update(['games' => array_merge($character->games ?? [], [$game->id])]);
+        }
+
+        // For each custom field, update the meta_data with the value from the request
+        $customFields = $request->input('custom_fields', []);
+        foreach ($customFields as $field) {
+            $game->meta_data = array_merge($game->meta_data ?? [], [
+                $field['field'] => $field['value'],
+            ]);
+        }
+
+        // Scenes
+        $scenes = Scene::whereIn('id', $request->input('scenes', []))->get();
+        foreach ($scenes as $scene) {
+            $scene->update(['games' => array_merge($scene->games ?? [], [$game->id])]);
         }
 
         $this->storeObjectAttachments($request, $game, 'game');
