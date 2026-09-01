@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::table('locations', function (Blueprint $table) {
             $table->json('npc_characters')->nullable();
             $table->json('enemy_characters')->nullable();
-            $table->json('quests')->nullable();
             $table->json('scenes')->nullable();
             $table->json('items')->nullable();
         });
@@ -28,7 +27,6 @@ return new class extends Migration
         Schema::table('locations', function (Blueprint $table) {
             $table->dropColumn('npc_characters');
             $table->dropColumn('enemy_characters');
-            $table->dropColumn('quests');
             $table->dropColumn('scenes');
             $table->dropColumn('items');
         });
