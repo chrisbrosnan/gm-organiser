@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('locations', function (Blueprint $table) {
-            $table->json('scenes')->nullable();
             $table->json('items')->nullable();
         });
     }
@@ -23,7 +22,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('locations', function (Blueprint $table) {
-            $table->dropColumn('scenes');
             $table->dropColumn('items');
         });
     }
