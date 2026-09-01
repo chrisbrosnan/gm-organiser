@@ -12,7 +12,7 @@ interface Location {
     created_at: string;
 }
 
-export default function Locations({ games, npcs, enemies, quests, items, custom_fields, auth }: { games: Array<{ id: string | number; name: string }>; npcs: Array<{ id: string | number; name: string }>; enemies: Array<{ id: string | number; name: string }>; quests: Array<{ id: string | number; name: string }>; items: Array<{ id: string | number; name: string }>; custom_fields: Array<{ field: string; type: string }>; auth: { user: { id: string | number } } }) {
+export default function Locations({ games, npcs, enemies, quests, items, custom_fields, scenes, auth }: { games: Array<{ id: string | number; name: string }>; npcs: Array<{ id: string | number; name: string }>; enemies: Array<{ id: string | number; name: string }>; quests: Array<{ id: string | number; name: string }>; items: Array<{ id: string | number; name: string }>; custom_fields: Array<{ field: string; type: string }>; scenes: Array<{ id: string | number; name: string }>; auth: { user: { id: string | number } } }) {
 
     // Fetch All Games for User from API
     const [locationsData, setLocationsData] = useState<Location[]>([]);
@@ -23,6 +23,7 @@ export default function Locations({ games, npcs, enemies, quests, items, custom_
     const [customFields, setCustomFields] = useState<Array<{ field: string; type: string }>>([]);
     const [questsData, setQuestsData] = useState<Array<{ id: string | number; name: string }>>([]);
     const [itemsData, setItemsData] = useState<Array<{ id: string | number; name: string }>>([]);
+    const [scenesData, setScenesData] = useState<Array<{ id: string | number; name: string }>>([]);
 
     console.log(locationsData, 'locationsData');
 
@@ -49,6 +50,14 @@ export default function Locations({ games, npcs, enemies, quests, items, custom_
                                 html_content: '<p class="text-sm text-gray-500">If your Game is not listed, do not worry, you can always add them afterwards and assign them to this location.</p>'
                             }
                             : { label: 'Games', name: 'games', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Games available. But do not worry, you can always add them afterwards and assign them to this location.</p>' },
+
+                        // Add a list of Scenes to select from in checkbox form, if any are fetched, otherwise display no Scenes available with a link to add Scenes
+                        scenesData.length > 0
+                            ? { label: 'Scenes', name: 'scenes', type: 'checkbox', options:
+                                scenesData.map(scene => ({ label: scene?.name, value: String(scene?.id)})) ?? [],
+                                html_content: '<p class="text-sm text-gray-500">If your Scene is not listed, do not worry, you can always add them afterwards and assign them to this location.</p>'
+                            }
+                            : { label: 'Scenes', name: 'scenes', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Scenes available. But do not worry, you can always add them afterwards and assign them to this location.</p>' },
 
                         // Add a list of PCs to select from in checkbox form, if any are fetched, otherwise display no PCs available with a link to add PCs
                         npcsData.length > 0
