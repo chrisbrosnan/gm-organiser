@@ -17,7 +17,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property int $system_id
- * @property json|null $meta_data
+ * @property array<string, mixed>|null $meta_data
  * @property array|null $player_characters
  */
 #[Fillable(['name', 'thumbnail_id', 'attachments', 'type', 'description', 'user_id', 'system_id', 'meta_data', 'player_characters'])]

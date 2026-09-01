@@ -1,7 +1,6 @@
 import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+
 import FormBuilder from '@/components/form-builder';
-import { useEffect, useState } from 'react';
 
 export default function GamesView({
     game,
@@ -24,6 +23,8 @@ export default function GamesView({
             locations?: Array<string | number>;
             notes?: string;
             scenes?: Array<string | number>;
+            player_characters?: Array<string | number>;
+            npcs?: Array<string | number>;
         };
     } | null;
     locations: Array<{ id: string | number; name: string }>;
@@ -37,8 +38,6 @@ export default function GamesView({
     // console.log('Fetching game with game_id:', game_id);
     console.log('Authenticated user_id:', auth.user.id);
 
-    // Get game_id from route params and user_id from authenticated user
-    const params = new URLSearchParams(window.location.search);
     const user_id = auth.user.id;
     const game_id = game?.id;
 
@@ -183,8 +182,10 @@ export default function GamesView({
                                   options:
                                       player_characters.map((pc) => ({
                                           label: pc?.name,
-                                          value: String(pc?.id) + '[]',
+                                          value: String(pc?.id),
                                       })) ?? [],
+                                  preselected_values:
+                                      game?.meta_data?.player_characters ?? [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">If your Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>',
                               }
@@ -205,8 +206,10 @@ export default function GamesView({
                                   options:
                                       npcs.map((npc) => ({
                                           label: npc?.name,
-                                          value: String(npc?.id) + '[]',
+                                          value: String(npc?.id),
                                       })) ?? [],
+                                  preselected_values:
+                                      game?.meta_data?.npcs ?? [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">If your Non-Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>',
                               }

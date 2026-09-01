@@ -1,16 +1,13 @@
 import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+
 import FormBuilder from '@/components/form-builder';
 import { games } from '@/routes';
-import { useEffect, useState } from 'react';
 
 export default function GamesAdd({ locations, scenes, npcs, player_characters, systems, custom_fields, auth }: { locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npcs: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, auth: { user: { id: string | number } } }) {
 
     // console.log('Fetching game with game_id:', game_id);
     console.log('Authenticated user_id:', auth.user.id);
 
-    // Get game_id from route params and user_id from authenticated user
-    const params = new URLSearchParams(window.location.search);
     const user_id = auth.user.id;
 
     return (
@@ -57,14 +54,14 @@ export default function GamesAdd({ locations, scenes, npcs, player_characters, s
                         // Add a list of PCs to select from in checkbox form, if any are fetched, otherwise display no PCs available with a link to add PCs
                         player_characters.length > 0
                             ? { label: 'Player Characters', name: 'pcs', type: 'checkbox', options:
-                                player_characters.map(pc => ({ label: pc?.name, value: String(pc?.id) + '[]' })) ?? [],
+                                player_characters.map(pc => ({ label: pc?.name, value: String(pc?.id) })) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
                             : { label: 'Player Characters', name: 'pcs', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
                         npcs.length > 0
                             ? { label: 'Non-Player Characters', name: 'npcs', type: 'checkbox', options:
-                                npcs.map(npc => ({ label: npc?.name, value: String(npc?.id) + '[]' })) ?? [],
+                                npcs.map(npc => ({ label: npc?.name, value: String(npc?.id) })) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Non-Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
                             : { label: 'Non-Player Characters', name: 'npcs', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },

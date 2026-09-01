@@ -10,7 +10,7 @@ export interface ResourceField {
     value?: string;
     options?: Array<{ label: string; value: string }>;
     html_content?: string;
-    preselected_values?: unknown;
+    preselected_values?: unknown[];
     multiple?: boolean;
 }
 

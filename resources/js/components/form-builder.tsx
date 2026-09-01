@@ -14,7 +14,7 @@ export default function FormBuilder({
         value?: string;
         options?: Array<{ label: string; value: string }>;
         html_content?: string;
-        preselected_values?: any;
+        preselected_values?: unknown[];
         multiple?: boolean;
     }>;
 }) {
@@ -94,9 +94,9 @@ export default function FormBuilder({
                         <div>
                             {field.options?.map((option) => (
                                 <label key={option.value} className="block">
-                                    {field.preselected_values &&
-                                    field.preselected_values.includes(
-                                        option.value,
+                                    {field.preselected_values?.some(
+                                        (value) =>
+                                            String(value) === option.value,
                                     ) ? (
                                         <input
                                             type="checkbox"

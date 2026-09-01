@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\SyncGameAssociations;
 use App\Concerns\HandlesObjectAttachments;
-use App\Models\Location;
-use App\Models\Game;
 use App\Models\Character;
-use App\Models\Quest;
-use App\Models\Item;
 use App\Models\CustomField;
+use App\Models\Game;
+use App\Models\Item;
+use App\Models\Location;
+use App\Models\Quest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Log;
 class LocationController extends Controller
 {
     use HandlesObjectAttachments;
+
+    public function __construct(private SyncGameAssociations $gameAssociations) {}
 
     public function new()
     {
@@ -52,12 +55,6 @@ class LocationController extends Controller
             return response()->json(['message' => 'Location not found'], 404);
         }
 
-        // Convert JSON fields back to arrays for the response and remove [] from values
-        $location->games = json_decode($location->games, true);
-        $location->characters = json_decode($location->characters, true);
-        $location->quests = json_decode($location->quests, true);
-        $location->items = json_decode($location->items, true);
-
         Log::info('Fetched location with location_id: '.$location_id.' : '.json_encode($location));
 
         return response()->json($location);
@@ -85,7 +82,7 @@ class LocationController extends Controller
         $location->description = $validated['description'] ?? null;
 
         // Allow multiple values for games, pcs, npcs, enemies, quests, and items by removing '[]' from the values
-        $location->games = json_encode($request->input('games', []));
+        $location->games = $this->gameAssociations->normalizeIds($request->input('games', []));
         $location->characters = json_encode(array_merge(
             $request->input('pcs', []),
             $request->input('npcs', []),
@@ -95,6 +92,7 @@ class LocationController extends Controller
         $location->items = json_encode($request->input('items', []));
         $this->storeObjectAttachments($request, $location, 'location');
         $location->save();
+        $this->gameAssociations->syncFromLocation($location);
 
         Log::info('Updated location with location_id: '.$location_id.' : '.json_encode($location));
 
@@ -107,6 +105,7 @@ class LocationController extends Controller
         $location = Location::with('thumbnail')
             ->where('user_id', auth()->id())
             ->findOrFail($location_id);
+        $location->games = $this->gameAssociations->normalizeIds($location->games);
 
         return inertia('locations_view', [
             'location' => $location,
@@ -136,7 +135,7 @@ class LocationController extends Controller
         $location->user_id = (int) auth()->id();
 
         // Allow multiple values for games, pcs, npcs, enemies, quests, and items by removing '[]' from the values
-        $location->games = json_encode($request->input('games', []));
+        $location->games = $this->gameAssociations->normalizeIds($request->input('games', []));
         $location->characters = json_encode(array_merge(
             $request->input('pcs', []),
             $request->input('npcs', []),
@@ -146,6 +145,7 @@ class LocationController extends Controller
         $location->items = json_encode($request->input('items', []));
         $this->storeObjectAttachments($request, $location, 'location');
         $location->save();
+        $this->gameAssociations->syncFromLocation($location);
 
         // return response()->json($location, 201);
         $location_id = $location->id;

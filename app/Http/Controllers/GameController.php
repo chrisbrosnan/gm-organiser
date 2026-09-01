@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\SyncGameAssociations;
 use App\Concerns\HandlesObjectAttachments;
 use App\Models\Character;
 use App\Models\CustomField;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Log;
 class GameController extends Controller
 {
     use HandlesObjectAttachments;
+
+    public function __construct(private SyncGameAssociations $gameAssociations) {}
 
     public function new()
     {
@@ -93,26 +96,12 @@ class GameController extends Controller
         $game->type = $request->input('type');
 
         $game->meta_data = [
-            'locations' => $request->input('locations', []),
-            'player_characters' => $request->input('player_characters', []),
-            'npcs' => $request->input('npcs', []),
+            'locations' => $this->gameAssociations->normalizeIds($request->input('locations', [])),
+            'player_characters' => $this->gameAssociations->normalizeIds($request->input('pcs', [])),
+            'npcs' => $this->gameAssociations->normalizeIds($request->input('npcs', [])),
             'notes' => $request->input('notes', ''),
-            'scenes' => $request->input('scenes', []),
+            'scenes' => $this->gameAssociations->normalizeIds($request->input('scenes', [])),
         ];
-
-        // Location Updates
-        $locations = Location::whereIn('id', $request->input('locations', []))->get();
-        foreach ($locations as $location) {
-            $location->update(['games' => array_merge($location->games ?? [], [$game->id])]);
-        }
-
-        // Character Updates
-        $playerCharacters = Character::whereIn('id', $request->input('player_characters', []))->get();
-        $npcCharacters = Character::whereIn('id', $request->input('npcs', []))->get();
-        $mergeCharacters = $playerCharacters->merge($npcCharacters);
-        foreach ($mergeCharacters as $character) {
-            $character->update(['games' => array_merge($character->games ?? [], [$game->id])]);
-        }
 
         // For each custom field, update the meta_data with the value from the request
         $customFields = $request->input('custom_fields', []);
@@ -122,14 +111,9 @@ class GameController extends Controller
             ]);
         }
 
-        // Scenes
-        $scenes = Scene::whereIn('id', $request->input('scenes', []))->get();
-        foreach ($scenes as $scene) {
-            $scene->update(['games' => array_merge($scene->games ?? [], [$game->id])]);
-        }
-
         $this->storeObjectAttachments($request, $game, 'game');
         $game->save();
+        $this->gameAssociations->syncFromGame($game);
 
         return redirect()->route('games.show', ['game_id' => $game->id])->with('success', 'Game created successfully.');
     }
@@ -154,20 +138,20 @@ class GameController extends Controller
         $game->type = $request->input('type', $game->type);
 
         $game->meta_data = array_merge($game->meta_data ?? [], [
-            'locations' => $request->input('locations', []),
+            'locations' => $this->gameAssociations->normalizeIds($request->input('locations', [])),
         ]);
         $game->meta_data = array_merge($game->meta_data ?? [], [
-            'player_characters' => $request->input('player_characters', []),
+            'player_characters' => $this->gameAssociations->normalizeIds($request->input('pcs', [])),
         ]);
         $game->meta_data = array_merge($game->meta_data ?? [], [
-            'npcs' => $request->input('npcs', []),
+            'npcs' => $this->gameAssociations->normalizeIds($request->input('npcs', [])),
         ]);
         $game->meta_data = array_merge($game->meta_data ?? [], [
             'notes' => $request->input('notes', $game->meta_data['notes'] ?? ''),
         ]);
 
         $game->meta_data = array_merge($game->meta_data ?? [], [
-            'scenes' => $request->input('scenes', []),
+            'scenes' => $this->gameAssociations->normalizeIds($request->input('scenes', [])),
         ]);
 
         // For each custom field, update the meta_data with the value from the request
@@ -180,6 +164,7 @@ class GameController extends Controller
 
         $this->storeObjectAttachments($request, $game, 'game');
         $game->save();
+        $this->gameAssociations->syncFromGame($game);
 
         Log::info('Updated game with game_id: '.$game_id.' : '.json_encode($game));
 
