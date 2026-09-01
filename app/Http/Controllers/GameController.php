@@ -50,11 +50,11 @@ class GameController extends Controller
         return inertia('games_view', [
             'game' => $game,
             'locations' => Location::where('user_id', auth()->id())->get(),
-            'npcs' => Character::where([
+            'npc_characters' => Character::where([
                 ['user_id', auth()->id()],
                 ['type', 'npc'],
             ])->get(),
-            'enemies' => Character::where([
+            'enemy_characters' => Character::where([
                 ['user_id', auth()->id()],
                 ['type', 'enemy'],
             ])->get(),
@@ -62,6 +62,7 @@ class GameController extends Controller
                 ['user_id', auth()->id()],
                 ['type', 'pc'],
             ])->get(),
+
             'systems' => System::all(),
             'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
             'scenes' => Scene::where('user_id', auth()->id())->get(),

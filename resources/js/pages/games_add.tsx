@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import FormBuilder from '@/components/form-builder';
 import { games } from '@/routes';
 
-export default function GamesAdd({ locations, scenes, npcs, enemies, player_characters, systems, custom_fields, auth }: { locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npcs: Array<{ id: string | number; name: string }>, enemies: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, auth: { user: { id: string | number } } }) {
+export default function GamesAdd({ locations, scenes, npc_characters, enemy_characters, player_characters, systems, custom_fields, auth }: { locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npc_characters: Array<{ id: string | number; name: string }>, enemy_characters: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, auth: { user: { id: string | number } } }) {
 
     // console.log('Fetching game with game_id:', game_id);
     console.log('Authenticated user_id:', auth.user.id);
@@ -51,27 +51,27 @@ export default function GamesAdd({ locations, scenes, npcs, enemies, player_char
                             }
                             : { label: 'Scenes', name: 'scenes', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Scenes available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
-                        // Add a list of PCs to select from in checkbox form, if any are fetched, otherwise display no PCs available with a link to add PCs
+                        // Add a list of player_characters to select from in checkbox form, if any are fetched, otherwise display no player_characters available with a link to add player_characters
                         player_characters.length > 0
-                            ? { label: 'Player Characters', name: 'pcs', type: 'checkbox', options:
+                            ? { label: 'Player Characters', name: 'player_characters', type: 'checkbox', options:
                                 player_characters.map(pc => ({ label: pc?.name, value: String(pc?.id) })) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
-                            : { label: 'Player Characters', name: 'pcs', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
+                            : { label: 'Player Characters', name: 'player_characters', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
-                        npcs.length > 0
-                            ? { label: 'Non-Player Characters', name: 'npcs', type: 'checkbox', options:
-                                npcs.map(npc => ({ label: npc?.name, value: String(npc?.id) })) ?? [],
+                        npc_characters.length > 0
+                            ? { label: 'Non-Player Characters', name: 'npc_characters', type: 'checkbox', options:
+                                npc_characters.map(npc => ({ label: npc?.name, value: String(npc?.id) })) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Non-Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
-                            : { label: 'Non-Player Characters', name: 'npcs', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
+                            : { label: 'Non-Player Characters', name: 'npc_characters', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
-                        enemies.length > 0
-                            ? { label: 'Enemy Characters', name: 'enemies', type: 'checkbox', options:
-                                enemies.map(enemy => ({ label: enemy?.name, value: String(enemy?.id) })) ?? [],
+                        enemy_characters.length > 0
+                            ? { label: 'Enemy Characters', name: 'enemy_characters', type: 'checkbox', options:
+                                enemy_characters.map(enemy => ({ label: enemy?.name, value: String(enemy?.id) })) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Enemy Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
-                            : { label: 'Enemy Characters', name: 'enemies', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Enemy Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
+                            : { label: 'Enemy Characters', name: 'enemy_characters', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Enemy Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
                         // For each custom field found, generate a matching input field with the name of the custom field as the label and name, and type text
                         ...(custom_fields.length > 0
