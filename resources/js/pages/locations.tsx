@@ -58,19 +58,19 @@ export default function Locations({ auth, locations }: { auth: { user: { id: str
                                 <p>Created At: {new Date(location.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
                                 <div className="flex gap-2 mt-2">
                                     <button
-                                        className="rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
                                         onClick={() => window.location.href = `/locations/${location.id}`}
                                     >
                                         Edit
                                     </button>
                                     <button
-                                        className="rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
                                         onClick={() => duplicateConfirmModal(location.id)}
                                     >
                                         Duplicate
                                     </button>
                                     <button
-                                        className="rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
                                         onClick={() => deleteConfirmModal(location.id)}
                                     >
                                         Delete
