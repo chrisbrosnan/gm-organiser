@@ -24,6 +24,7 @@ export default function Locations({
     enemies,
     quests,
     items,
+    scenes,
     custom_fields
 }: {
     auth: { user: { id: string | number } };
@@ -33,6 +34,7 @@ export default function Locations({
     enemies: Array<{ id: string | number; name: string }>;
     quests: Array<{ id: string | number; name: string }>;
     items: Array<{ id: string | number; name: string }>;
+    scenes: Array<{ id: string | number; name: string }>;
     custom_fields: Array<{ field: string; type: string }>;
 }) {
 
@@ -113,6 +115,29 @@ export default function Locations({
                                   options: [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">No Games available. But do not worry, you can always add them afterwards and assign them to this location.</p>',
+                              },
+
+                        // Add a list of Scenes to select from in checkbox form, if any are fetched, otherwise display no Scenes available with a link to add Scenes
+                        scenes.length > 0
+                            ? {
+                                  label: 'Scenes',
+                                  name: 'scenes',
+                                  type: 'checkbox',
+                                  options:
+                                      scenes.map((scene) => ({
+                                          label: scene?.name,
+                                          value: String(scene?.id),
+                                      })) ?? [],
+                                  html_content:
+                                      '<p class="text-sm text-gray-500">If your Scene is not listed, do not worry, you can always add them afterwards and assign them to this location.</p>',
+                              }
+                            : {
+                                  label: 'Scenes',
+                                  name: 'scenes',
+                                  type: 'checkbox',
+                                  options: [],
+                                  html_content:
+                                      '<p class="text-sm text-gray-500">No Scenes available. But do not worry, you can always add them afterwards and assign them to this location.</p>',
                               },
 
                         // Add a list of PCs to select from in checkbox form, if any are fetched, otherwise display no PCs available with a link to add PCs
