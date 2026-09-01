@@ -180,7 +180,7 @@ export default function GamesView({
                         player_characters.length > 0
                             ? {
                                   label: 'Player Characters',
-                                  name: 'pcs',
+                                  name: 'player_characters',
                                   type: 'checkbox',
                                   options:
                                       player_characters.map((pc) => ({
@@ -194,7 +194,7 @@ export default function GamesView({
                               }
                             : {
                                   label: 'Player Characters',
-                                  name: 'pcs',
+                                  name: 'player_characters',
                                   type: 'checkbox',
                                   options: [],
                                   html_content:
@@ -204,7 +204,7 @@ export default function GamesView({
                         npc_characters.length > 0
                             ? {
                                   label: 'Non-Player Characters',
-                                  name: 'npcs',
+                                  name: 'npc_characters',
                                   type: 'checkbox',
                                   options:
                                       npc_characters.map((npc) => ({
@@ -218,7 +218,7 @@ export default function GamesView({
                               }
                             : {
                                   label: 'Non-Player Characters',
-                                  name: 'npcs',
+                                  name: 'npc_characters',
                                   type: 'checkbox',
                                   options: [],
                                   html_content:
@@ -229,7 +229,7 @@ export default function GamesView({
                         enemy_characters.length > 0
                             ? {
                                   label: 'Enemy Characters',
-                                  name: 'enemies',
+                                  name: 'enemy_characters',
                                   type: 'checkbox',
                                   options:
                                       enemy_characters.map((enemy) => ({
@@ -243,7 +243,7 @@ export default function GamesView({
                               }
                             : {
                                   label: 'Enemy Characters',
-                                  name: 'enemies',
+                                  name: 'enemy_characters',
                                   type: 'checkbox',
                                   options: [],
                                   html_content:
