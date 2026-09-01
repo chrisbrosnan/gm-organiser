@@ -1,3 +1,5 @@
+import { get } from "@/actions/App/Http/Controllers/LocationController";
+
 export default function FormBuilder({
     action,
     method,
@@ -98,13 +100,58 @@ export default function FormBuilder({
                                         (value) =>
                                             String(value) === option.value,
                                     ) ? (
-                                        <input
-                                            type="checkbox"
-                                            name={getInputName(field)}
-                                            value={option.value}
-                                            className="mr-2"
-                                            defaultChecked
-                                        />
+                                        <span>
+                                            <input
+                                                type="checkbox"
+                                                name={getInputName(field)}
+                                                value={option.value}
+                                                className="mr-2"
+                                                defaultChecked
+                                            />
+                                            {getInputName(field) === 'games[]' ? (
+                                                <a
+                                                    href={`/games/${option.value}`}
+                                                    className="text-blue-500 underline"
+                                                >
+                                                    <em>Edit game</em>
+                                                </a>
+                                            ) : getInputName(field) === 'locations[]' ? (
+                                                <a
+                                                    href={`/locations/${option.value}`}
+                                                    className="text-blue-500 underline"
+                                                >
+                                                    <em>Edit location</em>
+                                                </a>
+                                            ) : getInputName(field) === 'scenes[]' ? (
+                                                <a
+                                                    href={`/scenes/${option.value}`}
+                                                    className="text-blue-500 underline"
+                                                >
+                                                    <em>Edit scene</em>
+                                                </a>
+                                            ) : getInputName(field) === 'quests[]' ? (
+                                                <a
+                                                    href={`/quests/${option.value}`}
+                                                    className="text-blue-500 underline"
+                                                >
+                                                    <em>Edit quest</em>
+                                                </a>
+                                            ) : getInputName(field) === 'items[]' ? (
+                                                <a
+                                                    href={`/items/${option.value}`}
+                                                    className="text-blue-500 underline"
+                                                >
+                                                    <em>Edit item</em>
+                                                </a>
+                                            ) : getInputName(field) === 'spells[]' ? (
+                                                <a
+                                                    href={`/spells/${option.value}`}
+                                                    className="text-blue-500 underline"
+                                                >
+                                                    <em>Edit spell</em>
+                                                </a>
+                                            ) : null}
+                                        </span>
                                     ) : (
                                         <input
                                             type="checkbox"
