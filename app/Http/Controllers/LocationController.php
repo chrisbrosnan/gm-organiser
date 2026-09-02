@@ -85,9 +85,9 @@ class LocationController extends Controller
         // Allow multiple values for games, pcs, npcs, enemies, quests, and items by removing '[]' from the values
         $location->games = $this->gameAssociations->normalizeIds($request->input('games', []));
         $location->characters = json_encode(array_merge(
-            $request->input('pcs', []),
-            $request->input('npcs', []),
-            $request->input('enemies', [])
+            $request->input('player_characters', []),
+            $request->input('npc_characters', []),
+            $request->input('enemy_characters', [])
         ));
         $location->quests = json_encode($request->input('quests', []));
         $location->items = json_encode($request->input('items', []));
@@ -112,8 +112,8 @@ class LocationController extends Controller
             'location' => $location,
             'games' => Game::where('user_id', auth()->id())->get(),
             'scenes' => Scene::where('user_id', auth()->id())->get(),
-            'npcs' => Character::where('user_id', auth()->id())->where('type', 'npc')->get(),
-            'enemies' => Character::where('user_id', auth()->id())->where('type', 'enemy')->get(),
+            'npc_characters' => Character::where('user_id', auth()->id())->where('type', 'npc')->get(),
+            'enemy_characters' => Character::where('user_id', auth()->id())->where('type', 'enemy')->get(),
             'quests' => Quest::where('user_id', auth()->id())->get(),
             'items' => Item::where('user_id', auth()->id())->get(),
             'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
@@ -139,9 +139,9 @@ class LocationController extends Controller
         // Allow multiple values for games, pcs, npcs, enemies, quests, and items by removing '[]' from the values
         $location->games = $this->gameAssociations->normalizeIds($request->input('games', []));
         $location->characters = json_encode(array_merge(
-            $request->input('pcs', []),
-            $request->input('npcs', []),
-            $request->input('enemies', [])
+            $request->input('player_characters', []),
+            $request->input('npc_characters', []),
+            $request->input('enemy_characters', [])
         ));
         $location->quests = json_encode($request->input('quests', []));
         $location->items = json_encode($request->input('items', []));

@@ -143,7 +143,7 @@ export default function Locations({
                         npcs.length > 0
                             ? {
                                   label: 'Non-Player Characters',
-                                  name: 'npcs',
+                                  name: 'npcs_characters',
                                   type: 'checkbox',
                                   options:
                                       npcs.map((npc) => ({
@@ -155,7 +155,7 @@ export default function Locations({
                               }
                             : {
                                   label: 'Non-Player Characters',
-                                  name: 'npcs',
+                                  name: 'npcs_characters',
                                   type: 'checkbox',
                                   options: [],
                                   html_content:
@@ -166,7 +166,7 @@ export default function Locations({
                         enemies.length > 0
                             ? {
                                   label: 'Enemy Characters',
-                                  name: 'enemies',
+                                  name: 'enemy_characters',
                                   type: 'checkbox',
                                   options:
                                       enemies.map((enemy) => ({
@@ -178,7 +178,7 @@ export default function Locations({
                               }
                             : {
                                   label: 'Enemy Characters',
-                                  name: 'enemies',
+                                  name: 'enemy_characters',
                                   type: 'checkbox',
                                   options: [],
                                   html_content:

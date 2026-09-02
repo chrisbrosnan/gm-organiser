@@ -6,6 +6,11 @@ use App\Models\Character;
 use App\Models\Game;
 use App\Models\Location;
 use App\Models\Scene;
+use App\Models\Character;
+use App\Models\Quest;
+use App\Models\Item;
+use App\Models\Spell;
+
 use Illuminate\Database\Eloquent\Model;
 
 class SyncGameAssociations
@@ -40,13 +45,19 @@ class SyncGameAssociations
         $this->syncRelatedRecords($game, Scene::class, $this->normalizeIds($metaData['scenes'] ?? []));
         $this->syncRelatedRecords($game, Character::class, $this->normalizeIds([
             ...$this->normalizeIds($metaData['player_characters'] ?? []),
-            ...$this->normalizeIds($metaData['npcs'] ?? []),
+            ...$this->normalizeIds($metaData['npc_characters'] ?? []),
+            ...$this->normalizeIds($metaData['enemy_characters'] ?? []),
         ]));
     }
 
     public function syncFromLocation(Location $location): void
     {
         $selectedGameIds = $this->normalizeIds($location->games);
+        $selectedSceneIds = $this->normalizeIds($location->scenes);
+        $selectedNonPlayerCharacterIds = $this->normalizeIds($location->npc_characters);
+        $selectedEnemyCharacterIds = $this->normalizeIds($location->enemy_characters);
+        $selectedQuestIds = $this->normalizeIds($location->quests);
+        $selectedItemIds = $this->normalizeIds($location->items);
 
         Game::query()
             ->where('user_id', $location->user_id)
@@ -59,6 +70,60 @@ class SyncGameAssociations
                     in_array($game->id, $selectedGameIds, true),
                 );
             });
+
+        $characterIdsMerge = array_merge(
+            $selectedNonPlayerCharacterIds,
+            $selectedEnemyCharacterIds,
+        );
+
+        Character::query()
+            ->where('user_id', $location->user_id)
+            ->get()
+            ->each(function (Character $character) use ($location, $characterIdsMerge): void {
+                $this->syncCharacterMetaData(
+                    $character,
+                    'locations',
+                    $location->id,
+                    in_array($character->id, $characterIdsMerge, true),
+                );
+            });
+
+        Scene::query()
+            ->where('user_id', $location->user_id)
+            ->get()
+            ->each(function (Scene $scene) use ($location, $selectedSceneIds): void {
+                $this->syncSceneMetaData(
+                    $scene,
+                    'locations',
+                    $location->id,
+                    in_array($scene->id, $selectedSceneIds, true),
+                );
+            });
+
+        Quest::query()
+            ->where('user_id', $location->user_id)
+            ->get()
+            ->each(function (Quest $quest) use ($location, $selectedQuestIds): void {
+                $this->syncQuestMetaData(
+                    $quest,
+                    'locations',
+                    $location->id,
+                    in_array($quest->id, $selectedQuestIds, true),
+                );
+            });
+
+        Item::query()
+            ->where('user_id', $location->user_id)
+            ->get()
+            ->each(function (Item $item) use ($location, $selectedItemIds): void {
+                $this->syncItemMetaData(
+                    $item,
+                    'locations',
+                    $location->id,
+                    in_array($item->id, $selectedItemIds, true),
+                );
+            });
+
     }
 
     /**
@@ -108,6 +173,132 @@ class SyncGameAssociations
             $metaData[$key] = $recordIds;
             $game->meta_data = $metaData;
             $game->save();
+        }
+    }
+
+    private function syncLocationMetaData(Location $location, string $key, int $recordId, bool $isSelected): void
+    {
+        $metaData = is_array($location->meta_data) ? $location->meta_data : [];
+        $recordIds = array_values(array_filter(
+            $this->normalizeIds($metaData[$key] ?? []),
+            fn (int $id): bool => $id !== $recordId,
+        ));
+
+        if ($isSelected) {
+            $recordIds[] = $recordId;
+        }
+
+        $recordIds = array_values(array_unique($recordIds));
+
+        if ($this->normalizeIds($metaData[$key] ?? []) !== $recordIds) {
+            $metaData[$key] = $recordIds;
+            $location->meta_data = $metaData;
+            $location->save();
+        }
+    }
+
+    private function syncSceneMetaData(Scene $scene, string $key, int $recordId, bool $isSelected): void
+    {
+        $metaData = is_array($scene->meta_data) ? $scene->meta_data : [];
+        $recordIds = array_values(array_filter(
+            $this->normalizeIds($metaData[$key] ?? []),
+            fn (int $id): bool => $id !== $recordId,
+        ));
+
+        if ($isSelected) {
+            $recordIds[] = $recordId;
+        }
+
+        $recordIds = array_values(array_unique($recordIds));
+
+        if ($this->normalizeIds($metaData[$key] ?? []) !== $recordIds) {
+            $metaData[$key] = $recordIds;
+            $scene->meta_data = $metaData;
+            $scene->save();
+        }
+    }
+
+    private function syncCharacterMetaData(Character $character, string $key, int $recordId, bool $isSelected): void
+    {
+        $metaData = is_array($character->meta_data) ? $character->meta_data : [];
+        $recordIds = array_values(array_filter(
+            $this->normalizeIds($metaData[$key] ?? []),
+            fn (int $id): bool => $id !== $recordId,
+        ));
+
+        if ($isSelected) {
+            $recordIds[] = $recordId;
+        }
+
+        $recordIds = array_values(array_unique($recordIds));
+
+        if ($this->normalizeIds($metaData[$key] ?? []) !== $recordIds) {
+            $metaData[$key] = $recordIds;
+            $character->meta_data = $metaData;
+            $character->save();
+        }
+    }
+
+    private function syncQuestMetaData(Quest $quest, string $key, int $recordId, bool $isSelected): void
+    {
+        $metaData = is_array($quest->meta_data) ? $quest->meta_data : [];
+        $recordIds = array_values(array_filter(
+            $this->normalizeIds($metaData[$key] ?? []),
+            fn (int $id): bool => $id !== $recordId,
+        ));
+
+        if ($isSelected) {
+            $recordIds[] = $recordId;
+        }
+
+        $recordIds = array_values(array_unique($recordIds));
+
+        if ($this->normalizeIds($metaData[$key] ?? []) !== $recordIds) {
+            $metaData[$key] = $recordIds;
+            $quest->meta_data = $metaData;
+            $quest->save();
+        }
+    }
+
+    private function syncItemMetaData(Item $item, string $key, int $recordId, bool $isSelected): void
+    {
+        $metaData = is_array($item->meta_data) ? $item->meta_data : [];
+        $recordIds = array_values(array_filter(
+            $this->normalizeIds($metaData[$key] ?? []),
+            fn (int $id): bool => $id !== $recordId,
+        ));
+
+        if ($isSelected) {
+            $recordIds[] = $recordId;
+        }
+
+        $recordIds = array_values(array_unique($recordIds));
+
+        if ($this->normalizeIds($metaData[$key] ?? []) !== $recordIds) {
+            $metaData[$key] = $recordIds;
+            $item->meta_data = $metaData;
+            $item->save();
+        }
+    }
+
+    private function syncSpellMetaData(Spell $spell, string $key, int $recordId, bool $isSelected): void
+    {
+        $metaData = is_array($spell->meta_data) ? $spell->meta_data : [];
+        $recordIds = array_values(array_filter(
+            $this->normalizeIds($metaData[$key] ?? []),
+            fn (int $id): bool => $id !== $recordId,
+        ));
+
+        if ($isSelected) {
+            $recordIds[] = $recordId;
+        }
+
+        $recordIds = array_values(array_unique($recordIds));
+
+        if ($this->normalizeIds($metaData[$key] ?? []) !== $recordIds) {
+            $metaData[$key] = $recordIds;
+            $spell->meta_data = $metaData;
+            $spell->save();
         }
     }
 }

@@ -61,19 +61,19 @@ export default function Locations({ games, npcs, enemies, quests, items, custom_
 
                         // Add a list of PCs to select from in checkbox form, if any are fetched, otherwise display no PCs available with a link to add PCs
                         npcsData.length > 0
-                            ? { label: 'Non-Player Characters', name: 'npcs', type: 'checkbox', options:
+                            ? { label: 'Non-Player Characters', name: 'npcs_characters', type: 'checkbox', options:
                                 npcsData.map(npc => ({ label: npc?.name, value: String(npc?.id)})) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Non-Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
-                            : { label: 'Non-Player Characters', name: 'npcs', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
+                            : { label: 'Non-Player Characters', name: 'npcs_characters', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
                         // Add a list of Enemy characters to select from in checkbox form, if any are fetched, otherwise display no Enemy characters available with a link to add them
                         enemiesData.length > 0
-                            ? { label: 'Enemy Characters', name: 'enemies', type: 'checkbox', options:
+                            ? { label: 'Enemy Characters', name: 'enemy_characters', type: 'checkbox', options:
                                 enemiesData.map(enemy => ({ label: enemy?.name, value: String(enemy?.id)})) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Enemy Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
-                            : { label: 'Enemy Characters', name: 'enemies', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Enemy Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
+                            : { label: 'Enemy Characters', name: 'enemy_characters', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Enemy Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
                         // Add a list of Quests to select from in checkbox form, if any are fetched, otherwise display no Quests available with a link to add them
                         questsData.length > 0
