@@ -8,6 +8,7 @@ use App\Models\Character;
 use App\Models\CustomField;
 use App\Models\Game;
 use App\Models\Location;
+use App\Models\Spell;
 use App\Models\Scene;
 use App\Models\System;
 use App\Models\Quest;
@@ -69,13 +70,13 @@ class GameController extends Controller
             'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
             'scenes' => Scene::where('user_id', auth()->id())->get(),
             'items' => Item::where('user_id', auth()->id())->get(),
+            'spells' => Spell::where('user_id', auth()->id())->get(),
         ]);
     }
 
     public function games_form_add()
     {
         return inertia('games_add', [
-            'locations' => Location::where('user_id', auth()->id())->get(),
             'locations' => Location::where('user_id', auth()->id())->get(),
             'npc_characters' => Character::where([
                 ['user_id', auth()->id()],
@@ -94,6 +95,7 @@ class GameController extends Controller
             'custom_fields' => CustomField::where('user_id', auth()->id())->get(),
             'scenes' => Scene::where('user_id', auth()->id())->get(),
             'items' => Item::where('user_id', auth()->id())->get(),
+            'spells' => Spell::where('user_id', auth()->id())->get(),
         ]);
     }
 
@@ -119,6 +121,7 @@ class GameController extends Controller
             'notes' => $request->input('notes', ''),
             'scenes' => $this->gameAssociations->normalizeIds($request->input('scenes', [])),
             'items' => $this->gameAssociations->normalizeIds($request->input('items', [])),
+            'spells' => $this->gameAssociations->normalizeIds($request->input('spells', [])),
         ];
 
         // For each custom field, update the meta_data with the value from the request
@@ -178,6 +181,9 @@ class GameController extends Controller
         ]);
         $game->meta_data = array_merge($game->meta_data ?? [], [
             'items' => $this->gameAssociations->normalizeIds($request->input('items', [])),
+        ]);
+        $game->meta_data = array_merge($game->meta_data ?? [], [
+            'spells' => $this->gameAssociations->normalizeIds($request->input('spells', [])),
         ]);
 
         // For each custom field, update the meta_data with the value from the request

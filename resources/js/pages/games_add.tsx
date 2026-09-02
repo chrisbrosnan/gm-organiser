@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import FormBuilder from '@/components/form-builder';
 import { games } from '@/routes';
 
-export default function GamesAdd({ locations, scenes, npc_characters, enemy_characters, player_characters, systems, custom_fields, items, quests, auth }: { locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npc_characters: Array<{ id: string | number; name: string }>, enemy_characters: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, items: Array<{ id: string | number; name: string }>, quests: Array<{ id: string | number; name: string }>, auth: { user: { id: string | number } } }) {
+export default function GamesAdd({ locations, scenes, npc_characters, enemy_characters, player_characters, systems, custom_fields, items, quests, spells, auth }: { locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npc_characters: Array<{ id: string | number; name: string }>, enemy_characters: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, items: Array<{ id: string | number; name: string }>, quests: Array<{ id: string | number; name: string }>, auth: { user: { id: string | number } } }) {
 
     // console.log('Fetching game with game_id:', game_id);
     console.log('Authenticated user_id:', auth.user.id);
@@ -88,6 +88,13 @@ export default function GamesAdd({ locations, scenes, npc_characters, enemy_char
                                 html_content: '<p class="text-sm text-gray-500">If your Enemy Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
                             : { label: 'Enemy Characters', name: 'enemy_characters', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Enemy Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
+
+                        spells.length > 0
+                            ? { label: 'Spells', name: 'spells', type: 'checkbox', options:
+                                spells.map(spell => ({ label: spell?.name, value: String(spell?.id) })) ?? [],
+                                html_content: '<p class="text-sm text-gray-500">If your Spell is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
+                            }
+                            : { label: 'Spells', name: 'spells', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Spells available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
                         // For each custom field found, generate a matching input field with the name of the custom field as the label and name, and type text
                         ...(custom_fields.length > 0

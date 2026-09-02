@@ -8,6 +8,7 @@ export default function GamesView({
     scenes,
     npc_characters,
     enemy_characters,
+    spells,
     player_characters,
     systems,
     custom_fields,
@@ -42,6 +43,7 @@ export default function GamesView({
     custom_fields: Array<{ field: string; type: string }>;
     items: Array<{ id: string | number; name: string }>;
     quests: Array<{ id: string | number; name: string }>;
+    spells: Array<{ id: string | number; name: string }>;
     auth: { user: { id: string | number } };
 }) {
     // console.log('Fetching game with game_id:', game_id);
