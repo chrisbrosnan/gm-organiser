@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import FormBuilder from '@/components/form-builder';
 import { games } from '@/routes';
 
-export default function GamesAdd({ locations, scenes, npc_characters, enemy_characters, player_characters, systems, custom_fields, auth }: { locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npc_characters: Array<{ id: string | number; name: string }>, enemy_characters: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, auth: { user: { id: string | number } } }) {
+export default function GamesAdd({ locations, scenes, npc_characters, enemy_characters, player_characters, systems, custom_fields, items, quests, auth }: { locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npc_characters: Array<{ id: string | number; name: string }>, enemy_characters: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, items: Array<{ id: string | number; name: string }>, quests: Array<{ id: string | number; name: string }>, auth: { user: { id: string | number } } }) {
 
     // console.log('Fetching game with game_id:', game_id);
     console.log('Authenticated user_id:', auth.user.id);
@@ -50,6 +50,22 @@ export default function GamesAdd({ locations, scenes, npc_characters, enemy_char
                                 html_content: '<p class="text-sm text-gray-500">If your Scene is not listed, do not worry, you can always add it afterwards and assign it to this game.</p>'
                             }
                             : { label: 'Scenes', name: 'scenes', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Scenes available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
+
+                        // Add a list of items to select from in checkbox form, if any are fetched, otherwise display no items available with a link to add items
+                        items.length > 0
+                            ? { label: 'Items', name: 'items', type: 'checkbox', options:
+                                items.map(item => ({ label: item?.name, value: String(item?.id) })) ?? [],
+                                html_content: '<p class="text-sm text-gray-500">If your Item is not listed, do not worry, you can always add it afterwards and assign it to this game.</p>'
+                            }
+                            : { label: 'Items', name: 'items', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Items available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
+
+                        // Add a list of quests to select from in checkbox form, if any are fetched, otherwise display no quests available with a link to add quests
+                        quests.length > 0
+                            ? { label: 'Quests', name: 'quests', type: 'checkbox', options:
+                                quests.map(quest => ({ label: quest?.name, value: String(quest?.id) })) ?? [],
+                                html_content: '<p class="text-sm text-gray-500">If your Quest is not listed, do not worry, you can always add it afterwards and assign it to this game.</p>'
+                            }
+                            : { label: 'Quests', name: 'quests', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Quests available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
                         // Add a list of player_characters to select from in checkbox form, if any are fetched, otherwise display no player_characters available with a link to add player_characters
                         player_characters.length > 0

@@ -11,6 +11,8 @@ export default function GamesView({
     player_characters,
     systems,
     custom_fields,
+    items,
+    quests,
     auth,
 }: {
     game: {
@@ -27,6 +29,8 @@ export default function GamesView({
             player_characters?: Array<string | number>;
             npc_characters?: Array<string | number>;
             enemy_characters?: Array<string | number>;
+            items?: Array<string | number>;
+            quests?: Array<string | number>;
         };
     } | null;
     locations: Array<{ id: string | number; name: string }>;
@@ -36,6 +40,8 @@ export default function GamesView({
     player_characters: Array<{ id: string | number; name: string }>;
     systems: Array<{ id: string | number; name: string }>;
     custom_fields: Array<{ field: string; type: string }>;
+    items: Array<{ id: string | number; name: string }>;
+    quests: Array<{ id: string | number; name: string }>;
     auth: { user: { id: string | number } };
 }) {
     // console.log('Fetching game with game_id:', game_id);
@@ -174,6 +180,56 @@ export default function GamesView({
                                   options: [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">No Scenes available. But do not worry, you can always add them afterwards and assign them to this game.</p>',
+                              },
+
+                        // Add a list of Items to select from in checkbox form, if any are fetched, otherwise display no Items available with a link to add Items
+                        items.length > 0
+                            ? {
+                                  label: 'Items',
+                                  name: 'items',
+                                  type: 'checkbox',
+                                  options:
+                                    items.map((item) => ({
+                                          label: item?.name,
+                                          value: String(item?.id),
+                                    })) ?? [],
+                                  preselected_values:
+                                    game?.meta_data?.items ?? [],
+                                  html_content:
+                                      '<p class="text-sm text-gray-500">If your Item is not listed, do not worry, you can always add it afterwards and assign it to this game.</p>',
+                              }
+                            : {
+                                  label: 'Items',
+                                  name: 'items',
+                                  type: 'checkbox',
+                                  options: [],
+                                  html_content:
+                                      '<p class="text-sm text-gray-500">No Items available. But do not worry, you can always add them afterwards and assign them to this game.</p>',
+                              },
+
+                        // Add a list of Quests to select from in checkbox form, if any are fetched, otherwise display no Quests available with a link to add Quests
+                        quests.length > 0
+                            ? {
+                                  label: 'Quests',
+                                  name: 'quests',
+                                  type: 'checkbox',
+                                  options:
+                                      quests.map((quest) => ({
+                                          label: quest?.name,
+                                          value: String(quest?.id),
+                                      })) ?? [],
+                                  preselected_values:
+                                      game?.meta_data?.quests ?? [],
+                                  html_content:
+                                      '<p class="text-sm text-gray-500">If your Quest is not listed, do not worry, you can always add it afterwards and assign it to this game.</p>',
+                              }
+                            : {
+                                  label: 'Quests',
+                                  name: 'quests',
+                                  type: 'checkbox',
+                                  options: [],
+                                  html_content:
+                                      '<p class="text-sm text-gray-500">No Quests available. But do not worry, you can always add them afterwards and assign them to this game.</p>',
                               },
 
                         // Add a list of PCs to select from in checkbox form, if any are fetched, otherwise display no PCs available with a link to add PCs
