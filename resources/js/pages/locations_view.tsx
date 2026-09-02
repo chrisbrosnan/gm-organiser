@@ -20,7 +20,7 @@ export default function Locations({
     auth,
     location,
     games,
-    npcs,
+    npc_characters,
     enemies,
     quests,
     items,
@@ -30,7 +30,7 @@ export default function Locations({
     auth: { user: { id: string | number } };
     location: Location;
     games: Array<{ id: string | number; name: string }>;
-    npcs: Array<{ id: string | number; name: string }>;
+    npc_characters: Array<{ id: string | number; name: string }>;
     enemies: Array<{ id: string | number; name: string }>;
     quests: Array<{ id: string | number; name: string }>;
     items: Array<{ id: string | number; name: string }>;
@@ -140,13 +140,13 @@ export default function Locations({
                               },
 
                         // Add a list of PCs to select from in checkbox form, if any are fetched, otherwise display no PCs available with a link to add PCs
-                        npcs.length > 0
+                        npc_characters.length > 0
                             ? {
                                   label: 'Non-Player Characters',
-                                  name: 'npcs_characters',
+                                  name: 'npc_characters_characters',
                                   type: 'checkbox',
                                   options:
-                                      npcs.map((npc) => ({
+                                      npc_characters.map((npc) => ({
                                           label: npc?.name,
                                           value: String(npc?.id),
                                       })) ?? [],
@@ -155,7 +155,7 @@ export default function Locations({
                               }
                             : {
                                   label: 'Non-Player Characters',
-                                  name: 'npcs_characters',
+                                  name: 'npc_characters_characters',
                                   type: 'checkbox',
                                   options: [],
                                   html_content:

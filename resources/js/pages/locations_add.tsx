@@ -12,14 +12,14 @@ interface Location {
     created_at: string;
 }
 
-export default function Locations({ games, npcs, enemies, quests, items, custom_fields, scenes, auth }: { games: Array<{ id: string | number; name: string }>; npcs: Array<{ id: string | number; name: string }>; enemies: Array<{ id: string | number; name: string }>; quests: Array<{ id: string | number; name: string }>; items: Array<{ id: string | number; name: string }>; custom_fields: Array<{ field: string; type: string }>; scenes: Array<{ id: string | number; name: string }>; auth: { user: { id: string | number } } }) {
+export default function Locations({ games, npc_characters, enemy_characters, quests, items, custom_fields, scenes, auth }: { games: Array<{ id: string | number; name: string }>; npc_characters: Array<{ id: string | number; name: string }>; enemy_characters: Array<{ id: string | number; name: string }>; quests: Array<{ id: string | number; name: string }>; items: Array<{ id: string | number; name: string }>; custom_fields: Array<{ field: string; type: string }>; scenes: Array<{ id: string | number; name: string }>; auth: { user: { id: string | number } } }) {
 
     // Fetch All Games for User from API
     const [locationsData, setLocationsData] = useState<Location[]>([]);
     // const [pcs, setPcs] = useState<Array<{ id: string | number; name: string }>>([]);
     const [gamesData, setGamesData] = useState<Array<{ id: string | number; name: string }>>([]);
-    const [npcsData, setNpcsData] = useState<Array<{ id: string | number; name: string }>>([]);
-    const [enemiesData, setEnemiesData] = useState<Array<{ id: string | number; name: string }>>([]);
+    const [npc_charactersData, setnpc_charactersData] = useState<Array<{ id: string | number; name: string }>>([]);
+    const [enemy_charactersData, setenemy_charactersData] = useState<Array<{ id: string | number; name: string }>>([]);
     const [customFields, setCustomFields] = useState<Array<{ field: string; type: string }>>([]);
     const [questsData, setQuestsData] = useState<Array<{ id: string | number; name: string }>>([]);
     const [itemsData, setItemsData] = useState<Array<{ id: string | number; name: string }>>([]);
@@ -60,17 +60,17 @@ export default function Locations({ games, npcs, enemies, quests, items, custom_
                             : { label: 'Scenes', name: 'scenes', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Scenes available. But do not worry, you can always add them afterwards and assign them to this location.</p>' },
 
                         // Add a list of PCs to select from in checkbox form, if any are fetched, otherwise display no PCs available with a link to add PCs
-                        npcsData.length > 0
-                            ? { label: 'Non-Player Characters', name: 'npcs_characters', type: 'checkbox', options:
-                                npcsData.map(npc => ({ label: npc?.name, value: String(npc?.id)})) ?? [],
+                        npc_charactersData.length > 0
+                            ? { label: 'Non-Player Characters', name: 'npc_characters_characters', type: 'checkbox', options:
+                                npc_charactersData.map(npc => ({ label: npc?.name, value: String(npc?.id)})) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Non-Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
-                            : { label: 'Non-Player Characters', name: 'npcs_characters', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
+                            : { label: 'Non-Player Characters', name: 'npc_characters_characters', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
                         // Add a list of Enemy characters to select from in checkbox form, if any are fetched, otherwise display no Enemy characters available with a link to add them
-                        enemiesData.length > 0
+                        enemy_charactersData.length > 0
                             ? { label: 'Enemy Characters', name: 'enemy_characters', type: 'checkbox', options:
-                                enemiesData.map(enemy => ({ label: enemy?.name, value: String(enemy?.id)})) ?? [],
+                                enemy_charactersData.map(enemy => ({ label: enemy?.name, value: String(enemy?.id)})) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Enemy Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
                             : { label: 'Enemy Characters', name: 'enemy_characters', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Enemy Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
