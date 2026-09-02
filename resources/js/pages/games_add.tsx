@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import FormBuilder from '@/components/form-builder';
 import { games } from '@/routes';
 
-export default function GamesAdd({ locations, scenes, npc_characters, enemy_characters, player_characters, systems, custom_fields, items, quests, spells, auth }: { locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npc_characters: Array<{ id: string | number; name: string }>, enemy_characters: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, items: Array<{ id: string | number; name: string }>, quests: Array<{ id: string | number; name: string }>, auth: { user: { id: string | number } } }) {
+export default function GamesAdd({ locations, scenes, npc_characters, enemy_characters, player_characters, systems, custom_fields, items, quests, spells, auth }: { locations: Array<{ id: string | number; name: string }>, scenes: Array<{ id: string | number; name: string }>, npc_characters: Array<{ id: string | number; name: string }>, enemy_characters: Array<{ id: string | number; name: string }>, player_characters: Array<{ id: string | number; name: string }>, systems: Array<{ id: string | number; name: string }>, custom_fields: Array<{ field: string; type: string }>, items: Array<{ id: string | number; name: string }>, quests: Array<{ id: string | number; name: string }>, spells: Array<{ id: string | number; name: string }>, auth: { user: { id: string | number } } }) {
 
     // console.log('Fetching game with game_id:', game_id);
     console.log('Authenticated user_id:', auth.user.id);
