@@ -69,7 +69,7 @@ trait HandlesObjectAttachments
         $attachment = new Attachment;
         $attachment->object_type = $objectType;
         $attachment->attachment_type = $attachmentType;
-        $attachment->attachment_path = $file->store("uploads/{$objectType}s", 'public');
+        $attachment->attachment_path = $file->store("uploads/{$objectType}s", 's3');
         $attachment->user_id = $userId;
         $attachment->save();
 
