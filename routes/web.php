@@ -86,26 +86,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('characters.create');
 
     Route::prefix('characters')->group(function () {
-        Route::inertia('npcs', 'npcs')->name('npcs');
-        Route::inertia('npcs/add', 'add_npc')->name('npc_create');
-        Route::inertia('npcs/{npc_id}', 'single_npc')->name('npc_single');
-        Route::inertia('npcs/{npc_id}/edit', 'edit_npc')->name('npc_edit');
-        Route::post('npcs/{npc_id}/delete', [CharacterController::class, 'delete'])->name('npc_delete');
-        Route::post('npcs/{npc_id}/update', [CharacterController::class, 'update'])->name('npc_update');
-        Route::post('npcs/create', [CharacterController::class, 'create'])->name('npc_create_post');
-        Route::inertia('pcs', 'pcs')->name('pcs');
-        Route::inertia('pcs/add', 'add_pc')->name('pc_create');
-        Route::inertia('pcs/{pc_id}', 'single_pc')->name('pc_single');
-        Route::inertia('pcs/{pc_id}/edit', 'edit_pc')->name('pc_edit');
-        Route::post('pcs/{pc_id}/delete', [CharacterController::class, 'delete'])->name('pc_delete');
-        Route::post('pcs/{pc_id}/update', [CharacterController::class, 'update'])->name('pc_update');
-        Route::inertia('enemies', 'enemies')->name('enemies');
-        Route::inertia('enemies/add', 'add_enemy')->name('enemy_create');
-        Route::inertia('enemies/{enemy_id}', 'single_enemy')->name('enemy_single');
-        Route::inertia('enemies/{enemy_id}/edit', 'edit_enemy')->name('enemy_edit');
-        Route::post('enemies/{enemy_id}/delete', [CharacterController::class, 'delete'])->name('enemy_delete');
-        Route::post('enemies/{enemy_id}/update', [CharacterController::class, 'update'])->name('enemy_update');
-        Route::post('enemies/create', [CharacterController::class, 'create'])->name('enemy_create_post');
+        Route::get('enemies', [CharacterController::class, 'index_enemies'])
+            ->name('enemies');
+        Route::get('npcs', [CharacterController::class, 'index_npcs'])
+            ->name('npcs');
+        Route::get('pcs', [CharacterController::class, 'index_pcs'])
+            ->name('pcs');
     });
 
     Route::get('/characters/{character_id}', [CharacterController::class, 'show'])

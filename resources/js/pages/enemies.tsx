@@ -1,28 +1,38 @@
 import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { characters, enemies } from '@/routes';
+import { ResourceIndexPage } from '@/components/resource-pages';
 
-export default function Enemies() {
+interface Character {
+    id: number;
+    name: string;
+    type: string;
+    bio?: string | null;
+    created_at: string;
+}
+
+export default function Enemies({
+    characters: characterList,
+}: {
+    characters: Character[];
+}) {
     return (
-        <>
-            <Head title="Enemies" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
-            </div>
-        </>
+        <ResourceIndexPage
+            title="Characters"
+            addLabel="Add Character"
+            addPath="/characters/add"
+            emptyMessage="No characters found. Create a new character to get started."
+            cards={characterList.map((character) => ({
+                id: character.id,
+                title: character.name,
+                description: character.bio ?? null,
+                meta: [
+                    `Type: ${character.type.toUpperCase()}`,
+                    `Created At: ${new Date(character.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}`,
+                ],
+                editPath: `/characters/${character.id}`,
+            }))}
+        />
     );
 }
 
