@@ -18,7 +18,7 @@ export default function Enemies({
 }) {
     return (
         <ResourceIndexPage
-            title="Characters"
+            title="Enemy Characters"
             addLabel="Add Character"
             addPath="/characters/add"
             emptyMessage="No characters found. Create a new character to get started."

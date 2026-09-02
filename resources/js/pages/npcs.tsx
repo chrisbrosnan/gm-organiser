@@ -18,7 +18,7 @@ export default function Npcs({
 }) {
     return (
         <ResourceIndexPage
-            title="Characters"
+            title="Non-Player Characters"
             addLabel="Add Character"
             addPath="/characters/add"
             emptyMessage="No characters found. Create a new character to get started."
