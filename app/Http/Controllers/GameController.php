@@ -115,8 +115,10 @@ class GameController extends Controller
             'player_characters' => $this->gameAssociations->normalizeIds($request->input('player_characters', [])),
             'npc_characters' => $this->gameAssociations->normalizeIds($request->input('npc_characters', [])),
             'enemy_characters' => $this->gameAssociations->normalizeIds($request->input('enemy_characters', [])),
+            'quests' => $this->gameAssociations->normalizeIds($request->input('quests', [])),
             'notes' => $request->input('notes', ''),
             'scenes' => $this->gameAssociations->normalizeIds($request->input('scenes', [])),
+            'items' => $this->gameAssociations->normalizeIds($request->input('items', [])),
         ];
 
         // For each custom field, update the meta_data with the value from the request
@@ -165,13 +167,17 @@ class GameController extends Controller
         $game->meta_data = array_merge($game->meta_data ?? [], [
             'enemy_characters' => $this->gameAssociations->normalizeIds($request->input('enemy_characters', [])),
         ]);
-
         $game->meta_data = array_merge($game->meta_data ?? [], [
             'notes' => $request->input('notes', $game->meta_data['notes'] ?? ''),
         ]);
-
         $game->meta_data = array_merge($game->meta_data ?? [], [
             'scenes' => $this->gameAssociations->normalizeIds($request->input('scenes', [])),
+        ]);
+        $game->meta_data = array_merge($game->meta_data ?? [], [
+            'quests' => $this->gameAssociations->normalizeIds($request->input('quests', [])),
+        ]);
+        $game->meta_data = array_merge($game->meta_data ?? [], [
+            'items' => $this->gameAssociations->normalizeIds($request->input('items', [])),
         ]);
 
         // For each custom field, update the meta_data with the value from the request
