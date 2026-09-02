@@ -32,6 +32,7 @@ export default function GamesView({
             enemy_characters?: Array<string | number>;
             items?: Array<string | number>;
             quests?: Array<string | number>;
+            spells?: Array<string | number>;
         };
     } | null;
     locations: Array<{ id: string | number; name: string }>;
@@ -306,6 +307,31 @@ export default function GamesView({
                                   options: [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">No Enemy Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>',
+                              },
+
+                        // Add Spells
+                        spells.length > 0
+                            ? {
+                                  label: 'Spells',
+                                  name: 'spells',
+                                  type: 'checkbox',
+                                  options:
+                                      spells.map((spell) => ({
+                                          label: spell?.name,
+                                          value: String(spell?.id),
+                                      })) ?? [],
+                                  preselected_values:
+                                      game?.meta_data?.spells ?? [],
+                                  html_content:
+                                      '<p class="text-sm text-gray-500">If your Spell is not listed, do not worry, you can always add it afterwards and assign it to this game.</p>',
+                              }
+                            : {
+                                  label: 'Spells',
+                                  name: 'spells',
+                                  type: 'checkbox',
+                                  options: [],
+                                  html_content:
+                                      '<p class="text-sm text-gray-500">No Spells available. But do not worry, you can always add them afterwards and assign them to this game.</p>',
                               },
 
                         // For each custom field found, generate a matching input field with the name of the custom field as the label and name, and type text
