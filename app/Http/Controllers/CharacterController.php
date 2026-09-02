@@ -19,6 +19,42 @@ class CharacterController extends Controller
         ]);
     }
 
+    public function index_enemies()
+    {
+        $enemies = Character::where([
+            ['user_id', auth()->id()],
+            ['type', 'enemy'],
+        ])->get();
+
+        return inertia('enemies', [
+            'characters' => $enemies,
+        ]);
+    }
+
+    public function index_npcs()
+    {
+        $npcs = Character::where([
+            ['user_id', auth()->id()],
+            ['type', 'npc'],
+        ])->get();
+
+        return inertia('npcs', [
+            'characters' => $npcs,
+        ]);
+    }
+
+    public function index_pcs()
+    {
+        $pcs = Character::where([
+            ['user_id', auth()->id()],
+            ['type', 'pc'],
+        ])->get();
+
+        return inertia('pcs', [
+            'characters' => $pcs,
+        ]);
+    }
+
     public function new(): Response
     {
         return inertia('characters_add');
