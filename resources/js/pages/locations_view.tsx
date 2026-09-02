@@ -21,7 +21,7 @@ export default function Locations({
     location,
     games,
     npc_characters,
-    enemies,
+    enemy_characters,
     quests,
     items,
     scenes,
@@ -31,7 +31,7 @@ export default function Locations({
     location: Location;
     games: Array<{ id: string | number; name: string }>;
     npc_characters: Array<{ id: string | number; name: string }>;
-    enemies: Array<{ id: string | number; name: string }>;
+    enemy_characters: Array<{ id: string | number; name: string }>;
     quests: Array<{ id: string | number; name: string }>;
     items: Array<{ id: string | number; name: string }>;
     scenes: Array<{ id: string | number; name: string }>;
@@ -163,13 +163,13 @@ export default function Locations({
                               },
 
                         // Add a list of Enemy characters to select from in checkbox form, if any are fetched, otherwise display no Enemy characters available with a link to add them
-                        enemies.length > 0
+                        enemy_characters.length > 0
                             ? {
                                   label: 'Enemy Characters',
                                   name: 'enemy_characters',
                                   type: 'checkbox',
                                   options:
-                                      enemies.map((enemy) => ({
+                                      enemy_characters.map((enemy) => ({
                                           label: enemy?.name,
                                           value: String(enemy?.id),
                                       })) ?? [],
