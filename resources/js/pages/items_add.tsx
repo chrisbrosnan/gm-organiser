@@ -21,7 +21,7 @@ export default function ItemsAdd({ pc_characters, npc_characters, enemy_characte
                 { label: 'Description', name: 'description', type: 'textarea' },
                 {
                     label: 'Player Characters',
-                    name: 'pc_characters[]',
+                    name: 'player_characters[]',
                     type: 'checkbox',
                     options: pc_characters.map(c => ({ label: c.name, value: c.id.toString() })),
                 },

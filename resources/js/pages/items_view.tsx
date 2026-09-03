@@ -46,7 +46,7 @@ export default function ItemsView({ item, pc_characters, npc_characters, enemy_c
                 },
                 {
                     label: 'Player Characters',
-                    name: 'pc_characters[]',
+                    name: 'player_characters[]',
                     type: 'checkbox',
                     options: pc_characters.map(c => ({ label: c.name, value: c.id.toString() })),
                     preselected_values: item?.meta_data?.pc_characters ?? [],

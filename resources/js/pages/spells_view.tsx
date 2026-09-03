@@ -37,7 +37,7 @@ export default function SpellsView({ spell, pc_characters, npc_characters, enemy
                 },
                 {
                     label: 'Player Characters',
-                    name: 'pc_characters[]',
+                    name: 'player_characters[]',
                     type: 'checkbox',
                     options: pc_characters.map(c => ({ label: c.name, value: c.id.toString() })),
                     preselected_values: spell?.meta_data?.pc_characters ?? [],
