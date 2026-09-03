@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Concerns\HandlesObjectAttachments;
 use App\Models\Item;
+use App\Models\Character;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -21,13 +22,20 @@ class ItemController extends Controller
 
     public function new(): Response
     {
-        return inertia('items_add');
+        return inertia('items_add', [
+            'pc_characters' => Character::where('user_id', auth()->id())->where('type', 'pc')->get(),
+            'npc_characters' => Character::where('user_id', auth()->id())->where('type', 'npc')->get(),
+            'enemy_characters' => Character::where('user_id', auth()->id())->where('type', 'enemy')->get(),
+        ]);
     }
 
     public function show(int $item_id): Response
     {
         return inertia('items_view', [
             'item' => Item::with('thumbnail')->where('user_id', auth()->id())->findOrFail($item_id),
+            'pc_characters' => Character::where('user_id', auth()->id())->where('type', 'pc')->get(),
+            'npc_characters' => Character::where('user_id', auth()->id())->where('type', 'npc')->get(),
+            'enemy_characters' => Character::where('user_id', auth()->id())->where('type', 'enemy')->get(),
         ]);
     }
 
