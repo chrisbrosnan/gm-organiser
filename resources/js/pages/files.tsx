@@ -75,12 +75,12 @@ export default function Files({ auth, files }: { auth: { user: { id: string | nu
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div>
                     <h1 className="text-2xl font-bold float-left">Files</h1>
-                    <button
+                    {/* <button
                         className="mt-0 rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 float-right"
                         onClick={() => window.location.href = '/games/add'}
                     >
                         Add Game
-                    </button>
+                    </button> */}
                 </div>
                 {filesData.length === 0 ? (
                     <div className="flex flex-col items-center justify-center gap-4">
@@ -122,12 +122,3 @@ export default function Files({ auth, files }: { auth: { user: { id: string | nu
         </>
     );
 }
-
-Games.layout = {
-    breadcrumbs: [
-        {
-            title: 'Games',
-            href: games(),
-        },
-    ],
-};
