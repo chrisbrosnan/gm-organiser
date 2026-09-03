@@ -78,6 +78,11 @@ const mainNavItems: NavItem[] = [
     //     icon: Cog,
     // },
     {
+        title: 'Files',
+        href: '/files',
+        icon: Cog,
+    },
+    {
         title: 'General Notes',
         href: general_notes(),
         icon: NotebookPen,
