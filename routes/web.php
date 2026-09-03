@@ -4,6 +4,7 @@ use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\CustomFieldController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LocationController;
@@ -21,6 +22,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Main Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
+
+    // Files
+
+    Route::get('/files', [FileController::class, 'index'])
+        ->name('files');
 
     // Games
 
