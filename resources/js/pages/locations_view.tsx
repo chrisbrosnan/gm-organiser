@@ -143,7 +143,7 @@ export default function Locations({
                         npc_characters.length > 0
                             ? {
                                   label: 'Non-Player Characters',
-                                  name: 'npc_characters_characters',
+                                  name: 'npc_characters',
                                   type: 'checkbox',
                                   options:
                                       npc_characters.map((npc) => ({
@@ -155,7 +155,7 @@ export default function Locations({
                               }
                             : {
                                   label: 'Non-Player Characters',
-                                  name: 'npc_characters_characters',
+                                  name: 'npc_characters',
                                   type: 'checkbox',
                                   options: [],
                                   html_content:

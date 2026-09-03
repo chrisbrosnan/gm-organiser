@@ -61,11 +61,11 @@ export default function Locations({ games, npc_characters, enemy_characters, que
 
                         // Add a list of PCs to select from in checkbox form, if any are fetched, otherwise display no PCs available with a link to add PCs
                         npc_charactersData.length > 0
-                            ? { label: 'Non-Player Characters', name: 'npc_characters_characters', type: 'checkbox', options:
+                            ? { label: 'Non-Player Characters', name: 'npc_characters', type: 'checkbox', options:
                                 npc_charactersData.map(npc => ({ label: npc?.name, value: String(npc?.id)})) ?? [],
                                 html_content: '<p class="text-sm text-gray-500">If your Non-Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>'
                             }
-                            : { label: 'Non-Player Characters', name: 'npc_characters_characters', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
+                            : { label: 'Non-Player Characters', name: 'npc_characters', type: 'checkbox', options: [], html_content: '<p class="text-sm text-gray-500">No Non-Player Characters available. But do not worry, you can always add them afterwards and assign them to this game.</p>' },
 
                         // Add a list of Enemy characters to select from in checkbox form, if any are fetched, otherwise display no Enemy characters available with a link to add them
                         enemy_charactersData.length > 0
