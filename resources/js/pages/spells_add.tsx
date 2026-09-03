@@ -9,9 +9,24 @@ export default function SpellsAdd({ pc_characters, npc_characters, enemy_charact
             fields={[
                 { label: 'Name', name: 'name', type: 'text' },
                 { label: 'Description', name: 'description', type: 'textarea' },
-                { label: 'PC Characters', name: 'pc_characters[]', type: 'select', multiple: true, options: pc_characters.map(c => ({ label: c.name, value: c.id })) },
-                { label: 'NPC Characters', name: 'npc_characters[]', type: 'select', multiple: true, options: npc_characters.map(c => ({ label: c.name, value: c.id })) },
-                { label: 'Enemy Characters', name: 'enemy_characters[]', type: 'select', multiple: true, options: enemy_characters.map(c => ({ label: c.name, value: c.id })) },
+                {
+                    label: 'Player Characters',
+                    name: 'pc_characters[]',
+                    type: 'checkbox',
+                    options: pc_characters.map(c => ({ label: c.name, value: c.id.toString() })),
+                },
+                {
+                    label: 'Non-Player Characters',
+                    name: 'npc_characters[]',
+                    type: 'checkbox',
+                    options: npc_characters.map(c => ({ label: c.name, value: c.id.toString() })),
+                },
+                {
+                    label: 'Enemy Characters',
+                    name: 'enemy_characters[]',
+                    type: 'checkbox',
+                    options: enemy_characters.map(c => ({ label: c.name, value: c.id.toString() })),
+                },
                 { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
                 { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
             ]}
