@@ -140,7 +140,7 @@ class LocationController extends Controller
         // Allow multiple values for games, pcs, npcs, enemies, quests, and items by removing '[]' from the values
         $location->games = $this->gameAssociations->normalizeIds($request->input('games', []));
 
-        $location->metadata = json_encode([
+        $location->meta_data = json_encode([
             'npc_characters' => $request->input('npc_characters', []),
             'enemy_characters' => $request->input('enemy_characters', []),
             'quests' => $request->input('quests', []),
