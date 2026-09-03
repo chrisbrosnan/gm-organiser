@@ -19,6 +19,24 @@ export default function ItemsAdd({ pc_characters, npc_characters, enemy_characte
                     { label: 'Miscellaneous', value: 'misc' },
                 ] },
                 { label: 'Description', name: 'description', type: 'textarea' },
+                {
+                    label: 'Player Characters',
+                    name: 'pc_characters[]',
+                    type: 'checkbox',
+                    options: pc_characters.map(c => ({ label: c.name, value: c.id.toString() })),
+                },
+                {
+                    label: 'Non-Player Characters',
+                    name: 'npc_characters[]',
+                    type: 'checkbox',
+                    options: npc_characters.map(c => ({ label: c.name, value: c.id.toString() })),
+                },
+                {
+                    label: 'Enemy Characters',
+                    name: 'enemy_characters[]',
+                    type: 'checkbox',
+                    options: enemy_characters.map(c => ({ label: c.name, value: c.id.toString() })),
+                },
                 { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
                 { label: 'Attachments', name: 'attachments[]', type: 'file', multiple: true },
             ]}
