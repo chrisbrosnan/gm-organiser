@@ -14,6 +14,9 @@ interface Spell {
 }
 
 export default function SpellsView({ spell, pc_characters, npc_characters, enemy_characters }: { spell: Spell, pc_characters: any[], npc_characters: any[], enemy_characters: any[] }) {
+
+    console.log(spell, 'Spell: ');
+
     return (
         <ResourceFormPage
             title={`Edit Spell: ${spell.name}`}
