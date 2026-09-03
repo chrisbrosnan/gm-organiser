@@ -10,6 +10,7 @@ interface Spell {
         npc_characters?: { id: number }[];
         enemy_characters?: { id: number }[];
     } | null;
+    effect: string | null;
     thumbnail?: { attachment_path?: string } | null;
 }
 
@@ -34,6 +35,12 @@ export default function SpellsView({ spell, pc_characters, npc_characters, enemy
                     name: 'description',
                     type: 'textarea',
                     value: spell.description ?? '',
+                },
+                {
+                    label: 'Effect',
+                    name: 'effect',
+                    type: 'text',
+                    value: spell.effect ?? '',
                 },
                 {
                     label: 'Player Characters',

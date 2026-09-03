@@ -11,6 +11,7 @@ interface Item {
         npc_characters?: { id: number }[];
         enemy_characters?: { id: number }[];
     } | null;
+    effect?: string | null;
     thumbnail?: { attachment_path?: string } | null;
 }
 
@@ -43,6 +44,12 @@ export default function ItemsView({ item, pc_characters, npc_characters, enemy_c
                     name: 'description',
                     type: 'textarea',
                     value: item.description ?? '',
+                },
+                {
+                    label: 'Effect',
+                    name: 'effect',
+                    type: 'text',
+                    value: item.effect ?? '',
                 },
                 {
                     label: 'Player Characters',

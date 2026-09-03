@@ -9,6 +9,7 @@ export default function SpellsAdd({ pc_characters, npc_characters, enemy_charact
             fields={[
                 { label: 'Name', name: 'name', type: 'text' },
                 { label: 'Description', name: 'description', type: 'textarea' },
+                { label: 'Effect', name: 'effect', type: 'text' },
                 {
                     label: 'Player Characters',
                     name: 'player_characters[]',

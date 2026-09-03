@@ -19,6 +19,7 @@ export default function ItemsAdd({ pc_characters, npc_characters, enemy_characte
                     { label: 'Miscellaneous', value: 'misc' },
                 ] },
                 { label: 'Description', name: 'description', type: 'textarea' },
+                { label: 'Effect', name: 'effect', type: 'text' },
                 {
                     label: 'Player Characters',
                     name: 'player_characters[]',
