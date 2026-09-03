@@ -24,7 +24,11 @@ export default function Locations({
     auth,
     location,
     games,
-    meta_data,
+    scenes,
+    npc_characters,
+    enemy_characters,
+    quests,
+    items,
     custom_fields,
 }: {
     auth: { user: { id: string | number } };
@@ -33,6 +37,7 @@ export default function Locations({
         name: string;
         games: Array<{ id: string | number; name: string }>;
         meta_data: {
+            scenes: Array<{ id: string | number; name: string }>;
             npc_characters: Array<{ id: string | number; name: string }>;
             enemy_characters: Array<{ id: string | number; name: string }>;
             quests: Array<{ id: string | number; name: string }>;
@@ -43,13 +48,11 @@ export default function Locations({
         thumbnail?: { attachment_path?: string } | null;
     };
     games: Array<{ id: string | number; name: string }>;
-    meta_data: {
-        scenes: Array<{ id: string | number; name: string }>;
-        npc_characters: Array<{ id: string | number; name: string }>;
-        enemy_characters: Array<{ id: string | number; name: string }>;
-        quests: Array<{ id: string | number; name: string }>;
-        items: Array<{ id: string | number; name: string }>;
-    };
+    scenes: Array<{ id: string | number; name: string }>;
+    npc_characters: Array<{ id: string | number; name: string }>;
+    enemy_characters: Array<{ id: string | number; name: string }>;
+    quests: Array<{ id: string | number; name: string }>;
+    items: Array<{ id: string | number; name: string }>;
     custom_fields: Array<{ field: string; type: string }>;
 }) {
     const params = new URLSearchParams(window.location.search);
@@ -132,19 +135,20 @@ export default function Locations({
                               },
 
                         // Add a list of Scenes to select from in checkbox form, if any are fetched, otherwise display no Scenes available with a link to add Scenes
-                        meta_data?.scenes.length > 0
+                        scenes.length > 0
                             ? {
-                                  label: 'Scenes',
-                                  name: 'scenes',
-                                  type: 'checkbox',
-                                  options:
-                                      meta_data?.scenes.map((scene) => ({
-                                          label: scene?.name,
-                                          value: String(scene?.id),
-                                      })) ?? [],
-                                  html_content:
-                                      '<p class="text-sm text-gray-500">If your Scene is not listed, do not worry, you can always add them afterwards and assign them to this location.</p>',
-                              }
+                                    label: 'Scenes',
+                                    name: 'scenes',
+                                    type: 'checkbox',
+                                    options:
+                                        scenes.map((scene) => ({
+                                            label: scene?.name,
+                                            value: String(scene?.id),
+                                        })) ?? [],
+                                    html_content:
+                                        '<p class="text-sm text-gray-500">If your Scene is not listed, do not worry, you can always add them afterwards and assign them to this location.</p>',
+                                    preselected_values: location?.meta_data?.scenes ?? []
+                                }
                             : {
                                   label: 'Scenes',
                                   name: 'scenes',
@@ -155,13 +159,13 @@ export default function Locations({
                               },
 
                         // Add a list of PCs to select from in checkbox form, if any are fetched, otherwise display no PCs available with a link to add PCs
-                        meta_data?.npc_characters.length > 0
+                        npc_characters.length > 0
                             ? {
                                   label: 'Non-Player Characters',
                                   name: 'npc_characters',
                                   type: 'checkbox',
                                   options:
-                                      meta_data?.npc_characters.map((npc) => ({
+                                      npc_characters.map((npc) => ({
                                           label: npc?.name,
                                           value: String(npc?.id),
                                       })) ?? [],
@@ -178,13 +182,13 @@ export default function Locations({
                               },
 
                         // Add a list of Enemy characters to select from in checkbox form, if any are fetched, otherwise display no Enemy characters available with a link to add them
-                        meta_data?.enemy_characters.length > 0
+                        enemy_characters.length > 0
                             ? {
                                   label: 'Enemy Characters',
                                   name: 'enemy_characters',
                                   type: 'checkbox',
                                   options:
-                                      meta_data?.enemy_characters.map((enemy) => ({
+                                      enemy_characters.map((enemy) => ({
                                           label: enemy?.name,
                                           value: String(enemy?.id),
                                       })) ?? [],
@@ -201,13 +205,13 @@ export default function Locations({
                               },
 
                         // Add a list of Quests to select from in checkbox form, if any are fetched, otherwise display no Quests available with a link to add them
-                        meta_data?.quests.length > 0
+                        quests.length > 0
                             ? {
                                   label: 'Quests',
                                   name: 'quests',
                                   type: 'checkbox',
                                   options:
-                                      meta_data?.quests.map((quest) => ({
+                                      quests.map((quest) => ({
                                           label: quest?.name,
                                           value: String(quest?.id),
                                       })) ?? [],
@@ -224,13 +228,13 @@ export default function Locations({
                               },
 
                         // Add a list of Items to select from in checkbox form, if any are fetched, otherwise display no Items available with a link to add them
-                        meta_data?.items.length > 0
+                        items.length > 0
                             ? {
                                   label: 'Items',
                                   name: 'items',
                                   type: 'checkbox',
                                   options:
-                                      meta_data?.items.map((item) => ({
+                                      items.map((item) => ({
                                           label: item?.name,
                                           value: String(item?.id),
                                       })) ?? [],

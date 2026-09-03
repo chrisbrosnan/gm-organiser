@@ -109,6 +109,8 @@ class LocationController extends Controller
             ->where('user_id', auth()->id())
             ->findOrFail($location_id);
 
+        // Gate::authorize('view', $location);
+
         $location->games = $this->gameAssociations->normalizeIds($location->games);
 
         return inertia('locations_view', [
