@@ -28,7 +28,20 @@ export default function Locations({
     custom_fields,
 }: {
     auth: { user: { id: string | number } };
-    location: Location;
+    location: {
+        id: number;
+        name: string;
+        games: Array<{ id: string | number; name: string }>;
+        meta_data: {
+            npc_characters: Array<{ id: string | number; name: string }>;
+            enemy_characters: Array<{ id: string | number; name: string }>;
+            quests: Array<{ id: string | number; name: string }>;
+            items: Array<{ id: string | number; name: string }>;
+        };
+        description: string;
+        created_at: string;
+        thumbnail?: { attachment_path?: string } | null;
+    };
     games: Array<{ id: string | number; name: string }>;
     npc_characters: Array<{ id: string | number; name: string }>;
     enemy_characters: Array<{ id: string | number; name: string }>;
