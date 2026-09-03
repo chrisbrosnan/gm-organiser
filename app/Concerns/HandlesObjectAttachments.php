@@ -67,10 +67,16 @@ trait HandlesObjectAttachments
         string $objectType,
         string $attachmentType,
     ): Attachment {
+        try {
+            $path = $file->store("uploads/{$objectType}s", 's3');
+        } catch (\Exception $e) {
+            Log::error('Failed to store attachment: '.$e->getMessage());
+            throw $e;
+        }
         $attachment = new Attachment;
         $attachment->object_type = $objectType;
         $attachment->attachment_type = $attachmentType;
-        $attachment->attachment_path = $file->store("uploads/{$objectType}s", 's3');
+        $attachment->attachment_path = $path;
         $attachment->user_id = $userId;
         $attachment->save();
 
