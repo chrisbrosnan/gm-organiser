@@ -1,7 +1,7 @@
 import { ResourceFormPage } from '@/components/resource-pages';
 import { items } from '@/routes';
 
-export default function ItemsAdd() {
+export default function ItemsAdd({ pc_characters, npc_characters, enemy_characters }: { pc_characters: { id: number, name: string }[], npc_characters: { id: number, name: string }[], enemy_characters: { id: number, name: string }[] }) {
     return (
         <ResourceFormPage
             title="Add Item"

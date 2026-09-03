@@ -6,10 +6,15 @@ interface Item {
     name: string;
     type?: string | null;
     description?: string | null;
+    meta_data?: {
+        pc_characters?: { id: number }[];
+        npc_characters?: { id: number }[];
+        enemy_characters?: { id: number }[];
+    } | null;
     thumbnail?: { attachment_path?: string } | null;
 }
 
-export default function ItemsView({ item }: { item: Item }) {
+export default function ItemsView({ item, pc_characters, npc_characters, enemy_characters }: { item: Item, pc_characters: { id: number, name: string }[], npc_characters: { id: number, name: string }[], enemy_characters: { id: number, name: string }[] }) {
     return (
         <ResourceFormPage
             title={`Edit Item: ${item.name}`}
@@ -38,6 +43,30 @@ export default function ItemsView({ item }: { item: Item }) {
                     name: 'description',
                     type: 'textarea',
                     value: item.description ?? '',
+                },
+                {
+                    label: 'PC Characters',
+                    name: 'pc_characters[]',
+                    type: 'select',
+                    multiple: true,
+                    options: pc_characters.map(c => ({ label: c.name, value: c.id.toString() })),
+                    preselected_values: item?.meta_data?.pc_characters?.map(c => c.id.toString()) ?? [],
+                },
+                {
+                    label: 'NPC Characters',
+                    name: 'npc_characters[]',
+                    type: 'select',
+                    multiple: true,
+                    options: npc_characters.map(c => ({ label: c.name, value: c.id.toString() })),
+                    preselected_values: item?.meta_data?.npc_characters?.map(c => c.id.toString()) ?? [],
+                },
+                {
+                    label: 'Enemy Characters',
+                    name: 'enemy_characters[]',
+                    type: 'select',
+                    multiple: true,
+                    options: enemy_characters.map(c => ({ label: c.name, value: c.id.toString() })),
+                    preselected_values: item?.meta_data?.enemy_characters?.map(c => c.id.toString()) ?? [],
                 },
                 { label: 'Thumbnail', name: 'thumbnail', type: 'file' },
                 {

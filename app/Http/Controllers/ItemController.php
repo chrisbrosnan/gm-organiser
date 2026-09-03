@@ -44,6 +44,11 @@ class ItemController extends Controller
         $item->name = $validated['name'];
         $item->type = $validated['type'] ?? null;
         $item->description = $validated['description'] ?? null;
+        $item->meta_data = [
+            'pc_characters' => $request->input('pc_characters', []),
+            'npc_characters' => $request->input('npc_characters', []),
+            'enemy_characters' => $request->input('enemy_characters', []),
+        ];
         $item->user_id = (int) auth()->id();
         $this->storeObjectAttachments($request, $item, 'item');
         $item->save();
@@ -64,6 +69,11 @@ class ItemController extends Controller
         $item->name = $validated['name'];
         $item->type = $validated['type'] ?? null;
         $item->description = $validated['description'] ?? null;
+        $item->meta_data = [
+            'pc_characters' => $request->input('pc_characters', []),
+            'npc_characters' => $request->input('npc_characters', []),
+            'enemy_characters' => $request->input('enemy_characters', []),
+        ];
         $this->storeObjectAttachments($request, $item, 'item');
         $item->save();
 
