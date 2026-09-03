@@ -86,12 +86,12 @@ class LocationController extends Controller
         // Allow multiple values for games, pcs, npcs, enemies, quests, and items by removing '[]' from the values
         $location->games = $this->gameAssociations->normalizeIds($request->input('games', []));
 
-        $location->meta_data = json_encode([
+        $location->meta_data = [
             'scenes' => $request->input('scenes', []),
             'npc_characters' => $request->input('npc_characters', []),
             'enemy_characters' => $request->input('enemy_characters', []),
             'items' => $request->input('items', [])
-        ]);
+        ];
 
         $this->storeObjectAttachments($request, $location, 'location');
         $location->save();
@@ -144,12 +144,12 @@ class LocationController extends Controller
         // Allow multiple values for games, pcs, npcs, enemies, quests, and items by removing '[]' from the values
         $location->games = $this->gameAssociations->normalizeIds($request->input('games', []));
 
-        $location->meta_data = json_encode([
+        $location->meta_data = [
             'npc_characters' => $request->input('npc_characters', []),
             'enemy_characters' => $request->input('enemy_characters', []),
             'quests' => $request->input('quests', []),
             'items' => $request->input('items', []),
-        ]);
+        ];
 
         $this->storeObjectAttachments($request, $location, 'location');
         $location->save();
