@@ -6,6 +6,7 @@ use App\Models\Attachment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 
 trait HandlesObjectAttachments
 {
@@ -72,6 +73,8 @@ trait HandlesObjectAttachments
         $attachment->attachment_path = $file->store("uploads/{$objectType}s", 's3');
         $attachment->user_id = $userId;
         $attachment->save();
+
+        Log::info('Attachment Path: '.$attachment->attachment_path);
 
         return $attachment;
     }
