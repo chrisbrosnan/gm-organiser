@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 
 class LocationController extends Controller
 {
@@ -107,6 +108,9 @@ class LocationController extends Controller
         $location = Location::with('thumbnail')
             ->where('user_id', auth()->id())
             ->findOrFail($location_id);
+
+        Gate::authorize('view', $location);
+
         $location->games = $this->gameAssociations->normalizeIds($location->games);
 
         return inertia('locations_view', [
