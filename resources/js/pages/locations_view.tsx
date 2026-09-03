@@ -171,6 +171,7 @@ export default function Locations({
                                       })) ?? [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">If your Non-Player Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>',
+                                preselected_values: location?.meta_data?.npc_characters ?? []
                               }
                             : {
                                   label: 'Non-Player Characters',
@@ -194,6 +195,7 @@ export default function Locations({
                                       })) ?? [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">If your Enemy Character is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>',
+                                preselected_values: location?.meta_data?.enemy_characters ?? []
                               }
                             : {
                                   label: 'Enemy Characters',
@@ -217,6 +219,7 @@ export default function Locations({
                                       })) ?? [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">If your Quest is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>',
+                                preselected_values: location?.meta_data?.quests ?? []
                               }
                             : {
                                   label: 'Quests',
@@ -240,6 +243,7 @@ export default function Locations({
                                       })) ?? [],
                                   html_content:
                                       '<p class="text-sm text-gray-500">If your Item is not listed, do not worry, you can always add them afterwards and assign them to this game.</p>',
+                                preselected_values: location?.meta_data?.items ?? []
                               }
                             : {
                                   label: 'Items',
