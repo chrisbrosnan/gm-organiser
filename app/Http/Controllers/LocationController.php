@@ -90,6 +90,7 @@ class LocationController extends Controller
             'scenes' => $request->input('scenes', []),
             'npc_characters' => $request->input('npc_characters', []),
             'enemy_characters' => $request->input('enemy_characters', []),
+            'quests' => $request->input('quests', []),
             'items' => $request->input('items', [])
         ];
 
@@ -140,6 +141,7 @@ class LocationController extends Controller
         $location->games = $this->gameAssociations->normalizeIds($request->input('games', []));
 
         $location->meta_data = [
+            'scenes' => $request->input('scenes', []),
             'npc_characters' => $request->input('npc_characters', []),
             'enemy_characters' => $request->input('enemy_characters', []),
             'quests' => $request->input('quests', []),
