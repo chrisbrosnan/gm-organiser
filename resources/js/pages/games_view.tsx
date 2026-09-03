@@ -63,7 +63,7 @@ export default function GamesView({
                 <img
                     src={
                         game?.thumbnail?.attachment_path
-                            ? `/storage/${game.thumbnail.attachment_path}`
+                            ? `/uploads/games/${game.thumbnail.attachment_path}`
                             : '/images/default-thumbnail.svg'
                     }
                     alt="Game Thumbnail"
