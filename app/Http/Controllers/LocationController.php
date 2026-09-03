@@ -84,13 +84,14 @@ class LocationController extends Controller
 
         // Allow multiple values for games, pcs, npcs, enemies, quests, and items by removing '[]' from the values
         $location->games = $this->gameAssociations->normalizeIds($request->input('games', []));
-        $location->characters = json_encode(array_merge(
-            $request->input('player_characters', []),
-            $request->input('npc_characters', []),
-            $request->input('enemy_characters', [])
-        ));
-        $location->quests = json_encode($request->input('quests', []));
-        $location->items = json_encode($request->input('items', []));
+
+        $location->meta_data = json_encode([
+            'scenes' => $request->input('scenes', []),
+            'npc_characters' => $request->input('npc_characters', []),
+            'enemy_characters' => $request->input('enemy_characters', []),
+            'items' => $request->input('items', [])
+        ]);
+
         $this->storeObjectAttachments($request, $location, 'location');
         $location->save();
         $this->gameAssociations->syncFromLocation($location);
@@ -138,13 +139,14 @@ class LocationController extends Controller
 
         // Allow multiple values for games, pcs, npcs, enemies, quests, and items by removing '[]' from the values
         $location->games = $this->gameAssociations->normalizeIds($request->input('games', []));
-        $location->characters = json_encode(array_merge(
-            $request->input('player_characters', []),
-            $request->input('npc_characters', []),
-            $request->input('enemy_characters', [])
-        ));
-        $location->quests = json_encode($request->input('quests', []));
-        $location->items = json_encode($request->input('items', []));
+
+        $location->metadata = json_encode([
+            'npc_characters' => $request->input('npc_characters', []),
+            'enemy_characters' => $request->input('enemy_characters', []),
+            'quests' => $request->input('quests', []),
+            'items' => $request->input('items', []),
+        ]);
+
         $this->storeObjectAttachments($request, $location, 'location');
         $location->save();
         $this->gameAssociations->syncFromLocation($location);
