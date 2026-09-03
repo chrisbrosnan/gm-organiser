@@ -70,7 +70,7 @@ export default function Locations({
                 <img
                     src={
                         location?.thumbnail?.attachment_path
-                            ? `/uploads/locations/${location.thumbnail.attachment_path}`
+                            ? `${location.thumbnail.attachment_path}`
                             : '/images/default-thumbnail.svg'
                     }
                     alt="Location thumbnail"
