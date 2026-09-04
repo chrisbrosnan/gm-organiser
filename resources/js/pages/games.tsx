@@ -88,7 +88,7 @@ export default function Games({ auth, games }: { auth: { user: { id: string | nu
                         <p className="text-gray-500">No games found. Create a new game to get started.</p>
                     </div>
                 ) : (
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid md:grid-cols-4 gap-4">
                         {gamesData.map((game) => (
                             <div key={game.id} className="border border-gray-300 rounded-md p-4">
                                 <h2 className="text-xl font-bold">{game.name}</h2>
