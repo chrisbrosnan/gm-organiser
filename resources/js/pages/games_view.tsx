@@ -15,6 +15,7 @@ export default function GamesView({
     items,
     quests,
     auth,
+    bucketUrl
 }: {
     game: {
         id: string | number;
@@ -46,6 +47,7 @@ export default function GamesView({
     quests: Array<{ id: string | number; name: string }>;
     spells: Array<{ id: string | number; name: string }>;
     auth: { user: { id: string | number } };
+    bucketUrl: string;
 }) {
     // console.log('Fetching game with game_id:', game_id);
     console.log('Authenticated user_id:', auth.user.id);
@@ -62,8 +64,8 @@ export default function GamesView({
                 <h1 className="text-2xl font-bold">Game: {game?.name ?? ''}</h1>
                 <img
                     src={
-                        (import.meta.env.BUCKET_URL ?? '' + (game?.thumbnail?.attachment_path ?? ''))
-                            ? `${import.meta.env.BUCKET_URL ?? ''}${game?.thumbnail?.attachment_path}`
+                        (bucketUrl ?? '' + (game?.thumbnail?.attachment_path ?? ''))
+                            ? `${bucketUrl ?? ''}${game?.thumbnail?.attachment_path}`
                             : '/images/default-thumbnail.svg'
                     }
                     alt="Game Thumbnail"

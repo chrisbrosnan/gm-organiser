@@ -22,6 +22,7 @@ interface Location {
 
 export default function Locations({
     auth,
+    bucketUrl,
     location,
     games,
     scenes,
@@ -32,6 +33,7 @@ export default function Locations({
     custom_fields,
 }: {
     auth: { user: { id: string | number } };
+    bucketUrl: string;
     location: {
         id: number;
         name: string;
@@ -70,7 +72,7 @@ export default function Locations({
                 <img
                     src={
                         location?.thumbnail?.attachment_path
-                            ? `${location.thumbnail.attachment_path}`
+                            ? `${bucketUrl ?? ''}${location.thumbnail.attachment_path}`
                             : '/images/default-thumbnail.svg'
                     }
                     alt="Location thumbnail"
