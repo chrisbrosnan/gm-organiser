@@ -11,9 +11,10 @@ interface Game {
     system_id: number;
     type: string;
     created_at: string;
+    attachment_path: string | null;
 }
 
-export default function Games({ auth, games }: { auth: { user: { id: string | number } }, games: Game[] }) {
+export default function Games({ auth, games, bucketUrl }: { auth: { user: { id: string | number } }, games: Game[], bucketUrl: string }) {
 
     // Fetch All Games for User from API
     const gamesData = games;
@@ -91,6 +92,15 @@ export default function Games({ auth, games }: { auth: { user: { id: string | nu
                     <div className="grid md:grid-cols-4 gap-4">
                         {gamesData.map((game) => (
                             <div key={game.id} className="border border-gray-300 rounded-md p-4">
+                                <img
+                                    src={
+                                        (game?.attachment_path ?? '' + (game?.attachment_path ?? ''))
+                                            ? `${bucketUrl ?? ''}${game?.attachment_path}`
+                                            : '/images/default-thumbnail.svg'
+                                    }
+                                    alt="Game Thumbnail"
+                                    className="mb-4 h-32 w-64 rounded-lg object-cover"
+                                />
                                 <h2 className="text-xl font-bold">{game.name}</h2>
                                 <p>System: {game.system_name}</p>
                                 <p>Type: {game.type.replace('_', ' ').replace('-', ' ').charAt(0).toUpperCase() + game.type.replace('_', ' ').replace('-', ' ').slice(1)}</p>

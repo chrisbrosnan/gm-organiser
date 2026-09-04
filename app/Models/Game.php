@@ -50,7 +50,7 @@ class Game extends Model
 
     public static function getGamesByUserId(int $user_id): array
     {
-        $games = self::where('user_id', $user_id)->get();
+        $games = self::where('user_id', $user_id)->leftJoin('object_attachments', 'games.thumbnail_id', '=', 'attachments.id')->get();
 
         // Get system name from systems table
         foreach ($games as $game) {
