@@ -20,6 +20,7 @@ export default function Changelog({ auth }: { auth: { user: { id: string | numbe
                             <li>Forum functionality: Discussion threads and community engagement improvements.</li>
                             <li>Character sheet exporting: Ability to export character sheets as PDFs.</li>
                             <li>Game notes exporter: Ability to export game content for offline use.</li>
+                            <li>Character presets: Preset character meta_data stats by system.</li>
                         </ul>
                     </p>
                 </div>
