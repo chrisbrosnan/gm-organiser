@@ -7,17 +7,30 @@ interface Scene {
     description?: string | null;
     location_id?: number | null;
     thumbnail?: { attachment_path?: string } | null;
+    user_id?: string | number;
 }
 
 export default function ScenesView({
+    auth,
     scene,
     locations,
     bucketUrl,
 }: {
+    auth: { user: { id: string | number } };
     scene: Scene;
     locations: { id: number; name: string }[];
     bucketUrl: string;
 }) {
+
+    if (auth?.user.id !== scene?.user_id) {
+        return (
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <h1 className="text-2xl font-bold">Access Denied</h1>
+                <p>You do not have permission to view this scene.</p>
+            </div>
+        );
+    }
+
     return (
         <ResourceFormPage
             title={`Edit Scene: ${scene.name}`}

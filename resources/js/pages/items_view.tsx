@@ -13,9 +13,19 @@ interface Item {
     } | null;
     effect?: string | null;
     thumbnail?: { attachment_path?: string } | null;
+    user_id?: string | number;
 }
 
-export default function ItemsView({ item, pc_characters, npc_characters, enemy_characters, bucketUrl }: { item: Item, pc_characters: { id: number, name: string }[], npc_characters: { id: number, name: string }[], enemy_characters: { id: number, name: string }[], bucketUrl: string }) {
+export default function ItemsView({ auth, item, pc_characters, npc_characters, enemy_characters, bucketUrl }: { auth: { user: { id: string | number } }; item: Item, pc_characters: { id: number, name: string }[], npc_characters: { id: number, name: string }[], enemy_characters: { id: number, name: string }[], bucketUrl: string }) {
+    if (auth?.user.id !== item?.user_id) {
+        return (
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <h1 className="text-2xl font-bold">Access Denied</h1>
+                <p>You do not have permission to view this item.</p>
+            </div>
+        );
+    }
+
     return (
         <ResourceFormPage
             title={`Edit Item: ${item.name}`}

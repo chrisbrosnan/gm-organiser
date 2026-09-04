@@ -7,9 +7,19 @@ interface Quest {
     type?: string | null;
     description?: string | null;
     thumbnail?: { attachment_path?: string } | null;
+    user_id?: string | number;
 }
 
-export default function QuestsView({ quest, bucketUrl }: { quest: Quest; bucketUrl: string }) {
+export default function QuestsView({ auth, quest, bucketUrl }: { auth: { user: { id: string | number } }; quest: Quest; bucketUrl: string }) {
+    if (auth?.user.id !== quest?.user_id) {
+        return (
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <h1 className="text-2xl font-bold">Access Denied</h1>
+                <p>You do not have permission to view this quest.</p>
+            </div>
+        );
+    }
+
     return (
         <ResourceFormPage
             title={`Edit Quest: ${quest.name}`}

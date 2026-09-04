@@ -48,6 +48,7 @@ export default function Locations({
         description: string;
         created_at: string;
         thumbnail?: { attachment_path?: string } | null;
+        user_id?: string | number;
     };
     games: Array<{ id: string | number; name: string }>;
     scenes: Array<{ id: string | number; name: string }>;
@@ -58,9 +59,15 @@ export default function Locations({
     custom_fields: Array<{ field: string; type: string }>;
 }) {
     const params = new URLSearchParams(window.location.search);
-    // const location_id = params.get('location_id');
 
-    console.log(location, 'locationsData');
+    if (auth?.user.id !== location?.user_id) {
+        return (
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <h1 className="text-2xl font-bold">Access Denied</h1>
+                <p>You do not have permission to view this location.</p>
+            </div>
+        );
+    }
 
     return (
         <>

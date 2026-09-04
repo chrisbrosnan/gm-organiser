@@ -12,9 +12,19 @@ interface Spell {
     } | null;
     effect: string | null;
     thumbnail?: { attachment_path?: string } | null;
+    user_id?: string | number;
 }
 
-export default function SpellsView({ spell, pc_characters, npc_characters, enemy_characters, bucketUrl }: { spell: Spell, pc_characters: any[], npc_characters: any[], enemy_characters: any[], bucketUrl: string }) {
+export default function SpellsView({ auth, spell, pc_characters, npc_characters, enemy_characters, bucketUrl }: { auth: { user: { id: string | number } }; spell: Spell, pc_characters: any[], npc_characters: any[], enemy_characters: any[], bucketUrl: string }) {
+
+    if (auth?.user.id !== spell?.user_id) {
+        return (
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <h1 className="text-2xl font-bold">Access Denied</h1>
+                <p>You do not have permission to view this spell.</p>
+            </div>
+        );
+    }
 
     console.log(spell, 'Spell: ');
 

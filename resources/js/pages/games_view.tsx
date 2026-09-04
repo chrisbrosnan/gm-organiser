@@ -35,6 +35,7 @@ export default function GamesView({
             quests?: Array<string | number>;
             spells?: Array<string | number>;
         };
+        user_id?: string | number;
     } | null;
     locations: Array<{ id: string | number; name: string }>;
     scenes: Array<{ id: string | number; name: string }>;
@@ -49,13 +50,17 @@ export default function GamesView({
     auth: { user: { id: string | number } };
     bucketUrl: string;
 }) {
-    // console.log('Fetching game with game_id:', game_id);
-    console.log('Authenticated user_id:', auth.user.id);
-
     const user_id = auth.user.id;
     const game_id = game?.id;
 
-    console.log(game);
+    if (user_id !== game?.user_id) {
+        return (
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <h1 className="text-2xl font-bold">Access Denied</h1>
+                <p>You do not have permission to view this game.</p>
+            </div>
+        );
+    }
 
     return (
         <>

@@ -7,13 +7,25 @@ interface CustomField {
     value: string;
     type: string;
     object_type: string;
+    user_id?: string | number;
 }
 
 export default function CustomFieldsView({
+    auth,
     custom_field,
 }: {
+    auth: { user: { id: string | number } };
     custom_field: CustomField;
 }) {
+    if (auth?.user.id !== custom_field?.user_id) {
+        return (
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <h1 className="text-2xl font-bold">Access Denied</h1>
+                <p>You do not have permission to view this custom field.</p>
+            </div>
+        );
+    }
+
     return (
         <ResourceFormPage
             title={`Edit Custom Field: ${custom_field.field}`}
