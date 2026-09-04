@@ -24,73 +24,57 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('dashboard');
 
     // Files
-
     Route::get('/files', [FileController::class, 'index'])
         ->name('files');
 
-    // Games
+    // Changelog
+    Route::get('/development', function () {
+        return inertia('changelog');
+    })->name('development');
 
+    // Games
     Route::get('/games', [GameController::class, 'index'])
         ->name('games');
-
     Route::get('/games/add', [GameController::class, 'new'])
         ->name('games.add');
-
     Route::post('/games', [GameController::class, 'create'])
         ->name('games.create');
-
     Route::get('/games/{game_id}', [GameController::class, 'show'])
         ->name('games.show');
-
     Route::post('/games/{game_id}', [GameController::class, 'update'])
         ->name('games.update');
 
     // Locations
-
     Route::get('/locations', [LocationController::class, 'index'])
         ->name('locations');
-
     Route::get('/locations/add', [LocationController::class, 'new'])
         ->name('locations.add');
-
     Route::post('/locations', [LocationController::class, 'create'])
         ->name('locations.create');
-
     Route::get('/locations/{location_id}', [LocationController::class, 'show'])
         ->name('locations.show');
-
     Route::post('/locations/{location_id}', [LocationController::class, 'update'])
         ->name('locations.update');
 
-    // // // // //
-
     // Scenes
-
     Route::get('/scenes', [SceneController::class, 'index'])
         ->name('scenes');
-
     Route::get('/scenes/add', [SceneController::class, 'new'])
         ->name('scenes.add');
-
     Route::post('/scenes', [SceneController::class, 'create'])
         ->name('scenes.create');
-
     Route::get('/scenes/{scene_id}', [SceneController::class, 'show'])
         ->name('scenes.show');
-
     Route::post('/scenes/{scene_id}', [SceneController::class, 'update'])
         ->name('scenes.update');
 
     // Characters
     Route::get('/characters', [CharacterController::class, 'index'])
         ->name('characters');
-
     Route::get('/characters/add', [CharacterController::class, 'new'])
         ->name('characters.add');
-
     Route::post('/characters', [CharacterController::class, 'create'])
         ->name('characters.create');
-
     Route::prefix('characters')->group(function () {
         Route::get('enemies', [CharacterController::class, 'index_enemies'])
             ->name('enemies');
@@ -99,14 +83,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('pcs', [CharacterController::class, 'index_pcs'])
             ->name('pcs');
     });
-
     Route::get('/characters/{character_id}', [CharacterController::class, 'show'])
         ->name('characters.show');
-
     Route::post('/characters/{character_id}', [CharacterController::class, 'update'])
         ->name('characters.update');
-
-    // // // // //
 
     // Quests
     Route::get('quests', [QuestController::class, 'index'])
@@ -146,8 +126,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Systems
     Route::get('systems', [SystemController::class, 'page'])->name('systems');
-    // Route::inertia('systems/add', 'add_system')->name('system_create');
-    // Route::inertia('systems/{system_id}', 'single_system')->name('system_single');
 
     // Notes
     Route::get('general-notes', [NoteController::class, 'index'])
