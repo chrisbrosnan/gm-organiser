@@ -12,15 +12,17 @@ interface Scene {
 export default function ScenesView({
     scene,
     locations,
+    bucketUrl,
 }: {
     scene: Scene;
     locations: { id: number; name: string }[];
+    bucketUrl: string;
 }) {
     return (
         <ResourceFormPage
             title={`Edit Scene: ${scene.name}`}
             action={`/scenes/${scene.id}`}
-            thumbnailPath={scene.thumbnail?.attachment_path}
+            thumbnailPath={scene.thumbnail?.attachment_path ? `${bucketUrl ?? ''}${scene.thumbnail.attachment_path}` : undefined}
             fields={[
                 {
                     label: 'Name',

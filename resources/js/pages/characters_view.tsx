@@ -11,15 +11,16 @@ interface Character {
 
 export default function CharactersView({
     character,
+    bucketUrl,
 }: {
     character: Character;
-}) {
+    bucketUrl: string;
+}){
     return (
         <ResourceFormPage
             title={`Edit Character: ${character.name}`}
             action={`/characters/${character.id}`}
-            // env value for BUCKET_URL
-            thumbnailPath={`${import.meta.env.BUCKET_URL ?? ''}${character.thumbnail?.attachment_path ?? ''}`}
+            thumbnailPath={character.thumbnail?.attachment_path ? `${bucketUrl ?? ''}${character.thumbnail.attachment_path}` : undefined}
             fields={[
                 {
                     label: 'Name',

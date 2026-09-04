@@ -9,12 +9,12 @@ interface Quest {
     thumbnail?: { attachment_path?: string } | null;
 }
 
-export default function QuestsView({ quest }: { quest: Quest }) {
+export default function QuestsView({ quest, bucketUrl }: { quest: Quest; bucketUrl: string }) {
     return (
         <ResourceFormPage
             title={`Edit Quest: ${quest.name}`}
             action={`/quests/${quest.id}`}
-            thumbnailPath={quest.thumbnail?.attachment_path}
+            thumbnailPath={quest.thumbnail?.attachment_path ? `${bucketUrl ?? ''}${quest.thumbnail.attachment_path}` : undefined}
             fields={[
                 {
                     label: 'Name',

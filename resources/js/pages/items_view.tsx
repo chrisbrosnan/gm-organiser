@@ -15,12 +15,12 @@ interface Item {
     thumbnail?: { attachment_path?: string } | null;
 }
 
-export default function ItemsView({ item, pc_characters, npc_characters, enemy_characters }: { item: Item, pc_characters: { id: number, name: string }[], npc_characters: { id: number, name: string }[], enemy_characters: { id: number, name: string }[] }) {
+export default function ItemsView({ item, pc_characters, npc_characters, enemy_characters, bucketUrl }: { item: Item, pc_characters: { id: number, name: string }[], npc_characters: { id: number, name: string }[], enemy_characters: { id: number, name: string }[], bucketUrl: string }) {
     return (
         <ResourceFormPage
             title={`Edit Item: ${item.name}`}
             action={`/items/${item.id}`}
-            thumbnailPath={item.thumbnail?.attachment_path}
+            thumbnailPath={item.thumbnail?.attachment_path ? `${bucketUrl ?? ''}${item.thumbnail.attachment_path}` : undefined}
             fields={[
                 { label: 'Name', name: 'name', type: 'text', value: item.name },
                 {

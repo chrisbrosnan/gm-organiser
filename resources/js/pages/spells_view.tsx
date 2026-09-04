@@ -14,7 +14,7 @@ interface Spell {
     thumbnail?: { attachment_path?: string } | null;
 }
 
-export default function SpellsView({ spell, pc_characters, npc_characters, enemy_characters }: { spell: Spell, pc_characters: any[], npc_characters: any[], enemy_characters: any[] }) {
+export default function SpellsView({ spell, pc_characters, npc_characters, enemy_characters, bucketUrl }: { spell: Spell, pc_characters: any[], npc_characters: any[], enemy_characters: any[], bucketUrl: string }) {
 
     console.log(spell, 'Spell: ');
 
@@ -22,7 +22,7 @@ export default function SpellsView({ spell, pc_characters, npc_characters, enemy
         <ResourceFormPage
             title={`Edit Spell: ${spell.name}`}
             action={`/spells/${spell.id}`}
-            thumbnailPath={spell.thumbnail?.attachment_path}
+            thumbnailPath={spell.thumbnail?.attachment_path ? `${bucketUrl ?? ''}${spell.thumbnail.attachment_path}` : undefined}
             fields={[
                 {
                     label: 'Name',
