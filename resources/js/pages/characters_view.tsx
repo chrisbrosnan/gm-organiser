@@ -18,7 +18,8 @@ export default function CharactersView({
         <ResourceFormPage
             title={`Edit Character: ${character.name}`}
             action={`/characters/${character.id}`}
-            thumbnailPath={character.thumbnail?.attachment_path}
+            // env value for BUCKET_URL
+            thumbnailPath={`${import.meta.env.BUCKET_URL ?? ''}${character.thumbnail?.attachment_path ?? ''}`}
             fields={[
                 {
                     label: 'Name',

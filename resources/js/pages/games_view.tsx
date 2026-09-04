@@ -62,8 +62,8 @@ export default function GamesView({
                 <h1 className="text-2xl font-bold">Game: {game?.name ?? ''}</h1>
                 <img
                     src={
-                        game?.thumbnail?.attachment_path
-                            ? `${game.thumbnail.attachment_path}`
+                        (import.meta.env.BUCKET_URL ?? '' + (game?.thumbnail?.attachment_path ?? ''))
+                            ? `${import.meta.env.BUCKET_URL ?? ''}${game?.thumbnail?.attachment_path}`
                             : '/images/default-thumbnail.svg'
                     }
                     alt="Game Thumbnail"
