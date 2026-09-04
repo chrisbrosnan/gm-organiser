@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { Dices, LayoutDashboard, Clapperboard, Map, User, Wine, Wand, Sword, Cog, NotebookPen, Bot, RectangleEllipsis, PawPrint, Landmark } from 'lucide-react';
+import { Dices, LayoutDashboard, Clapperboard, Map, User, Wine, Wand, Sword, Cog, NotebookPen, Bot, RectangleEllipsis, PawPrint, Landmark, Image } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -80,7 +80,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Files',
         href: '/files',
-        icon: Cog,
+        icon: Image,
     },
     {
         title: 'General Notes',
@@ -97,6 +97,11 @@ const mainNavItems: NavItem[] = [
         href: '/forums',
         icon: Landmark,
     },
+    {
+        title: 'Development',
+        href: '/development',
+        icon: Cog,
+    }
 ];
 
 const footerNavItems: NavItem[] = [];
