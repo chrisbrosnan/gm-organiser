@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Concerns\HasThumbnail;
+use App\Models\Attachment;
+use App\Models\System;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -50,13 +52,17 @@ class Game extends Model
 
     public static function getGamesByUserId(int $user_id): array
     {
-        $games = self::where('user_id', $user_id)->leftJoin('object_attachments', 'games.thumbnail_id', '=', 'attachments.id')->get();
+        $games = self::where('user_id', $user_id)->get();
 
         // Get system name from systems table
         foreach ($games as $game) {
             $system = System::find($game->system_id);
             if ($system) {
                 $game->system_name = $system->name;
+            }
+            $thumbnail = Attachment::find($game->thumbnail_id);
+            if ($thumbnail) {
+                $game->attachment_path = $thumbnail->attachment_path;
             }
         }
 
