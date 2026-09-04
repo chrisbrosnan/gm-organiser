@@ -68,7 +68,7 @@ trait HandlesObjectAttachments
         string $attachmentType,
     ): Attachment {
         try {
-            $path = $file->store("uploads/{$objectType}s", 's3');
+            $path = $file->store("uploads/{$userId}/{$objectType}s", 's3');
             if ($path === false) {
                 throw new \RuntimeException('Failed to store attachment.');
             }
