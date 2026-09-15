@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
-use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class CheckSubscription
 {
@@ -16,7 +16,7 @@ class CheckSubscription
      *
      * @param  Closure(Request): (Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response | Inertia
+    public function handle(Request $request, Closure $next): Response | InertiaResponse
     {
         $user = $request->user();
         $subscription = DB::table('subscriptions')
