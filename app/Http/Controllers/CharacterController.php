@@ -77,6 +77,7 @@ class CharacterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', 'in:npc,pc,enemy'],
             'bio' => ['nullable', 'string'],
+            'system_id' => ['nullable', 'integer'],
             ...$this->attachmentValidationRules(),
         ]);
 
@@ -98,6 +99,7 @@ class CharacterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', 'in:npc,pc,enemy'],
             'bio' => ['nullable', 'string'],
+            'system_id' => ['nullable', 'integer'],
             ...$this->attachmentValidationRules(),
         ]);
 
