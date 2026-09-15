@@ -8,6 +8,9 @@ interface Character {
     bio?: string | null;
     thumbnail?: { attachment_path?: string } | null;
     user_id?: string | number;
+    meta_data?: {
+        system_id?: string | number | null;
+    } | null;
 }
 
 export default function CharactersView({
@@ -29,6 +32,8 @@ export default function CharactersView({
             </div>
         );
     }
+
+    console.log(character);
 
     return (
         <ResourceFormPage
@@ -58,6 +63,7 @@ export default function CharactersView({
                     name: 'system_id',
                     type: 'select',
                     options: Object.entries(systems).map(([id, name]) => ({ label: name, value: id })),
+                    value: character.meta_data?.system_id != null ? String(character.meta_data.system_id) : '',
                 },
                 {
                     label: 'Bio',
