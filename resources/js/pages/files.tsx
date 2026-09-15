@@ -26,7 +26,7 @@ export default function Files({ auth, files, bucketUrl }: { auth: { user: { id: 
                 <div>
                     <h1 className="text-2xl font-bold float-left">Files</h1>
                     {/* <button
-                        className="mt-0 rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 float-right"
+                        className="mt-0 rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs float-right"
                         onClick={() => window.location.href = '/games/add'}
                     >
                         Add Game

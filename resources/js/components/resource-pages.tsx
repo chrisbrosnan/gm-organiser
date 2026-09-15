@@ -74,7 +74,7 @@ export function ResourceIndexPage({
                                 ))}
                                 <div className="mt-2 flex gap-2">
                                     <button
-                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
+                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs"
                                         onClick={() => {
                                             window.location.href =
                                                 card.editPath;

@@ -77,7 +77,7 @@ export default function Games({ auth, games, bucketUrl }: { auth: { user: { id: 
                 <div>
                     <h1 className="text-2xl font-bold float-left">Games</h1>
                     <button
-                        className="mt-0 rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 float-right"
+                        className="mt-0 rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs float-right"
                         onClick={() => window.location.href = '/games/add'}
                     >
                         Add Game
@@ -107,19 +107,19 @@ export default function Games({ auth, games, bucketUrl }: { auth: { user: { id: 
                                 <p>Created At: {new Date(game.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
                                 <div className="flex gap-2 mt-2">
                                     <button
-                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
+                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs"
                                         onClick={() => window.location.href = `/games/${game.id}`}
                                     >
                                         Edit
                                     </button>
                                     <button
-                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
+                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs"
                                         onClick={() => duplicateConfirmModal(game.id)}
                                     >
                                         Duplicate
                                     </button>
                                     <button
-                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
+                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs"
                                         onClick={() => deleteConfirmModal(game.id)}
                                     >
                                         Delete

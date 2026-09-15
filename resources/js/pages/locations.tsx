@@ -38,7 +38,7 @@ export default function Locations({ auth, locations }: { auth: { user: { id: str
                 <div>
                     <h1 className="text-2xl font-bold float-left">Locations</h1>
                     <button
-                        className="mt-0 rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 float-right"
+                        className="mt-0 rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs float-right"
                         onClick={() => window.location.href = '/locations/add'}
                     >
                         Add Location
@@ -58,19 +58,19 @@ export default function Locations({ auth, locations }: { auth: { user: { id: str
                                 <p>Created At: {new Date(location.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
                                 <div className="flex gap-2 mt-2">
                                     <button
-                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
+                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs"
                                         onClick={() => window.location.href = `/locations/${location.id}`}
                                     >
                                         Edit
                                     </button>
                                     <button
-                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
+                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs"
                                         onClick={() => duplicateConfirmModal(location.id)}
                                     >
                                         Duplicate
                                     </button>
                                     <button
-                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
+                                        className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs"
                                         onClick={() => deleteConfirmModal(location.id)}
                                     >
                                         Delete
