@@ -1,7 +1,7 @@
 import { ResourceFormPage } from '@/components/resource-pages';
 import { characters } from '@/routes';
 
-export default function CharactersAdd() {
+export default function CharactersAdd({ systems }: { systems: Record<string, string> }) {
     return (
         <ResourceFormPage
             title="Add Character"
@@ -18,6 +18,12 @@ export default function CharactersAdd() {
                         { label: 'PC', value: 'pc' },
                         { label: 'Enemy', value: 'enemy' },
                     ],
+                },
+                {
+                    label: 'System',
+                    name: 'system_id',
+                    type: 'select',
+                    options: Object.entries(systems).map(([id, name]) => ({ label: name, value: id })),
                 },
                 { label: 'Bio', name: 'bio', type: 'textarea' },
                 { label: 'Thumbnail', name: 'thumbnail', type: 'file' },

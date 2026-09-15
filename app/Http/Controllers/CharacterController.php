@@ -7,6 +7,7 @@ use App\Models\Character;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use App\Models\System;
 
 class CharacterController extends Controller
 {
@@ -57,13 +58,16 @@ class CharacterController extends Controller
 
     public function new(): Response
     {
-        return inertia('characters_add');
+        return inertia('characters_add', [
+            'systems' => System::get()->pluck('name', 'id')
+        ]);
     }
 
     public function show(int $character_id): Response
     {
         return inertia('characters_view', [
             'character' => Character::with('thumbnail')->where('user_id', auth()->id())->findOrFail($character_id),
+            'systems' => System::get()->pluck('name', 'id')
         ]);
     }
 
@@ -80,6 +84,7 @@ class CharacterController extends Controller
         $character->name = $validated['name'];
         $character->type = $validated['type'];
         $character->bio = $validated['bio'] ?? null;
+        $character->meta_data['system_id'] = $validated['system_id'] ?? null;
         $character->user_id = (int) auth()->id();
         $this->storeObjectAttachments($request, $character, 'character');
         $character->save();
@@ -100,6 +105,7 @@ class CharacterController extends Controller
         $character->name = $validated['name'];
         $character->type = $validated['type'];
         $character->bio = $validated['bio'] ?? null;
+        $character->meta_data['system_id'] = $validated['system_id'] ?? null;
         $this->storeObjectAttachments($request, $character, 'character');
         $character->save();
 

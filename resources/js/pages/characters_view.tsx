@@ -14,10 +14,12 @@ export default function CharactersView({
     auth,
     character,
     bucketUrl,
+    systems,
 }: {
     auth: { user: { id: string | number } };
     character: Character;
     bucketUrl: string;
+    systems: Record<string, string>;
 }){
     if (auth?.user.id !== character?.user_id) {
         return (
@@ -50,6 +52,12 @@ export default function CharactersView({
                         { label: 'PC', value: 'pc' },
                         { label: 'Enemy', value: 'enemy' },
                     ],
+                },
+                {
+                    label: 'System',
+                    name: 'system_id',
+                    type: 'select',
+                    options: Object.entries(systems).map(([id, name]) => ({ label: name, value: id })),
                 },
                 {
                     label: 'Bio',
