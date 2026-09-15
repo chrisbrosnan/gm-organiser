@@ -116,7 +116,7 @@ export function ResourceFormPage({
                 <h1 className="text-2xl font-bold">{title}</h1>
                 {thumbnailPath && thumbnailPath !== null && (
                     <img
-                        src={`/storage/${thumbnailPath}`}
+                        src={`/${thumbnailPath}`}
                         alt={`${title} thumbnail`}
                         className="h-64 w-64 rounded-lg object-cover"
                     />
