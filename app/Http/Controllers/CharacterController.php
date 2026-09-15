@@ -85,8 +85,12 @@ class CharacterController extends Controller
         $character->name = $validated['name'];
         $character->type = $validated['type'];
         $character->bio = $validated['bio'] ?? null;
-        $character->meta_data['system_id'] = $validated['system_id'] ?? null;
         $character->user_id = (int) auth()->id();
+
+        $meta_data = [];
+        $meta_data['system_id'] = $validated['system_id'] ?? null;
+        $character->meta_data = $meta_data;
+
         $this->storeObjectAttachments($request, $character, 'character');
         $character->save();
 
@@ -107,7 +111,11 @@ class CharacterController extends Controller
         $character->name = $validated['name'];
         $character->type = $validated['type'];
         $character->bio = $validated['bio'] ?? null;
-        $character->meta_data['system_id'] = $validated['system_id'] ?? null;
+
+        $meta_data = $character->meta_data ?? [];
+        $meta_data['system_id'] = $validated['system_id'] ?? null;
+        $character->meta_data = $meta_data;
+
         $this->storeObjectAttachments($request, $character, 'character');
         $character->save();
 
