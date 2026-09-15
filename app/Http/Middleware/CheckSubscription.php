@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckSubscription
@@ -22,6 +23,7 @@ class CheckSubscription
             ->first();
         $endsAt = $subscription ? $subscription->ends_at : null;
         $isSubscribed = $endsAt && now()->lessThan($endsAt);
+        Log::info('User subscription status', ['user_id' => $user->id, 'is_subscribed' => $isSubscribed]);
 
         if (!$isSubscribed) {
             return inertia('subscription-offer');
