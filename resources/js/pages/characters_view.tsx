@@ -39,7 +39,7 @@ export default function CharactersView({
         <ResourceFormPage
             title={`Edit Character: ${character.name}`}
             action={`/characters/${character.id}`}
-            thumbnailPath={character.thumbnail?.attachment_path ? `${bucketUrl ?? ''}${character.thumbnail.attachment_path}` : undefined}
+            thumbnailPath={character.thumbnail?.attachment_path ? `${character.thumbnail.attachment_path}` : undefined}
             fields={[
                 {
                     label: 'Name',
