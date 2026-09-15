@@ -27,7 +27,7 @@ export default function Enemies({
                 title: character.name,
                 description: character.bio ?? null,
                 meta: [
-                    `Type: ${character.type.toUpperCase()}`,
+                    `Type: Enemy`,
                     `Created At: ${new Date(character.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}`,
                 ],
                 editPath: `/characters/${character.id}`,

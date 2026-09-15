@@ -25,7 +25,7 @@ export default function Characters({
                 title: character.name,
                 description: character.bio ?? null,
                 meta: [
-                    `Type: ${character.type.toUpperCase()}`,
+                    `Type: ${character.type == 'npc' ? 'NPC' : character.type == 'pc' ? 'PC' : character.type == 'enemy' ? 'Enemy' : 'Unknown'}`,
                     `Created At: ${new Date(character.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}`,
                 ],
                 editPath: `/characters/${character.id}`,
