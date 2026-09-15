@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\DB;
 
 Route::inertia('/', 'welcome')->name('home');
 
+Route::get('/subscription-offer', function () {
+    return inertia('subscription-offer');
+})->name('subscription-offer');
+
 Route::middleware(['auth', 'verified', CheckSubscription::class])->group(function () {
 
     // Main Dashboard

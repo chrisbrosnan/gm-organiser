@@ -6,8 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Inertia\Response as InertiaResponse;
 
 class CheckSubscription
 {
@@ -16,7 +16,7 @@ class CheckSubscription
      *
      * @param  Closure(Request): (Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response | InertiaResponse
+    public function handle(Request $request, Closure $next): Response | RedirectResponse
     {
         $user = $request->user();
         $subscription = DB::table('subscriptions')
@@ -26,8 +26,8 @@ class CheckSubscription
         $isSubscribed = $endsAt && now()->lessThan($endsAt);
         Log::info('User subscription status', ['user_id' => $user->id, 'is_subscribed' => $isSubscribed]);
 
-        if (!$isSubscribed) {
-            return inertia('subscription-offer');
+        if (!$isSubscribed || $user->email !== 'cbrosnan00@gmail.com') {
+            return redirect()->route('subscription-offer');
         }
 
         return $next($request);

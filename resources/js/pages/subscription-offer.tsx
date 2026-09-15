@@ -3,16 +3,9 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { dashboard } from '@/routes';
 import { useEffect, useState } from 'react';
 
-interface Game {
-    system_name: string;
-    id: number;
-    name: string;
-    system_id: number;
-    type: string;
-    created_at: string;
-}
-
 export default function SubscriptionOffer({ auth }: { auth: { user: { id: string | number; name?: string } } }) {
+
+    console.log('User auth info:', auth);
 
     return (
         <>
