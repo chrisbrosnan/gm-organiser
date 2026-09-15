@@ -13,12 +13,13 @@ use App\Http\Controllers\QuestController;
 use App\Http\Controllers\SceneController;
 use App\Http\Controllers\SpellController;
 use App\Http\Controllers\SystemController;
+use App\Http\Middleware\CheckSubscription;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
 Route::inertia('/', 'welcome')->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', CheckSubscription::class])->group(function () {
 
     // Main Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])
