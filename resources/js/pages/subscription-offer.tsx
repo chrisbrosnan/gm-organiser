@@ -15,3 +15,8 @@ export default function SubscriptionOffer({ auth }: { auth: { user: { id: string
         </>
     );
 }
+
+SubscriptionOffer.layout = {
+    title: 'Subscription Offer',
+    description: 'Unlock all features by subscribing',
+};
