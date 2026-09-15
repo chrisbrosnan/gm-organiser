@@ -14,10 +14,26 @@ use App\Http\Controllers\SceneController;
 use App\Http\Controllers\SpellController;
 use App\Http\Controllers\SystemController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 Route::inertia('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Get User Information
+    $user = auth()->user();
+    // Check for Subscription
+    $subscription = DB::table('subscriptions')
+        ->where('user_id', $user->id)
+        ->first();
+    $endsAt = $subscription ? $subscription->ends_at : null;
+    $isSubscribed = $endsAt && now()->lessThan($endsAt);
+
+    if (!$isSubscribed) {
+
+        return inertia('subscription-offer');
+
+    }
 
     // Main Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])
