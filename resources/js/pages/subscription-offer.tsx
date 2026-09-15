@@ -15,5 +15,3 @@ export default function SubscriptionOffer({ auth }: { auth: { user: { id: string
         </>
     );
 }
-
-SubscriptionOffer.layout = "guest";
