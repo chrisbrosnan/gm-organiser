@@ -26,7 +26,7 @@ class CheckSubscription
         $isSubscribed = $endsAt && now()->lessThan($endsAt);
         Log::info('User subscription status', ['user_id' => $user->id, 'is_subscribed' => $isSubscribed]);
 
-        if (!$isSubscribed || $user->email !== 'cbrosnan00@gmail.com') {
+        if (!$isSubscribed && $user->email !== 'cbrosnan00@gmail.com') {
             return redirect()->route('subscription-offer');
         }
 
