@@ -56,7 +56,7 @@ export default function Locations({ auth, locations }: { auth: { user: { id: str
                                 <h2 className="text-xl font-bold">{location.name}</h2>
                                 <p>Description: {location.description}</p>
                                 <p>Created At: {new Date(location.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
-                                <div className="flex gap-2 mt-2">
+                                <div className="grid md:grid-cols-4 gap-2 mt-2">
                                     <button
                                         className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs"
                                         onClick={() => window.location.href = `/locations/${location.id}`}

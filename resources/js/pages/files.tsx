@@ -45,7 +45,7 @@ export default function Files({ auth, files, bucketUrl }: { auth: { user: { id: 
                                 <p>Type: {file.attachment_type.replace('_', ' ').replace('-', ' ').charAt(0).toUpperCase() + file.attachment_type.replace('_', ' ').replace('-', ' ').slice(1)}</p>
                                 <p>Object Type: {file.object_type.replace('_', ' ').replace('-', ' ').charAt(0).toUpperCase() + file.object_type.replace('_', ' ').replace('-', ' ').slice(1)}</p>
                                 <p>Created At: {new Date(file.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
-                                <div className="flex gap-2 mt-2">
+                                <div className="grid md:grid-cols-4 gap-2 mt-2">
                                     <button
                                         onClick={() => window.location.href = `${bucketUrl ?? ''}${file.attachment_path}`}
                                     >
