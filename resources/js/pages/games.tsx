@@ -99,7 +99,7 @@ export default function Games({ auth, games, bucketUrl }: { auth: { user: { id: 
                                             : '/images/default-thumbnail.svg'
                                     }
                                     alt="Game Thumbnail"
-                                    className="mb-4 h-32 w-64 rounded-lg object-cover"
+                                    className="mb-4 h-46 w-full rounded-lg object-cover"
                                 />
                                 <h2 className="text-xl font-bold">{game.name}</h2>
                                 <p>System: {game.system_name}</p>
