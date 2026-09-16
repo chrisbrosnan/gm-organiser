@@ -119,6 +119,13 @@ const footerNavItems: NavItem[] = [];
 // ];
 
 export function AppSidebar() {
+
+    // Get current route or page to highlight the active menu item
+    const currentRoute = window.location.pathname;
+    if (currentRoute === '/subscription-offer') {
+        return null;
+    }
+
     return (
         <Sidebar collapsible="icon" variant="inset" className="bg-yellow-900">
             <SidebarHeader className="bg-yellow-900">
