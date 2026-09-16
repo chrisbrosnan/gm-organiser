@@ -34,7 +34,7 @@ export default function Dashboard({ auth, games }: { auth: { user: { id: string 
                                 <p className="text-gray-500">No games found. Create a new game to get started.</p>
                             </div>
                         ) : (
-                            <div className="grid md:grid-cols-2 gap-4 text-xs">
+                            <div className="grid md:grid-cols-4 gap-4 text-xs">
                                 {gamesData.map((game) => (
                                     <div key={game.id} className="border border-gray-300 rounded-md p-4">
                                         <h2 className="text-xl font-bold text-center py-3">{game.name}</h2>

@@ -38,7 +38,7 @@ export default function Files({ auth, files, bucketUrl }: { auth: { user: { id: 
                         <p className="text-gray-500">No files found. Add some to a record.</p>
                     </div>
                 ) : (
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid md:grid-cols-4 gap-4">
                         {filesData.map((file) => (
                             <div key={file.id} className="border border-gray-300 rounded-md p-4">
                                 <h2 className="text-xl font-bold text-center py-3"><a href={`${bucketUrl ?? ''}${file.attachment_path}`}>{file.attachment_path.substring(0, 25)}...</a></h2>
