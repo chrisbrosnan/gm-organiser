@@ -4,6 +4,9 @@ import { dashboard } from '@/routes';
 import { useEffect, useState } from 'react';
 
 export default function SubscriptionOffer({ auth }: { auth: { user: { id: string | number; name?: string } } }) {
+
+    console.log('SubscriptionOffer auth:', auth);
+
     return (
         <>
             <Head title="Subscription Offer" />
