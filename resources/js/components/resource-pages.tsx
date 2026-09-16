@@ -63,7 +63,7 @@ export function ResourceIndexPage({
                                 key={card.id}
                                 className="rounded-md border border-gray-300 p-4"
                             >
-                                <h2 className="text-xl font-bold">
+                                <h2 className="text-xl font-bold text-center py-3">
                                     {card.title}
                                 </h2>
                                 {card.description ? (

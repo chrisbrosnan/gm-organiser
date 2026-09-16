@@ -101,11 +101,11 @@ export default function Games({ auth, games, bucketUrl }: { auth: { user: { id: 
                                     alt="Game Thumbnail"
                                     className="mb-4 h-46 w-full rounded-lg object-cover"
                                 />
-                                <h2 className="text-xl font-bold text-center">{game.name}</h2>
+                                <h2 className="text-xl font-bold text-center py-3">{game.name}</h2>
                                 <p>System: {game.system_name}</p>
                                 <p>Type: {game.type.replace('_', ' ').replace('-', ' ').charAt(0).toUpperCase() + game.type.replace('_', ' ').replace('-', ' ').slice(1)}</p>
                                 <p>Created At: {new Date(game.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
-                                <div className="grid md:grid-cols-4 gap-2 mt-2">
+                                <div className="grid md:grid-cols-3 gap-2 mt-2 py-3">
                                     <button
                                         className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700 text-xs"
                                         onClick={() => window.location.href = `/games/${game.id}`}

@@ -37,7 +37,7 @@ export default function Dashboard({ auth, games }: { auth: { user: { id: string 
                             <div className="grid md:grid-cols-2 gap-4 text-xs">
                                 {gamesData.map((game) => (
                                     <div key={game.id} className="border border-gray-300 rounded-md p-4">
-                                        <h2 className="text-xl font-bold">{game.name}</h2>
+                                        <h2 className="text-xl font-bold text-center py-3">{game.name}</h2>
                                         <p>System: {game.system_name}</p>
                                         <button className="mt-2 rounded-md bg-yellow-600 py-1 px-2 text-white hover:bg-yellow-700" onClick={() => window.location.href = `/games/${game.id}`}>Edit</button>
                                     </div>

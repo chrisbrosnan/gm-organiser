@@ -41,11 +41,11 @@ export default function Files({ auth, files, bucketUrl }: { auth: { user: { id: 
                     <div className="grid md:grid-cols-2 gap-4">
                         {filesData.map((file) => (
                             <div key={file.id} className="border border-gray-300 rounded-md p-4">
-                                <h2 className="text-xl font-bold"><a href={`${bucketUrl ?? ''}${file.attachment_path}`}>{file.attachment_path.substring(0, 25)}...</a></h2>
+                                <h2 className="text-xl font-bold text-center py-3"><a href={`${bucketUrl ?? ''}${file.attachment_path}`}>{file.attachment_path.substring(0, 25)}...</a></h2>
                                 <p>Type: {file.attachment_type.replace('_', ' ').replace('-', ' ').charAt(0).toUpperCase() + file.attachment_type.replace('_', ' ').replace('-', ' ').slice(1)}</p>
                                 <p>Object Type: {file.object_type.replace('_', ' ').replace('-', ' ').charAt(0).toUpperCase() + file.object_type.replace('_', ' ').replace('-', ' ').slice(1)}</p>
                                 <p>Created At: {new Date(file.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
-                                <div className="grid md:grid-cols-4 gap-2 mt-2">
+                                <div className="grid md:grid-cols-3 gap-2 mt-2 py-3">
                                     <button
                                         onClick={() => window.location.href = `${bucketUrl ?? ''}${file.attachment_path}`}
                                     >
