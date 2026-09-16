@@ -57,7 +57,7 @@ export function ResourceIndexPage({
                         <p className="text-gray-500">{emptyMessage}</p>
                     </div>
                 ) : (
-                    <div className="grid gap-4 md:grid-cols-2">
+                    <div className="grid gap-4 md:grid-cols-4">
                         {cards.map((card) => (
                             <div
                                 key={card.id}
