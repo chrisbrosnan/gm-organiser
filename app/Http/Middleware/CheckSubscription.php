@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class CheckSubscription
 {
@@ -18,7 +19,7 @@ class CheckSubscription
      */
     public function handle(Request $request, Closure $next): Response | RedirectResponse
     {
-        $user = $request->user();
+        $user = Auth::user();
         $subscription = DB::table('subscriptions')
             ->where('user_id', $user->id)
             ->first();
