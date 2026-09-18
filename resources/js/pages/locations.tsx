@@ -9,6 +9,7 @@ interface Location {
     name: string;
     description: string;
     created_at: string;
+    attachment_path?: string;
 }
 
 export default function Locations({ auth, locations }: { auth: { user: { id: string | number } }, locations: Location[] }) {
@@ -53,6 +54,15 @@ export default function Locations({ auth, locations }: { auth: { user: { id: str
                     <div className="grid md:grid-cols-4 gap-4">
                         {locationsData.map((location) => (
                             <div key={location.id} className="border border-gray-300 rounded-md p-4">
+                                <img
+                                    src={
+                                        (location?.attachment_path ?? '' + (location?.attachment_path ?? ''))
+                                            ? `${location?.attachment_path}`
+                                            : '/images/default-thumbnail.svg'
+                                    }
+                                    alt="Location Thumbnail"
+                                    className="h-46 w-full rounded-lg object-cover"
+                                />
                                 <h2 className="text-xl font-bold text-center py-3">{location.name}</h2>
                                 <p>Description: {location.description}</p>
                                 <p>Created At: {new Date(location.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>

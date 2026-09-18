@@ -51,4 +51,18 @@ class Location extends Model
             'items' => 'array',
         ];
     }
+
+    public static function getLocationsByUserId(int $user_id): array
+    {
+        $locations = self::where('user_id', $user_id)->get();
+
+        foreach ($locations as $location) {
+            $thumbnail = Attachment::find($location->thumbnail_id);
+            if ($thumbnail) {
+                $location->attachment_path = $thumbnail->attachment_path;
+            }
+        }
+
+        return $locations->toArray();
+    }
 }
